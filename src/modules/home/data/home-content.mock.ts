@@ -1,7 +1,9 @@
 import type {
   HeroSlide,
   HomeCategoryCard,
+  HomePromoBanner,
 } from "@/modules/home/types/home-content.types";
+import type { ProductCardItem } from "@/modules/product/types/product-card.types";
 
 export const heroSlides: HeroSlide[] = [
   {
@@ -75,5 +77,66 @@ export const homeCategoryCards: HomeCategoryCard[] = [
     href: "/kategori/anne-bebek",
     badge: "Seçili",
     tone: "peach",
+  },
+];
+
+export const homePromoBanner: HomePromoBanner = {
+  id: "promo-banner-first-order",
+  eyebrow: "Kampanya Alanı",
+  title: "İlk siparişe özel avantaj blokları için hazır mimari",
+  description:
+    "Bu alan daha sonra admin panelden metin, buton, görsel ve aktiflik durumu yönetilebilen banner sistemine dönüşecek.",
+  actionLabel: "Kampanyaları Gör",
+  actionHref: "/kampanyalar",
+  tone: "rose",
+};
+
+export const featuredProducts: ProductCardItem[] = [
+  {
+    id: "product-organik-tulum",
+    name: "Organik Pamuk Bebek Tulum",
+    slug: "organik-pamuk-bebek-tulum",
+    categoryLabel: "Bebek Giyim",
+    price: 549.9,
+    compareAtPrice: 699.9,
+    badge: "Öne Çıkan",
+    imageUrl: null,
+    imageAlt: "Organik pamuk bebek tulum",
+    tone: "rose",
+  },
+  {
+    id: "product-hamile-elbise",
+    name: "Rahat Kesim Hamile Elbisesi",
+    slug: "rahat-kesim-hamile-elbisesi",
+    categoryLabel: "Hamile Giyim",
+    price: 899.9,
+    compareAtPrice: 1099.9,
+    badge: "Yeni",
+    imageUrl: null,
+    imageAlt: "Rahat kesim hamile elbisesi",
+    tone: "sage",
+  },
+  {
+    id: "product-bebek-bakim-seti",
+    name: "Anne Bebek Bakım Başlangıç Seti",
+    slug: "anne-bebek-bakim-baslangic-seti",
+    categoryLabel: "Anne Bebek",
+    price: 749.9,
+    badge: "Seçili",
+    imageUrl: null,
+    imageAlt: "Anne bebek bakım başlangıç seti",
+    tone: "peach",
+  },
+  {
+    id: "product-hastane-cikisi",
+    name: "10 Parça Hastane Çıkışı Seti",
+    slug: "10-parca-hastane-cikisi-seti",
+    categoryLabel: "Bebek Giyim",
+    price: 1299.9,
+    compareAtPrice: 1499.9,
+    badge: "Çok Satan",
+    imageUrl: null,
+    imageAlt: "Hastane çıkışı seti",
+    tone: "rose",
   },
 ];

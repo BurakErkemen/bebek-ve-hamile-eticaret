@@ -1,0 +1,186 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum VisualTone {
+  ROSE
+  SAGE
+  PEACH
+}
+
+enum SliderPlacement {
+  HOME_HERO
+}
+
+enum BannerPlacement {
+  HOME_PROMO
+  CATEGORY_PROMO
+  GLOBAL_PROMO
+}
+
+enum HomeSectionType {
+  HERO_SLIDER
+  CATEGORY_SHOWCASE
+  PROMO_BANNER
+  PRODUCT_SHOWCASE
+}
+
+enum HomeSectionItemType {
+  CATEGORY_CARD
+  CUSTOM_LINK
+  PRODUCT_REFERENCE
+}
+
+model Category {
+  id          String     @id @default(cuid())
+  name        String
+  slug        String     @unique
+  description String?    @db.Text
+
+  parentId    String?
+  parent      Category?  @relation("CategoryTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children    Category[] @relation("CategoryTree")
+
+  isActive    Boolean    @default(true)
+  sortOrder   Int        @default(0)
+
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([parentId])
+  @@index([isActive, sortOrder])
+}
+
+model Slider {
+  id          String          @id @default(cuid())
+  name        String
+  placement   SliderPlacement @default(HOME_HERO)
+
+  isActive    Boolean         @default(true)
+  sortOrder   Int             @default(0)
+
+  slides      SliderSlide[]
+  sections    HomeSection[]
+
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([placement, isActive, sortOrder])
+}
+
+model SliderSlide {
+  id                   String     @id @default(cuid())
+
+  sliderId             String
+  slider               Slider     @relation(fields: [sliderId], references: [id], onDelete: Cascade)
+
+  eyebrow              String?
+  title                String
+  description          String?    @db.Text
+
+  primaryActionLabel   String?
+  primaryActionHref    String?
+  secondaryActionLabel String?
+  secondaryActionHref  String?
+
+  imageUrl             String?
+  imageAlt             String?
+
+  tone                 VisualTone @default(ROSE)
+
+  isActive             Boolean    @default(true)
+  sortOrder            Int        @default(0)
+
+  createdAt            DateTime   @default(now())
+  updatedAt            DateTime   @updatedAt
+
+  @@index([sliderId, isActive, sortOrder])
+}
+
+model Banner {
+  id          String          @id @default(cuid())
+  name        String
+  placement   BannerPlacement @default(HOME_PROMO)
+
+  eyebrow     String?
+  title       String
+  description String?         @db.Text
+
+  actionLabel String?
+  actionHref  String?
+
+  imageUrl    String?
+  imageAlt    String?
+
+  tone        VisualTone      @default(ROSE)
+
+  isActive    Boolean         @default(true)
+  sortOrder   Int             @default(0)
+
+  sections    HomeSection[]
+
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([placement, isActive, sortOrder])
+}
+
+model HomeSection {
+  id          String          @id @default(cuid())
+  type        HomeSectionType
+
+  eyebrow     String?
+  title       String?
+  description String?         @db.Text
+
+  actionLabel String?
+  actionHref  String?
+
+  sliderId    String?
+  slider      Slider?         @relation(fields: [sliderId], references: [id], onDelete: SetNull)
+
+  bannerId    String?
+  banner      Banner?         @relation(fields: [bannerId], references: [id], onDelete: SetNull)
+
+  isActive    Boolean         @default(true)
+  sortOrder   Int             @default(0)
+
+  items       HomeSectionItem[]
+
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([type, isActive, sortOrder])
+  @@index([sliderId])
+  @@index([bannerId])
+}
+
+model HomeSectionItem {
+  id          String              @id @default(cuid())
+
+  sectionId   String
+  section     HomeSection         @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  itemType    HomeSectionItemType @default(CUSTOM_LINK)
+
+  title       String?
+  description String?             @db.Text
+  href        String?
+  badge       String?
+
+  tone        VisualTone          @default(ROSE)
+
+  isActive    Boolean             @default(true)
+  sortOrder   Int                 @default(0)
+
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  @@index([sectionId, isActive, sortOrder])
+  @@index([itemType])
+}

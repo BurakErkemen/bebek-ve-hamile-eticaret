@@ -1,10 +1,10 @@
 export type HeroSlide = {
   id: string;
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   description: string;
-  primaryActionLabel: string;
-  primaryActionHref: string;
+  primaryActionLabel?: string;
+  primaryActionHref?: string;
   secondaryActionLabel?: string;
   secondaryActionHref?: string;
   imageUrl?: string | null;
@@ -18,5 +18,15 @@ export type HomeCategoryCard = {
   description: string;
   href: string;
   badge?: string;
+  tone: "rose" | "sage" | "peach";
+};
+
+export type HomePromoBanner = {
+  id: string;
+  eyebrow?: string;
+  title: string;
+  description: string;
+  actionLabel?: string;
+  actionHref?: string;
   tone: "rose" | "sage" | "peach";
 };

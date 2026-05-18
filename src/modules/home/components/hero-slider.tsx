@@ -35,6 +35,12 @@ export function HeroSlider({ slides }: HeroSliderProps) {
     return toneStyles[activeSlide.tone];
   }, [activeSlide.tone]);
 
+  const hasPrimaryAction =
+    activeSlide.primaryActionLabel && activeSlide.primaryActionHref;
+
+  const hasSecondaryAction =
+    activeSlide.secondaryActionLabel && activeSlide.secondaryActionHref;
+
   return (
     <section
       className={`overflow-hidden rounded-[var(--radius-brand-xl)] border border-brand-border bg-gradient-to-br ${currentTone.panel}`}
@@ -42,11 +48,13 @@ export function HeroSlider({ slides }: HeroSliderProps) {
     >
       <div className="grid gap-8 px-5 py-6 md:grid-cols-[1.15fr_0.85fr] md:px-8 md:py-10 lg:px-12 lg:py-12">
         <div className="flex flex-col justify-center">
-          <span
-            className={`mb-4 inline-flex w-fit rounded-full px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] ${currentTone.badge}`}
-          >
-            {activeSlide.eyebrow}
-          </span>
+          {activeSlide.eyebrow ? (
+            <span
+              className={`mb-4 inline-flex w-fit rounded-full px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] ${currentTone.badge}`}
+            >
+              {activeSlide.eyebrow}
+            </span>
+          ) : null}
 
           <h1 className="max-w-3xl font-display text-3xl font-bold tracking-tight text-brand-text md:text-5xl">
             {activeSlide.title}
@@ -56,24 +64,27 @@ export function HeroSlider({ slides }: HeroSliderProps) {
             {activeSlide.description}
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href={activeSlide.primaryActionHref}
-              className="inline-flex items-center justify-center rounded-full bg-brand-primary px-6 py-3 font-semibold text-white transition hover:bg-brand-primary-dark"
-            >
-              {activeSlide.primaryActionLabel}
-            </Link>
+          {hasPrimaryAction || hasSecondaryAction ? (
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              {hasPrimaryAction ? (
+                <Link
+                  href={activeSlide.primaryActionHref as string}
+                  className="inline-flex items-center justify-center rounded-full bg-brand-primary px-6 py-3 font-semibold text-white transition hover:bg-brand-primary-dark"
+                >
+                  {activeSlide.primaryActionLabel}
+                </Link>
+              ) : null}
 
-            {activeSlide.secondaryActionLabel &&
-            activeSlide.secondaryActionHref ? (
-              <Link
-                href={activeSlide.secondaryActionHref}
-                className="inline-flex items-center justify-center rounded-full border border-brand-border bg-brand-white px-6 py-3 font-semibold text-brand-text transition hover:bg-brand-secondary"
-              >
-                {activeSlide.secondaryActionLabel}
-              </Link>
-            ) : null}
-          </div>
+              {hasSecondaryAction ? (
+                <Link
+                  href={activeSlide.secondaryActionHref as string}
+                  className="inline-flex items-center justify-center rounded-full border border-brand-border bg-brand-white px-6 py-3 font-semibold text-brand-text transition hover:bg-brand-secondary"
+                >
+                  {activeSlide.secondaryActionLabel}
+                </Link>
+              ) : null}
+            </div>
+          ) : null}
 
           <div className="mt-8 flex items-center gap-2" aria-label="Slider seçimleri">
             {slides.map((slide, index) => {
@@ -108,8 +119,8 @@ export function HeroSlider({ slides }: HeroSliderProps) {
                 Dinamik görsel alanı
               </p>
               <p className="mt-3 text-sm leading-6 text-brand-muted">
-                Bu bölüm ileride admin panelden yönetilen slider görselleriyle
-                beslenecek.
+                Bu bölüm artık veritabanından yönetilen slider kayıtlarıyla
+                çalışıyor. Görselleri medya modeliyle sonraki adımlarda bağlayacağız.
               </p>
             </div>
           </div>
