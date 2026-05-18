@@ -33,6 +33,19 @@ export type HomepagePromoBannerEntity = {
   tone: HomepageVisualTone;
 };
 
+export type HomepageProductCardEntity = {
+  id: string;
+  name: string;
+  slug: string;
+  categoryLabel: string;
+  price: number;
+  compareAtPrice?: number;
+  badge?: string;
+  imageUrl?: string | null;
+  imageAlt?: string;
+  tone: HomepageVisualTone;
+};
+
 export type HomepageSectionBaseEntity = {
   id: string;
   title?: string;
@@ -63,7 +76,19 @@ export type HomepagePromoBannerSectionEntity = HomepageSectionBaseEntity & {
   };
 };
 
+export type HomepageProductShowcaseSectionEntity =
+  HomepageSectionBaseEntity & {
+    type: "product-showcase";
+    eyebrow?: string;
+    actionLabel?: string;
+    actionHref?: string;
+    content: {
+      products: HomepageProductCardEntity[];
+    };
+  };
+
 export type HomepageSectionEntity =
   | HomepageHeroSliderSectionEntity
   | HomepageCategoryShowcaseSectionEntity
-  | HomepagePromoBannerSectionEntity;
+  | HomepagePromoBannerSectionEntity
+  | HomepageProductShowcaseSectionEntity;

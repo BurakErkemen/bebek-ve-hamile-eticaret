@@ -38,6 +38,8 @@ export type HomeSectionItemMinAggregateOutputType = {
   id: string | null
   sectionId: string | null
   itemType: $Enums.HomeSectionItemType | null
+  categoryId: string | null
+  productId: string | null
   title: string | null
   description: string | null
   href: string | null
@@ -53,6 +55,8 @@ export type HomeSectionItemMaxAggregateOutputType = {
   id: string | null
   sectionId: string | null
   itemType: $Enums.HomeSectionItemType | null
+  categoryId: string | null
+  productId: string | null
   title: string | null
   description: string | null
   href: string | null
@@ -68,6 +72,8 @@ export type HomeSectionItemCountAggregateOutputType = {
   id: number
   sectionId: number
   itemType: number
+  categoryId: number
+  productId: number
   title: number
   description: number
   href: number
@@ -93,6 +99,8 @@ export type HomeSectionItemMinAggregateInputType = {
   id?: true
   sectionId?: true
   itemType?: true
+  categoryId?: true
+  productId?: true
   title?: true
   description?: true
   href?: true
@@ -108,6 +116,8 @@ export type HomeSectionItemMaxAggregateInputType = {
   id?: true
   sectionId?: true
   itemType?: true
+  categoryId?: true
+  productId?: true
   title?: true
   description?: true
   href?: true
@@ -123,6 +133,8 @@ export type HomeSectionItemCountAggregateInputType = {
   id?: true
   sectionId?: true
   itemType?: true
+  categoryId?: true
+  productId?: true
   title?: true
   description?: true
   href?: true
@@ -225,6 +237,8 @@ export type HomeSectionItemGroupByOutputType = {
   id: string
   sectionId: string
   itemType: $Enums.HomeSectionItemType
+  categoryId: string | null
+  productId: string | null
   title: string | null
   description: string | null
   href: string | null
@@ -263,6 +277,8 @@ export type HomeSectionItemWhereInput = {
   id?: Prisma.StringFilter<"HomeSectionItem"> | string
   sectionId?: Prisma.StringFilter<"HomeSectionItem"> | string
   itemType?: Prisma.EnumHomeSectionItemTypeFilter<"HomeSectionItem"> | $Enums.HomeSectionItemType
+  categoryId?: Prisma.StringNullableFilter<"HomeSectionItem"> | string | null
+  productId?: Prisma.StringNullableFilter<"HomeSectionItem"> | string | null
   title?: Prisma.StringNullableFilter<"HomeSectionItem"> | string | null
   description?: Prisma.StringNullableFilter<"HomeSectionItem"> | string | null
   href?: Prisma.StringNullableFilter<"HomeSectionItem"> | string | null
@@ -273,12 +289,16 @@ export type HomeSectionItemWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"HomeSectionItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"HomeSectionItem"> | Date | string
   section?: Prisma.XOR<Prisma.HomeSectionScalarRelationFilter, Prisma.HomeSectionWhereInput>
+  category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
+  product?: Prisma.XOR<Prisma.ProductNullableScalarRelationFilter, Prisma.ProductWhereInput> | null
 }
 
 export type HomeSectionItemOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
   itemType?: Prisma.SortOrder
+  categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
+  productId?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   href?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -289,6 +309,8 @@ export type HomeSectionItemOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   section?: Prisma.HomeSectionOrderByWithRelationInput
+  category?: Prisma.CategoryOrderByWithRelationInput
+  product?: Prisma.ProductOrderByWithRelationInput
   _relevance?: Prisma.HomeSectionItemOrderByRelevanceInput
 }
 
@@ -299,6 +321,8 @@ export type HomeSectionItemWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.HomeSectionItemWhereInput | Prisma.HomeSectionItemWhereInput[]
   sectionId?: Prisma.StringFilter<"HomeSectionItem"> | string
   itemType?: Prisma.EnumHomeSectionItemTypeFilter<"HomeSectionItem"> | $Enums.HomeSectionItemType
+  categoryId?: Prisma.StringNullableFilter<"HomeSectionItem"> | string | null
+  productId?: Prisma.StringNullableFilter<"HomeSectionItem"> | string | null
   title?: Prisma.StringNullableFilter<"HomeSectionItem"> | string | null
   description?: Prisma.StringNullableFilter<"HomeSectionItem"> | string | null
   href?: Prisma.StringNullableFilter<"HomeSectionItem"> | string | null
@@ -309,12 +333,16 @@ export type HomeSectionItemWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"HomeSectionItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"HomeSectionItem"> | Date | string
   section?: Prisma.XOR<Prisma.HomeSectionScalarRelationFilter, Prisma.HomeSectionWhereInput>
+  category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
+  product?: Prisma.XOR<Prisma.ProductNullableScalarRelationFilter, Prisma.ProductWhereInput> | null
 }, "id">
 
 export type HomeSectionItemOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
   itemType?: Prisma.SortOrder
+  categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
+  productId?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   href?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -338,6 +366,8 @@ export type HomeSectionItemScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"HomeSectionItem"> | string
   sectionId?: Prisma.StringWithAggregatesFilter<"HomeSectionItem"> | string
   itemType?: Prisma.EnumHomeSectionItemTypeWithAggregatesFilter<"HomeSectionItem"> | $Enums.HomeSectionItemType
+  categoryId?: Prisma.StringNullableWithAggregatesFilter<"HomeSectionItem"> | string | null
+  productId?: Prisma.StringNullableWithAggregatesFilter<"HomeSectionItem"> | string | null
   title?: Prisma.StringNullableWithAggregatesFilter<"HomeSectionItem"> | string | null
   description?: Prisma.StringNullableWithAggregatesFilter<"HomeSectionItem"> | string | null
   href?: Prisma.StringNullableWithAggregatesFilter<"HomeSectionItem"> | string | null
@@ -362,12 +392,16 @@ export type HomeSectionItemCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   section: Prisma.HomeSectionCreateNestedOneWithoutItemsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutHomeSectionItemsInput
+  product?: Prisma.ProductCreateNestedOneWithoutHomeSectionItemsInput
 }
 
 export type HomeSectionItemUncheckedCreateInput = {
   id?: string
   sectionId: string
   itemType?: $Enums.HomeSectionItemType
+  categoryId?: string | null
+  productId?: string | null
   title?: string | null
   description?: string | null
   href?: string | null
@@ -392,12 +426,16 @@ export type HomeSectionItemUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   section?: Prisma.HomeSectionUpdateOneRequiredWithoutItemsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutHomeSectionItemsNestedInput
+  product?: Prisma.ProductUpdateOneWithoutHomeSectionItemsNestedInput
 }
 
 export type HomeSectionItemUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sectionId?: Prisma.StringFieldUpdateOperationsInput | string
   itemType?: Prisma.EnumHomeSectionItemTypeFieldUpdateOperationsInput | $Enums.HomeSectionItemType
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   href?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -413,6 +451,8 @@ export type HomeSectionItemCreateManyInput = {
   id?: string
   sectionId: string
   itemType?: $Enums.HomeSectionItemType
+  categoryId?: string | null
+  productId?: string | null
   title?: string | null
   description?: string | null
   href?: string | null
@@ -442,6 +482,8 @@ export type HomeSectionItemUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sectionId?: Prisma.StringFieldUpdateOperationsInput | string
   itemType?: Prisma.EnumHomeSectionItemTypeFieldUpdateOperationsInput | $Enums.HomeSectionItemType
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   href?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -473,6 +515,8 @@ export type HomeSectionItemCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
   itemType?: Prisma.SortOrder
+  categoryId?: Prisma.SortOrder
+  productId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   href?: Prisma.SortOrder
@@ -492,6 +536,8 @@ export type HomeSectionItemMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
   itemType?: Prisma.SortOrder
+  categoryId?: Prisma.SortOrder
+  productId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   href?: Prisma.SortOrder
@@ -507,6 +553,8 @@ export type HomeSectionItemMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
   itemType?: Prisma.SortOrder
+  categoryId?: Prisma.SortOrder
+  productId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   href?: Prisma.SortOrder
@@ -520,6 +568,90 @@ export type HomeSectionItemMinOrderByAggregateInput = {
 
 export type HomeSectionItemSumOrderByAggregateInput = {
   sortOrder?: Prisma.SortOrder
+}
+
+export type HomeSectionItemCreateNestedManyWithoutCategoryInput = {
+  create?: Prisma.XOR<Prisma.HomeSectionItemCreateWithoutCategoryInput, Prisma.HomeSectionItemUncheckedCreateWithoutCategoryInput> | Prisma.HomeSectionItemCreateWithoutCategoryInput[] | Prisma.HomeSectionItemUncheckedCreateWithoutCategoryInput[]
+  connectOrCreate?: Prisma.HomeSectionItemCreateOrConnectWithoutCategoryInput | Prisma.HomeSectionItemCreateOrConnectWithoutCategoryInput[]
+  createMany?: Prisma.HomeSectionItemCreateManyCategoryInputEnvelope
+  connect?: Prisma.HomeSectionItemWhereUniqueInput | Prisma.HomeSectionItemWhereUniqueInput[]
+}
+
+export type HomeSectionItemUncheckedCreateNestedManyWithoutCategoryInput = {
+  create?: Prisma.XOR<Prisma.HomeSectionItemCreateWithoutCategoryInput, Prisma.HomeSectionItemUncheckedCreateWithoutCategoryInput> | Prisma.HomeSectionItemCreateWithoutCategoryInput[] | Prisma.HomeSectionItemUncheckedCreateWithoutCategoryInput[]
+  connectOrCreate?: Prisma.HomeSectionItemCreateOrConnectWithoutCategoryInput | Prisma.HomeSectionItemCreateOrConnectWithoutCategoryInput[]
+  createMany?: Prisma.HomeSectionItemCreateManyCategoryInputEnvelope
+  connect?: Prisma.HomeSectionItemWhereUniqueInput | Prisma.HomeSectionItemWhereUniqueInput[]
+}
+
+export type HomeSectionItemUpdateManyWithoutCategoryNestedInput = {
+  create?: Prisma.XOR<Prisma.HomeSectionItemCreateWithoutCategoryInput, Prisma.HomeSectionItemUncheckedCreateWithoutCategoryInput> | Prisma.HomeSectionItemCreateWithoutCategoryInput[] | Prisma.HomeSectionItemUncheckedCreateWithoutCategoryInput[]
+  connectOrCreate?: Prisma.HomeSectionItemCreateOrConnectWithoutCategoryInput | Prisma.HomeSectionItemCreateOrConnectWithoutCategoryInput[]
+  upsert?: Prisma.HomeSectionItemUpsertWithWhereUniqueWithoutCategoryInput | Prisma.HomeSectionItemUpsertWithWhereUniqueWithoutCategoryInput[]
+  createMany?: Prisma.HomeSectionItemCreateManyCategoryInputEnvelope
+  set?: Prisma.HomeSectionItemWhereUniqueInput | Prisma.HomeSectionItemWhereUniqueInput[]
+  disconnect?: Prisma.HomeSectionItemWhereUniqueInput | Prisma.HomeSectionItemWhereUniqueInput[]
+  delete?: Prisma.HomeSectionItemWhereUniqueInput | Prisma.HomeSectionItemWhereUniqueInput[]
+  connect?: Prisma.HomeSectionItemWhereUniqueInput | Prisma.HomeSectionItemWhereUniqueInput[]
+  update?: Prisma.HomeSectionItemUpdateWithWhereUniqueWithoutCategoryInput | Prisma.HomeSectionItemUpdateWithWhereUniqueWithoutCategoryInput[]
+  updateMany?: Prisma.HomeSectionItemUpdateManyWithWhereWithoutCategoryInput | Prisma.HomeSectionItemUpdateManyWithWhereWithoutCategoryInput[]
+  deleteMany?: Prisma.HomeSectionItemScalarWhereInput | Prisma.HomeSectionItemScalarWhereInput[]
+}
+
+export type HomeSectionItemUncheckedUpdateManyWithoutCategoryNestedInput = {
+  create?: Prisma.XOR<Prisma.HomeSectionItemCreateWithoutCategoryInput, Prisma.HomeSectionItemUncheckedCreateWithoutCategoryInput> | Prisma.HomeSectionItemCreateWithoutCategoryInput[] | Prisma.HomeSectionItemUncheckedCreateWithoutCategoryInput[]
+  connectOrCreate?: Prisma.HomeSectionItemCreateOrConnectWithoutCategoryInput | Prisma.HomeSectionItemCreateOrConnectWithoutCategoryInput[]
+  upsert?: Prisma.HomeSectionItemUpsertWithWhereUniqueWithoutCategoryInput | Prisma.HomeSectionItemUpsertWithWhereUniqueWithoutCategoryInput[]
+  createMany?: Prisma.HomeSectionItemCreateManyCategoryInputEnvelope
+  set?: Prisma.HomeSectionItemWhereUniqueInput | Prisma.HomeSectionItemWhereUniqueInput[]
+  disconnect?: Prisma.HomeSectionItemWhereUniqueInput | Prisma.HomeSectionItemWhereUniqueInput[]
+  delete?: Prisma.HomeSectionItemWhereUniqueInput | Prisma.HomeSectionItemWhereUniqueInput[]
+  connect?: Prisma.HomeSectionItemWhereUniqueInput | Prisma.HomeSectionItemWhereUniqueInput[]
+  update?: Prisma.HomeSectionItemUpdateWithWhereUniqueWithoutCategoryInput | Prisma.HomeSectionItemUpdateWithWhereUniqueWithoutCategoryInput[]
+  updateMany?: Prisma.HomeSectionItemUpdateManyWithWhereWithoutCategoryInput | Prisma.HomeSectionItemUpdateManyWithWhereWithoutCategoryInput[]
+  deleteMany?: Prisma.HomeSectionItemScalarWhereInput | Prisma.HomeSectionItemScalarWhereInput[]
+}
+
+export type HomeSectionItemCreateNestedManyWithoutProductInput = {
+  create?: Prisma.XOR<Prisma.HomeSectionItemCreateWithoutProductInput, Prisma.HomeSectionItemUncheckedCreateWithoutProductInput> | Prisma.HomeSectionItemCreateWithoutProductInput[] | Prisma.HomeSectionItemUncheckedCreateWithoutProductInput[]
+  connectOrCreate?: Prisma.HomeSectionItemCreateOrConnectWithoutProductInput | Prisma.HomeSectionItemCreateOrConnectWithoutProductInput[]
+  createMany?: Prisma.HomeSectionItemCreateManyProductInputEnvelope
+  connect?: Prisma.HomeSectionItemWhereUniqueInput | Prisma.HomeSectionItemWhereUniqueInput[]
+}
+
+export type HomeSectionItemUncheckedCreateNestedManyWithoutProductInput = {
+  create?: Prisma.XOR<Prisma.HomeSectionItemCreateWithoutProductInput, Prisma.HomeSectionItemUncheckedCreateWithoutProductInput> | Prisma.HomeSectionItemCreateWithoutProductInput[] | Prisma.HomeSectionItemUncheckedCreateWithoutProductInput[]
+  connectOrCreate?: Prisma.HomeSectionItemCreateOrConnectWithoutProductInput | Prisma.HomeSectionItemCreateOrConnectWithoutProductInput[]
+  createMany?: Prisma.HomeSectionItemCreateManyProductInputEnvelope
+  connect?: Prisma.HomeSectionItemWhereUniqueInput | Prisma.HomeSectionItemWhereUniqueInput[]
+}
+
+export type HomeSectionItemUpdateManyWithoutProductNestedInput = {
+  create?: Prisma.XOR<Prisma.HomeSectionItemCreateWithoutProductInput, Prisma.HomeSectionItemUncheckedCreateWithoutProductInput> | Prisma.HomeSectionItemCreateWithoutProductInput[] | Prisma.HomeSectionItemUncheckedCreateWithoutProductInput[]
+  connectOrCreate?: Prisma.HomeSectionItemCreateOrConnectWithoutProductInput | Prisma.HomeSectionItemCreateOrConnectWithoutProductInput[]
+  upsert?: Prisma.HomeSectionItemUpsertWithWhereUniqueWithoutProductInput | Prisma.HomeSectionItemUpsertWithWhereUniqueWithoutProductInput[]
+  createMany?: Prisma.HomeSectionItemCreateManyProductInputEnvelope
+  set?: Prisma.HomeSectionItemWhereUniqueInput | Prisma.HomeSectionItemWhereUniqueInput[]
+  disconnect?: Prisma.HomeSectionItemWhereUniqueInput | Prisma.HomeSectionItemWhereUniqueInput[]
+  delete?: Prisma.HomeSectionItemWhereUniqueInput | Prisma.HomeSectionItemWhereUniqueInput[]
+  connect?: Prisma.HomeSectionItemWhereUniqueInput | Prisma.HomeSectionItemWhereUniqueInput[]
+  update?: Prisma.HomeSectionItemUpdateWithWhereUniqueWithoutProductInput | Prisma.HomeSectionItemUpdateWithWhereUniqueWithoutProductInput[]
+  updateMany?: Prisma.HomeSectionItemUpdateManyWithWhereWithoutProductInput | Prisma.HomeSectionItemUpdateManyWithWhereWithoutProductInput[]
+  deleteMany?: Prisma.HomeSectionItemScalarWhereInput | Prisma.HomeSectionItemScalarWhereInput[]
+}
+
+export type HomeSectionItemUncheckedUpdateManyWithoutProductNestedInput = {
+  create?: Prisma.XOR<Prisma.HomeSectionItemCreateWithoutProductInput, Prisma.HomeSectionItemUncheckedCreateWithoutProductInput> | Prisma.HomeSectionItemCreateWithoutProductInput[] | Prisma.HomeSectionItemUncheckedCreateWithoutProductInput[]
+  connectOrCreate?: Prisma.HomeSectionItemCreateOrConnectWithoutProductInput | Prisma.HomeSectionItemCreateOrConnectWithoutProductInput[]
+  upsert?: Prisma.HomeSectionItemUpsertWithWhereUniqueWithoutProductInput | Prisma.HomeSectionItemUpsertWithWhereUniqueWithoutProductInput[]
+  createMany?: Prisma.HomeSectionItemCreateManyProductInputEnvelope
+  set?: Prisma.HomeSectionItemWhereUniqueInput | Prisma.HomeSectionItemWhereUniqueInput[]
+  disconnect?: Prisma.HomeSectionItemWhereUniqueInput | Prisma.HomeSectionItemWhereUniqueInput[]
+  delete?: Prisma.HomeSectionItemWhereUniqueInput | Prisma.HomeSectionItemWhereUniqueInput[]
+  connect?: Prisma.HomeSectionItemWhereUniqueInput | Prisma.HomeSectionItemWhereUniqueInput[]
+  update?: Prisma.HomeSectionItemUpdateWithWhereUniqueWithoutProductInput | Prisma.HomeSectionItemUpdateWithWhereUniqueWithoutProductInput[]
+  updateMany?: Prisma.HomeSectionItemUpdateManyWithWhereWithoutProductInput | Prisma.HomeSectionItemUpdateManyWithWhereWithoutProductInput[]
+  deleteMany?: Prisma.HomeSectionItemScalarWhereInput | Prisma.HomeSectionItemScalarWhereInput[]
 }
 
 export type HomeSectionItemCreateNestedManyWithoutSectionInput = {
@@ -568,6 +700,142 @@ export type EnumHomeSectionItemTypeFieldUpdateOperationsInput = {
   set?: $Enums.HomeSectionItemType
 }
 
+export type HomeSectionItemCreateWithoutCategoryInput = {
+  id?: string
+  itemType?: $Enums.HomeSectionItemType
+  title?: string | null
+  description?: string | null
+  href?: string | null
+  badge?: string | null
+  tone?: $Enums.VisualTone
+  isActive?: boolean
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  section: Prisma.HomeSectionCreateNestedOneWithoutItemsInput
+  product?: Prisma.ProductCreateNestedOneWithoutHomeSectionItemsInput
+}
+
+export type HomeSectionItemUncheckedCreateWithoutCategoryInput = {
+  id?: string
+  sectionId: string
+  itemType?: $Enums.HomeSectionItemType
+  productId?: string | null
+  title?: string | null
+  description?: string | null
+  href?: string | null
+  badge?: string | null
+  tone?: $Enums.VisualTone
+  isActive?: boolean
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type HomeSectionItemCreateOrConnectWithoutCategoryInput = {
+  where: Prisma.HomeSectionItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.HomeSectionItemCreateWithoutCategoryInput, Prisma.HomeSectionItemUncheckedCreateWithoutCategoryInput>
+}
+
+export type HomeSectionItemCreateManyCategoryInputEnvelope = {
+  data: Prisma.HomeSectionItemCreateManyCategoryInput | Prisma.HomeSectionItemCreateManyCategoryInput[]
+  skipDuplicates?: boolean
+}
+
+export type HomeSectionItemUpsertWithWhereUniqueWithoutCategoryInput = {
+  where: Prisma.HomeSectionItemWhereUniqueInput
+  update: Prisma.XOR<Prisma.HomeSectionItemUpdateWithoutCategoryInput, Prisma.HomeSectionItemUncheckedUpdateWithoutCategoryInput>
+  create: Prisma.XOR<Prisma.HomeSectionItemCreateWithoutCategoryInput, Prisma.HomeSectionItemUncheckedCreateWithoutCategoryInput>
+}
+
+export type HomeSectionItemUpdateWithWhereUniqueWithoutCategoryInput = {
+  where: Prisma.HomeSectionItemWhereUniqueInput
+  data: Prisma.XOR<Prisma.HomeSectionItemUpdateWithoutCategoryInput, Prisma.HomeSectionItemUncheckedUpdateWithoutCategoryInput>
+}
+
+export type HomeSectionItemUpdateManyWithWhereWithoutCategoryInput = {
+  where: Prisma.HomeSectionItemScalarWhereInput
+  data: Prisma.XOR<Prisma.HomeSectionItemUpdateManyMutationInput, Prisma.HomeSectionItemUncheckedUpdateManyWithoutCategoryInput>
+}
+
+export type HomeSectionItemScalarWhereInput = {
+  AND?: Prisma.HomeSectionItemScalarWhereInput | Prisma.HomeSectionItemScalarWhereInput[]
+  OR?: Prisma.HomeSectionItemScalarWhereInput[]
+  NOT?: Prisma.HomeSectionItemScalarWhereInput | Prisma.HomeSectionItemScalarWhereInput[]
+  id?: Prisma.StringFilter<"HomeSectionItem"> | string
+  sectionId?: Prisma.StringFilter<"HomeSectionItem"> | string
+  itemType?: Prisma.EnumHomeSectionItemTypeFilter<"HomeSectionItem"> | $Enums.HomeSectionItemType
+  categoryId?: Prisma.StringNullableFilter<"HomeSectionItem"> | string | null
+  productId?: Prisma.StringNullableFilter<"HomeSectionItem"> | string | null
+  title?: Prisma.StringNullableFilter<"HomeSectionItem"> | string | null
+  description?: Prisma.StringNullableFilter<"HomeSectionItem"> | string | null
+  href?: Prisma.StringNullableFilter<"HomeSectionItem"> | string | null
+  badge?: Prisma.StringNullableFilter<"HomeSectionItem"> | string | null
+  tone?: Prisma.EnumVisualToneFilter<"HomeSectionItem"> | $Enums.VisualTone
+  isActive?: Prisma.BoolFilter<"HomeSectionItem"> | boolean
+  sortOrder?: Prisma.IntFilter<"HomeSectionItem"> | number
+  createdAt?: Prisma.DateTimeFilter<"HomeSectionItem"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"HomeSectionItem"> | Date | string
+}
+
+export type HomeSectionItemCreateWithoutProductInput = {
+  id?: string
+  itemType?: $Enums.HomeSectionItemType
+  title?: string | null
+  description?: string | null
+  href?: string | null
+  badge?: string | null
+  tone?: $Enums.VisualTone
+  isActive?: boolean
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  section: Prisma.HomeSectionCreateNestedOneWithoutItemsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutHomeSectionItemsInput
+}
+
+export type HomeSectionItemUncheckedCreateWithoutProductInput = {
+  id?: string
+  sectionId: string
+  itemType?: $Enums.HomeSectionItemType
+  categoryId?: string | null
+  title?: string | null
+  description?: string | null
+  href?: string | null
+  badge?: string | null
+  tone?: $Enums.VisualTone
+  isActive?: boolean
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type HomeSectionItemCreateOrConnectWithoutProductInput = {
+  where: Prisma.HomeSectionItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.HomeSectionItemCreateWithoutProductInput, Prisma.HomeSectionItemUncheckedCreateWithoutProductInput>
+}
+
+export type HomeSectionItemCreateManyProductInputEnvelope = {
+  data: Prisma.HomeSectionItemCreateManyProductInput | Prisma.HomeSectionItemCreateManyProductInput[]
+  skipDuplicates?: boolean
+}
+
+export type HomeSectionItemUpsertWithWhereUniqueWithoutProductInput = {
+  where: Prisma.HomeSectionItemWhereUniqueInput
+  update: Prisma.XOR<Prisma.HomeSectionItemUpdateWithoutProductInput, Prisma.HomeSectionItemUncheckedUpdateWithoutProductInput>
+  create: Prisma.XOR<Prisma.HomeSectionItemCreateWithoutProductInput, Prisma.HomeSectionItemUncheckedCreateWithoutProductInput>
+}
+
+export type HomeSectionItemUpdateWithWhereUniqueWithoutProductInput = {
+  where: Prisma.HomeSectionItemWhereUniqueInput
+  data: Prisma.XOR<Prisma.HomeSectionItemUpdateWithoutProductInput, Prisma.HomeSectionItemUncheckedUpdateWithoutProductInput>
+}
+
+export type HomeSectionItemUpdateManyWithWhereWithoutProductInput = {
+  where: Prisma.HomeSectionItemScalarWhereInput
+  data: Prisma.XOR<Prisma.HomeSectionItemUpdateManyMutationInput, Prisma.HomeSectionItemUncheckedUpdateManyWithoutProductInput>
+}
+
 export type HomeSectionItemCreateWithoutSectionInput = {
   id?: string
   itemType?: $Enums.HomeSectionItemType
@@ -580,11 +848,15 @@ export type HomeSectionItemCreateWithoutSectionInput = {
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  category?: Prisma.CategoryCreateNestedOneWithoutHomeSectionItemsInput
+  product?: Prisma.ProductCreateNestedOneWithoutHomeSectionItemsInput
 }
 
 export type HomeSectionItemUncheckedCreateWithoutSectionInput = {
   id?: string
   itemType?: $Enums.HomeSectionItemType
+  categoryId?: string | null
+  productId?: string | null
   title?: string | null
   description?: string | null
   href?: string | null
@@ -622,27 +894,139 @@ export type HomeSectionItemUpdateManyWithWhereWithoutSectionInput = {
   data: Prisma.XOR<Prisma.HomeSectionItemUpdateManyMutationInput, Prisma.HomeSectionItemUncheckedUpdateManyWithoutSectionInput>
 }
 
-export type HomeSectionItemScalarWhereInput = {
-  AND?: Prisma.HomeSectionItemScalarWhereInput | Prisma.HomeSectionItemScalarWhereInput[]
-  OR?: Prisma.HomeSectionItemScalarWhereInput[]
-  NOT?: Prisma.HomeSectionItemScalarWhereInput | Prisma.HomeSectionItemScalarWhereInput[]
-  id?: Prisma.StringFilter<"HomeSectionItem"> | string
-  sectionId?: Prisma.StringFilter<"HomeSectionItem"> | string
-  itemType?: Prisma.EnumHomeSectionItemTypeFilter<"HomeSectionItem"> | $Enums.HomeSectionItemType
-  title?: Prisma.StringNullableFilter<"HomeSectionItem"> | string | null
-  description?: Prisma.StringNullableFilter<"HomeSectionItem"> | string | null
-  href?: Prisma.StringNullableFilter<"HomeSectionItem"> | string | null
-  badge?: Prisma.StringNullableFilter<"HomeSectionItem"> | string | null
-  tone?: Prisma.EnumVisualToneFilter<"HomeSectionItem"> | $Enums.VisualTone
-  isActive?: Prisma.BoolFilter<"HomeSectionItem"> | boolean
-  sortOrder?: Prisma.IntFilter<"HomeSectionItem"> | number
-  createdAt?: Prisma.DateTimeFilter<"HomeSectionItem"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"HomeSectionItem"> | Date | string
+export type HomeSectionItemCreateManyCategoryInput = {
+  id?: string
+  sectionId: string
+  itemType?: $Enums.HomeSectionItemType
+  productId?: string | null
+  title?: string | null
+  description?: string | null
+  href?: string | null
+  badge?: string | null
+  tone?: $Enums.VisualTone
+  isActive?: boolean
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type HomeSectionItemUpdateWithoutCategoryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  itemType?: Prisma.EnumHomeSectionItemTypeFieldUpdateOperationsInput | $Enums.HomeSectionItemType
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  href?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tone?: Prisma.EnumVisualToneFieldUpdateOperationsInput | $Enums.VisualTone
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  section?: Prisma.HomeSectionUpdateOneRequiredWithoutItemsNestedInput
+  product?: Prisma.ProductUpdateOneWithoutHomeSectionItemsNestedInput
+}
+
+export type HomeSectionItemUncheckedUpdateWithoutCategoryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  sectionId?: Prisma.StringFieldUpdateOperationsInput | string
+  itemType?: Prisma.EnumHomeSectionItemTypeFieldUpdateOperationsInput | $Enums.HomeSectionItemType
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  href?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tone?: Prisma.EnumVisualToneFieldUpdateOperationsInput | $Enums.VisualTone
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type HomeSectionItemUncheckedUpdateManyWithoutCategoryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  sectionId?: Prisma.StringFieldUpdateOperationsInput | string
+  itemType?: Prisma.EnumHomeSectionItemTypeFieldUpdateOperationsInput | $Enums.HomeSectionItemType
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  href?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tone?: Prisma.EnumVisualToneFieldUpdateOperationsInput | $Enums.VisualTone
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type HomeSectionItemCreateManyProductInput = {
+  id?: string
+  sectionId: string
+  itemType?: $Enums.HomeSectionItemType
+  categoryId?: string | null
+  title?: string | null
+  description?: string | null
+  href?: string | null
+  badge?: string | null
+  tone?: $Enums.VisualTone
+  isActive?: boolean
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type HomeSectionItemUpdateWithoutProductInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  itemType?: Prisma.EnumHomeSectionItemTypeFieldUpdateOperationsInput | $Enums.HomeSectionItemType
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  href?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tone?: Prisma.EnumVisualToneFieldUpdateOperationsInput | $Enums.VisualTone
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  section?: Prisma.HomeSectionUpdateOneRequiredWithoutItemsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutHomeSectionItemsNestedInput
+}
+
+export type HomeSectionItemUncheckedUpdateWithoutProductInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  sectionId?: Prisma.StringFieldUpdateOperationsInput | string
+  itemType?: Prisma.EnumHomeSectionItemTypeFieldUpdateOperationsInput | $Enums.HomeSectionItemType
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  href?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tone?: Prisma.EnumVisualToneFieldUpdateOperationsInput | $Enums.VisualTone
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type HomeSectionItemUncheckedUpdateManyWithoutProductInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  sectionId?: Prisma.StringFieldUpdateOperationsInput | string
+  itemType?: Prisma.EnumHomeSectionItemTypeFieldUpdateOperationsInput | $Enums.HomeSectionItemType
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  href?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tone?: Prisma.EnumVisualToneFieldUpdateOperationsInput | $Enums.VisualTone
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type HomeSectionItemCreateManySectionInput = {
   id?: string
   itemType?: $Enums.HomeSectionItemType
+  categoryId?: string | null
+  productId?: string | null
   title?: string | null
   description?: string | null
   href?: string | null
@@ -666,11 +1050,15 @@ export type HomeSectionItemUpdateWithoutSectionInput = {
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.CategoryUpdateOneWithoutHomeSectionItemsNestedInput
+  product?: Prisma.ProductUpdateOneWithoutHomeSectionItemsNestedInput
 }
 
 export type HomeSectionItemUncheckedUpdateWithoutSectionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   itemType?: Prisma.EnumHomeSectionItemTypeFieldUpdateOperationsInput | $Enums.HomeSectionItemType
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   href?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -685,6 +1073,8 @@ export type HomeSectionItemUncheckedUpdateWithoutSectionInput = {
 export type HomeSectionItemUncheckedUpdateManyWithoutSectionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   itemType?: Prisma.EnumHomeSectionItemTypeFieldUpdateOperationsInput | $Enums.HomeSectionItemType
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   href?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -702,6 +1092,8 @@ export type HomeSectionItemSelect<ExtArgs extends runtime.Types.Extensions.Inter
   id?: boolean
   sectionId?: boolean
   itemType?: boolean
+  categoryId?: boolean
+  productId?: boolean
   title?: boolean
   description?: boolean
   href?: boolean
@@ -712,6 +1104,8 @@ export type HomeSectionItemSelect<ExtArgs extends runtime.Types.Extensions.Inter
   createdAt?: boolean
   updatedAt?: boolean
   section?: boolean | Prisma.HomeSectionDefaultArgs<ExtArgs>
+  category?: boolean | Prisma.HomeSectionItem$categoryArgs<ExtArgs>
+  product?: boolean | Prisma.HomeSectionItem$productArgs<ExtArgs>
 }, ExtArgs["result"]["homeSectionItem"]>
 
 
@@ -720,6 +1114,8 @@ export type HomeSectionItemSelectScalar = {
   id?: boolean
   sectionId?: boolean
   itemType?: boolean
+  categoryId?: boolean
+  productId?: boolean
   title?: boolean
   description?: boolean
   href?: boolean
@@ -731,20 +1127,26 @@ export type HomeSectionItemSelectScalar = {
   updatedAt?: boolean
 }
 
-export type HomeSectionItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sectionId" | "itemType" | "title" | "description" | "href" | "badge" | "tone" | "isActive" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["homeSectionItem"]>
+export type HomeSectionItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sectionId" | "itemType" | "categoryId" | "productId" | "title" | "description" | "href" | "badge" | "tone" | "isActive" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["homeSectionItem"]>
 export type HomeSectionItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   section?: boolean | Prisma.HomeSectionDefaultArgs<ExtArgs>
+  category?: boolean | Prisma.HomeSectionItem$categoryArgs<ExtArgs>
+  product?: boolean | Prisma.HomeSectionItem$productArgs<ExtArgs>
 }
 
 export type $HomeSectionItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "HomeSectionItem"
   objects: {
     section: Prisma.$HomeSectionPayload<ExtArgs>
+    category: Prisma.$CategoryPayload<ExtArgs> | null
+    product: Prisma.$ProductPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     sectionId: string
     itemType: $Enums.HomeSectionItemType
+    categoryId: string | null
+    productId: string | null
     title: string | null
     description: string | null
     href: string | null
@@ -1095,6 +1497,8 @@ readonly fields: HomeSectionItemFieldRefs;
 export interface Prisma__HomeSectionItemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   section<T extends Prisma.HomeSectionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HomeSectionDefaultArgs<ExtArgs>>): Prisma.Prisma__HomeSectionClient<runtime.Types.Result.GetResult<Prisma.$HomeSectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  category<T extends Prisma.HomeSectionItem$categoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HomeSectionItem$categoryArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  product<T extends Prisma.HomeSectionItem$productArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HomeSectionItem$productArgs<ExtArgs>>): Prisma.Prisma__ProductClient<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1127,6 +1531,8 @@ export interface HomeSectionItemFieldRefs {
   readonly id: Prisma.FieldRef<"HomeSectionItem", 'String'>
   readonly sectionId: Prisma.FieldRef<"HomeSectionItem", 'String'>
   readonly itemType: Prisma.FieldRef<"HomeSectionItem", 'HomeSectionItemType'>
+  readonly categoryId: Prisma.FieldRef<"HomeSectionItem", 'String'>
+  readonly productId: Prisma.FieldRef<"HomeSectionItem", 'String'>
   readonly title: Prisma.FieldRef<"HomeSectionItem", 'String'>
   readonly description: Prisma.FieldRef<"HomeSectionItem", 'String'>
   readonly href: Prisma.FieldRef<"HomeSectionItem", 'String'>
@@ -1481,6 +1887,44 @@ export type HomeSectionItemDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many HomeSectionItems to delete.
    */
   limit?: number
+}
+
+/**
+ * HomeSectionItem.category
+ */
+export type HomeSectionItem$categoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Category
+   */
+  select?: Prisma.CategorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Category
+   */
+  omit?: Prisma.CategoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CategoryInclude<ExtArgs> | null
+  where?: Prisma.CategoryWhereInput
+}
+
+/**
+ * HomeSectionItem.product
+ */
+export type HomeSectionItem$productArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Product
+   */
+  select?: Prisma.ProductSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Product
+   */
+  omit?: Prisma.ProductOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductInclude<ExtArgs> | null
+  where?: Prisma.ProductWhereInput
 }
 
 /**

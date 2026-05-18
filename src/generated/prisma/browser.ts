@@ -23,6 +23,21 @@ export * from './enums';
  */
 export type Category = Prisma.CategoryModel
 /**
+ * Model Product
+ * 
+ */
+export type Product = Prisma.ProductModel
+/**
+ * Model ProductVariant
+ * 
+ */
+export type ProductVariant = Prisma.ProductVariantModel
+/**
+ * Model ProductImage
+ * 
+ */
+export type ProductImage = Prisma.ProductImageModel
+/**
  * Model Slider
  * 
  */

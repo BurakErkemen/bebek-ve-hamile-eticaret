@@ -6,6 +6,7 @@ import {
 import type {
   HomepageCategoryCardEntity,
   HomepageHeroSlideEntity,
+  HomepageProductCardEntity,
   HomepagePromoBannerEntity,
   HomepageSectionEntity,
   HomepageVisualTone,
@@ -58,6 +59,18 @@ export class PrismaHomepageContentRepository
           },
           orderBy: {
             sortOrder: "asc",
+          },
+          include: {
+            product: {
+              include: {
+                category: true,
+                images: {
+                  orderBy: {
+                    sortOrder: "asc",
+                  },
+                },
+              },
+            },
           },
         },
       },
@@ -167,6 +180,58 @@ export class PrismaHomepageContentRepository
               sortOrder: section.sortOrder,
               content: {
                 banner,
+              },
+            },
+          ];
+        }
+
+        case HomeSectionType.PRODUCT_SHOWCASE: {
+          const products: HomepageProductCardEntity[] = section.items
+            .filter(
+              (item) =>
+                item.itemType === HomeSectionItemType.PRODUCT_REFERENCE &&
+                item.product &&
+                item.product.isActive,
+            )
+            .map((item) => {
+              const product = item.product!;
+              const primaryImage =
+                product.images.find((image) => image.isPrimary) ??
+                product.images[0];
+
+              return {
+                id: product.id,
+                name: product.name,
+                slug: product.slug,
+                categoryLabel: product.category.name,
+                price: Number(product.basePrice),
+                compareAtPrice: product.compareAtPrice
+                  ? Number(product.compareAtPrice)
+                  : undefined,
+                badge: item.badge ?? undefined,
+                imageUrl: primaryImage?.url ?? null,
+                imageAlt: primaryImage?.alt ?? product.name,
+                tone: mapVisualTone(item.tone),
+              };
+            });
+
+          if (products.length === 0) {
+            return [];
+          }
+
+          return [
+            {
+              id: section.id,
+              type: "product-showcase",
+              eyebrow: section.eyebrow ?? undefined,
+              title: section.title ?? undefined,
+              description: section.description ?? undefined,
+              actionLabel: section.actionLabel ?? undefined,
+              actionHref: section.actionHref ?? undefined,
+              isActive: section.isActive,
+              sortOrder: section.sortOrder,
+              content: {
+                products,
               },
             },
           ];

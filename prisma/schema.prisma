@@ -46,6 +46,9 @@ model Category {
   parent      Category?  @relation("CategoryTree", fields: [parentId], references: [id], onDelete: SetNull)
   children    Category[] @relation("CategoryTree")
 
+  products          Product[]
+  homeSectionItems  HomeSectionItem[]
+
   isActive    Boolean    @default(true)
   sortOrder   Int        @default(0)
 
@@ -54,6 +57,82 @@ model Category {
 
   @@index([parentId])
   @@index([isActive, sortOrder])
+}
+
+model Product {
+  id               String            @id @default(cuid())
+
+  categoryId       String
+  category         Category          @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  name             String
+  slug             String            @unique
+
+  shortDescription String?           @db.Text
+  description      String?           @db.Text
+
+  basePrice        Decimal           @db.Decimal(10, 2)
+  compareAtPrice   Decimal?          @db.Decimal(10, 2)
+
+  isActive         Boolean           @default(true)
+  isFeatured       Boolean           @default(false)
+  sortOrder        Int               @default(0)
+
+  variants         ProductVariant[]
+  images           ProductImage[]
+  homeSectionItems HomeSectionItem[]
+
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  @@index([categoryId, isActive, sortOrder])
+  @@index([isFeatured, isActive])
+}
+
+model ProductVariant {
+  id               String    @id @default(cuid())
+
+  productId        String
+  product          Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  sku              String    @unique
+
+  size             String?
+  colorName        String?
+  colorHex         String?
+
+  price            Decimal?  @db.Decimal(10, 2)
+  compareAtPrice   Decimal?  @db.Decimal(10, 2)
+
+  stockQuantity    Int       @default(0)
+
+  isActive         Boolean   @default(true)
+  sortOrder        Int       @default(0)
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([productId, isActive, sortOrder])
+  @@index([size])
+  @@index([colorName])
+}
+
+model ProductImage {
+  id          String   @id @default(cuid())
+
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  url         String
+  alt         String?
+
+  isPrimary   Boolean  @default(false)
+  sortOrder   Int      @default(0)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([productId, isPrimary, sortOrder])
 }
 
 model Slider {
@@ -168,6 +247,12 @@ model HomeSectionItem {
 
   itemType    HomeSectionItemType @default(CUSTOM_LINK)
 
+  categoryId  String?
+  category    Category?           @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  productId   String?
+  product     Product?            @relation(fields: [productId], references: [id], onDelete: SetNull)
+
   title       String?
   description String?             @db.Text
   href        String?
@@ -183,4 +268,6 @@ model HomeSectionItem {
 
   @@index([sectionId, isActive, sortOrder])
   @@index([itemType])
+  @@index([categoryId])
+  @@index([productId])
 }

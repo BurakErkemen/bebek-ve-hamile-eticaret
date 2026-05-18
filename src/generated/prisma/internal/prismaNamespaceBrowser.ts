@@ -52,6 +52,9 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Category: 'Category',
+  Product: 'Product',
+  ProductVariant: 'ProductVariant',
+  ProductImage: 'ProductImage',
   Slider: 'Slider',
   SliderSlide: 'SliderSlide',
   Banner: 'Banner',
@@ -88,6 +91,58 @@ export const CategoryScalarFieldEnum = {
 } as const
 
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
+export const ProductScalarFieldEnum = {
+  id: 'id',
+  categoryId: 'categoryId',
+  name: 'name',
+  slug: 'slug',
+  shortDescription: 'shortDescription',
+  description: 'description',
+  basePrice: 'basePrice',
+  compareAtPrice: 'compareAtPrice',
+  isActive: 'isActive',
+  isFeatured: 'isFeatured',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
+
+
+export const ProductVariantScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  sku: 'sku',
+  size: 'size',
+  colorName: 'colorName',
+  colorHex: 'colorHex',
+  price: 'price',
+  compareAtPrice: 'compareAtPrice',
+  stockQuantity: 'stockQuantity',
+  isActive: 'isActive',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProductVariantScalarFieldEnum = (typeof ProductVariantScalarFieldEnum)[keyof typeof ProductVariantScalarFieldEnum]
+
+
+export const ProductImageScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  url: 'url',
+  alt: 'alt',
+  isPrimary: 'isPrimary',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProductImageScalarFieldEnum = (typeof ProductImageScalarFieldEnum)[keyof typeof ProductImageScalarFieldEnum]
 
 
 export const SliderScalarFieldEnum = {
@@ -169,6 +224,8 @@ export const HomeSectionItemScalarFieldEnum = {
   id: 'id',
   sectionId: 'sectionId',
   itemType: 'itemType',
+  categoryId: 'categoryId',
+  productId: 'productId',
   title: 'title',
   description: 'description',
   href: 'href',
@@ -208,6 +265,40 @@ export const CategoryOrderByRelevanceFieldEnum = {
 } as const
 
 export type CategoryOrderByRelevanceFieldEnum = (typeof CategoryOrderByRelevanceFieldEnum)[keyof typeof CategoryOrderByRelevanceFieldEnum]
+
+
+export const ProductOrderByRelevanceFieldEnum = {
+  id: 'id',
+  categoryId: 'categoryId',
+  name: 'name',
+  slug: 'slug',
+  shortDescription: 'shortDescription',
+  description: 'description'
+} as const
+
+export type ProductOrderByRelevanceFieldEnum = (typeof ProductOrderByRelevanceFieldEnum)[keyof typeof ProductOrderByRelevanceFieldEnum]
+
+
+export const ProductVariantOrderByRelevanceFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  sku: 'sku',
+  size: 'size',
+  colorName: 'colorName',
+  colorHex: 'colorHex'
+} as const
+
+export type ProductVariantOrderByRelevanceFieldEnum = (typeof ProductVariantOrderByRelevanceFieldEnum)[keyof typeof ProductVariantOrderByRelevanceFieldEnum]
+
+
+export const ProductImageOrderByRelevanceFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  url: 'url',
+  alt: 'alt'
+} as const
+
+export type ProductImageOrderByRelevanceFieldEnum = (typeof ProductImageOrderByRelevanceFieldEnum)[keyof typeof ProductImageOrderByRelevanceFieldEnum]
 
 
 export const SliderOrderByRelevanceFieldEnum = {
@@ -267,6 +358,8 @@ export type HomeSectionOrderByRelevanceFieldEnum = (typeof HomeSectionOrderByRel
 export const HomeSectionItemOrderByRelevanceFieldEnum = {
   id: 'id',
   sectionId: 'sectionId',
+  categoryId: 'categoryId',
+  productId: 'productId',
   title: 'title',
   description: 'description',
   href: 'href',

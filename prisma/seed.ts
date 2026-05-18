@@ -35,8 +35,14 @@ const prisma = new PrismaClient({
 async function clearSeedData() {
   await prisma.homeSectionItem.deleteMany();
   await prisma.homeSection.deleteMany();
+
+  await prisma.productImage.deleteMany();
+  await prisma.productVariant.deleteMany();
+  await prisma.product.deleteMany();
+
   await prisma.sliderSlide.deleteMany();
   await prisma.slider.deleteMany();
+
   await prisma.banner.deleteMany();
   await prisma.category.deleteMany();
 }
@@ -79,6 +85,206 @@ async function seedCategories() {
     babyClothing,
     maternityClothing,
     motherBaby,
+  };
+}
+
+async function seedProducts(categories: {
+  babyClothing: { id: string };
+  maternityClothing: { id: string };
+  motherBaby: { id: string };
+}) {
+  const organicBabyRomper = await prisma.product.create({
+    data: {
+      categoryId: categories.babyClothing.id,
+      name: "Organik Pamuk Bebek Tulum",
+      slug: "organik-pamuk-bebek-tulum",
+      shortDescription:
+        "Yumuşak dokulu, günlük kullanıma uygun organik pamuk tulum.",
+      description:
+        "Hassas bebek cildi düşünülerek tasarlanan organik pamuk tulum; çıtçıtlı yapısı, konforlu kalıbı ve pastel renk seçenekleriyle günlük kullanım için uygundur.",
+      basePrice: "549.90",
+      compareAtPrice: "699.90",
+      isActive: true,
+      isFeatured: true,
+      sortOrder: 1,
+      variants: {
+        create: [
+          {
+            sku: "BT-ORG-03-EKRU",
+            size: "0-3 Ay",
+            colorName: "Ekru",
+            colorHex: "#F6EFE7",
+            stockQuantity: 18,
+            sortOrder: 1,
+            isActive: true,
+          },
+          {
+            sku: "BT-ORG-36-PUDRA",
+            size: "3-6 Ay",
+            colorName: "Pudra",
+            colorHex: "#F2D6DC",
+            stockQuantity: 12,
+            sortOrder: 2,
+            isActive: true,
+          },
+        ],
+      },
+      images: {
+        create: [
+          {
+            url: "/placeholders/products/bebek-tulum.svg",
+            alt: "Organik pamuk bebek tulum görseli",
+            isPrimary: true,
+            sortOrder: 1,
+          },
+        ],
+      },
+    },
+  });
+
+  const maternityDress = await prisma.product.create({
+    data: {
+      categoryId: categories.maternityClothing.id,
+      name: "Rahat Kesim Hamile Elbisesi",
+      slug: "rahat-kesim-hamile-elbisesi",
+      shortDescription:
+        "Günlük kullanım için tasarlanmış, esnek ve rahat kesimli elbise.",
+      description:
+        "Hamilelik sürecinde vücut değişimine uyum sağlayan, nefes alabilir kumaşı ve sade çizgisiyle günlük kombinlerde kullanılabilecek rahat kesim elbise.",
+      basePrice: "899.90",
+      compareAtPrice: "1099.90",
+      isActive: true,
+      isFeatured: true,
+      sortOrder: 2,
+      variants: {
+        create: [
+          {
+            sku: "HG-ELB-S-GUL",
+            size: "S",
+            colorName: "Gül Kurusu",
+            colorHex: "#C9929B",
+            stockQuantity: 8,
+            sortOrder: 1,
+            isActive: true,
+          },
+          {
+            sku: "HG-ELB-M-GUL",
+            size: "M",
+            colorName: "Gül Kurusu",
+            colorHex: "#C9929B",
+            stockQuantity: 11,
+            sortOrder: 2,
+            isActive: true,
+          },
+          {
+            sku: "HG-ELB-L-GUL",
+            size: "L",
+            colorName: "Gül Kurusu",
+            colorHex: "#C9929B",
+            stockQuantity: 7,
+            sortOrder: 3,
+            isActive: true,
+          },
+        ],
+      },
+      images: {
+        create: [
+          {
+            url: "/placeholders/products/hamile-elbise.svg",
+            alt: "Rahat kesim hamile elbisesi görseli",
+            isPrimary: true,
+            sortOrder: 1,
+          },
+        ],
+      },
+    },
+  });
+
+  const careStarterSet = await prisma.product.create({
+    data: {
+      categoryId: categories.motherBaby.id,
+      name: "Anne Bebek Bakım Başlangıç Seti",
+      slug: "anne-bebek-bakim-baslangic-seti",
+      shortDescription:
+        "Yeni doğan bakım rutinine uygun başlangıç paketi.",
+      description:
+        "Anne ve bebek bakımında temel ihtiyaçları bir araya getiren örnek ürün seti. Bu kayıt ileride gerçek bakım kategorisi ürünleriyle genişletilecek.",
+      basePrice: "749.90",
+      compareAtPrice: null,
+      isActive: true,
+      isFeatured: true,
+      sortOrder: 3,
+      variants: {
+        create: [
+          {
+            sku: "AB-BKM-SET-ST",
+            size: "Standart",
+            colorName: "Natural",
+            colorHex: "#E9DDCF",
+            stockQuantity: 20,
+            sortOrder: 1,
+            isActive: true,
+          },
+        ],
+      },
+      images: {
+        create: [
+          {
+            url: "/placeholders/products/bakim-seti.svg",
+            alt: "Anne bebek bakım başlangıç seti görseli",
+            isPrimary: true,
+            sortOrder: 1,
+          },
+        ],
+      },
+    },
+  });
+
+  const hospitalExitSet = await prisma.product.create({
+    data: {
+      categoryId: categories.babyClothing.id,
+      name: "10 Parça Hastane Çıkışı Seti",
+      slug: "10-parca-hastane-cikisi-seti",
+      shortDescription:
+        "Yeni doğan hazırlığı için düzenlenmiş kapsamlı çıkış seti.",
+      description:
+        "Hastane sonrası ilk ihtiyaçları kapsayacak şekilde oluşturulan 10 parçalık bebek çıkış seti. Ürün vitrini, kategori filtreleri ve stok yönetimi senaryoları için örnek kayıt olarak kullanılacaktır.",
+      basePrice: "1299.90",
+      compareAtPrice: "1499.90",
+      isActive: true,
+      isFeatured: true,
+      sortOrder: 4,
+      variants: {
+        create: [
+          {
+            sku: "BG-HCS-10P-BEYAZ",
+            size: "Yeni Doğan",
+            colorName: "Beyaz",
+            colorHex: "#FFFFFF",
+            stockQuantity: 9,
+            sortOrder: 1,
+            isActive: true,
+          },
+        ],
+      },
+      images: {
+        create: [
+          {
+            url: "/placeholders/products/hastane-seti.svg",
+            alt: "10 parça hastane çıkışı seti görseli",
+            isPrimary: true,
+            sortOrder: 1,
+          },
+        ],
+      },
+    },
+  });
+
+  return {
+    organicBabyRomper,
+    maternityDress,
+    careStarterSet,
+    hospitalExitSet,
   };
 }
 
@@ -164,6 +370,12 @@ async function seedPromoBanner() {
 async function seedHomeSections(input: {
   sliderId: string;
   bannerId: string;
+  products: {
+    organicBabyRomper: { id: string };
+    maternityDress: { id: string };
+    careStarterSet: { id: string };
+    hospitalExitSet: { id: string };
+  };
 }) {
   await prisma.homeSection.create({
     data: {
@@ -231,6 +443,56 @@ async function seedHomeSections(input: {
       isActive: true,
     },
   });
+
+  await prisma.homeSection.create({
+    data: {
+      type: HomeSectionType.PRODUCT_SHOWCASE,
+      eyebrow: "Öne Çıkanlar",
+      title: "Vitrine çıkarılan ürünler",
+      description:
+        "Bu bölüm ana sayfa ürün vitrini için veritabanından seçilen ürünleri göstermektedir.",
+      actionLabel: "Tüm Ürünleri Gör",
+      actionHref: "/kategori/bebek-giyim",
+      sortOrder: 4,
+      isActive: true,
+      items: {
+        create: [
+          {
+            itemType: HomeSectionItemType.PRODUCT_REFERENCE,
+            productId: input.products.organicBabyRomper.id,
+            badge: "Öne Çıkan",
+            tone: VisualTone.ROSE,
+            sortOrder: 1,
+            isActive: true,
+          },
+          {
+            itemType: HomeSectionItemType.PRODUCT_REFERENCE,
+            productId: input.products.maternityDress.id,
+            badge: "Yeni",
+            tone: VisualTone.SAGE,
+            sortOrder: 2,
+            isActive: true,
+          },
+          {
+            itemType: HomeSectionItemType.PRODUCT_REFERENCE,
+            productId: input.products.careStarterSet.id,
+            badge: "Seçili",
+            tone: VisualTone.PEACH,
+            sortOrder: 3,
+            isActive: true,
+          },
+          {
+            itemType: HomeSectionItemType.PRODUCT_REFERENCE,
+            productId: input.products.hospitalExitSet.id,
+            badge: "Çok Satan",
+            tone: VisualTone.ROSE,
+            sortOrder: 4,
+            isActive: true,
+          },
+        ],
+      },
+    },
+  });
 }
 
 async function main() {
@@ -238,7 +500,8 @@ async function main() {
 
   await clearSeedData();
 
-  await seedCategories();
+  const categories = await seedCategories();
+  const products = await seedProducts(categories);
 
   const slider = await seedHeroSlider();
   const banner = await seedPromoBanner();
@@ -246,6 +509,7 @@ async function main() {
   await seedHomeSections({
     sliderId: slider.id,
     bannerId: banner.id,
+    products,
   });
 
   console.log("Seed işlemi tamamlandı.");
