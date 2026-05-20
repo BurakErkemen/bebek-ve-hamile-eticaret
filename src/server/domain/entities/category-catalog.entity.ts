@@ -1,3 +1,15 @@
+﻿export type CategoryCatalogProductVariantEntity = {
+  id: string;
+  sku: string;
+  size?: string;
+  colorName?: string;
+  colorHex?: string;
+  price?: number;
+  compareAtPrice?: number;
+  stockQuantity: number;
+  isInStock: boolean;
+};
+
 export type CategoryCatalogProductEntity = {
   id: string;
   name: string;
@@ -9,6 +21,7 @@ export type CategoryCatalogProductEntity = {
   imageAlt?: string;
   badge?: string;
   tone: "rose" | "sage" | "peach";
+  variants: CategoryCatalogProductVariantEntity[];
 };
 
 export type CategoryFilterValueEntity = {

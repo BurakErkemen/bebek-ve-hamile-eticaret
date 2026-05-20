@@ -1,4 +1,4 @@
-export type HomepageVisualTone = "rose" | "sage" | "peach";
+﻿export type HomepageVisualTone = "rose" | "sage" | "peach";
 
 export type HomepageHeroSlideEntity = {
   id: string;
@@ -33,6 +33,18 @@ export type HomepagePromoBannerEntity = {
   tone: HomepageVisualTone;
 };
 
+export type HomepageProductVariantEntity = {
+  id: string;
+  sku: string;
+  size?: string;
+  colorName?: string;
+  colorHex?: string;
+  price?: number;
+  compareAtPrice?: number;
+  stockQuantity: number;
+  isInStock: boolean;
+};
+
 export type HomepageProductCardEntity = {
   id: string;
   name: string;
@@ -44,6 +56,7 @@ export type HomepageProductCardEntity = {
   imageUrl?: string | null;
   imageAlt?: string;
   tone: HomepageVisualTone;
+  variants: HomepageProductVariantEntity[];
 };
 
 export type HomepageSectionBaseEntity = {

@@ -234,6 +234,14 @@ export class PrismaCategoryCatalogRepository
             sortOrder: "asc",
           },
         },
+        variants: {
+          where: {
+            isActive: true,
+          },
+          orderBy: {
+            sortOrder: "asc",
+          },
+        },
       },
     });
 
@@ -256,6 +264,19 @@ export class PrismaCategoryCatalogRepository
           imageAlt: primaryImage?.alt ?? product.name,
           badge: product.isFeatured ? "Öne Çıkan" : undefined,
           tone: getProductTone(index),
+          variants: product.variants.map((variant) => ({
+            id: variant.id,
+            sku: variant.sku,
+            size: variant.size ?? undefined,
+            colorName: variant.colorName ?? undefined,
+            colorHex: variant.colorHex ?? undefined,
+            price: variant.price ? Number(variant.price) : undefined,
+            compareAtPrice: variant.compareAtPrice
+              ? Number(variant.compareAtPrice)
+              : undefined,
+            stockQuantity: variant.stockQuantity,
+            isInStock: variant.stockQuantity > 0,
+          })),
         };
       },
     );

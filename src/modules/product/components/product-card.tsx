@@ -1,5 +1,6 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
+import { ProductQuickAdd } from "@/modules/product/components/product-quick-add";
 import type { ProductCardItem } from "@/modules/product/types/product-card.types";
 
 type ProductCardProps = {
@@ -76,12 +77,7 @@ export function ProductCard({ product }: ProductCardProps) {
       </Link>
 
       <div className="border-t border-brand-border px-5 py-4">
-        <button
-          type="button"
-          className="w-full rounded-full bg-brand-secondary px-4 py-3 text-sm font-semibold text-brand-text transition hover:bg-brand-primary hover:text-white"
-        >
-          Sepete Ekle
-        </button>
+        <ProductQuickAdd product={product} />
       </div>
     </article>
   );

@@ -69,6 +69,14 @@ export class PrismaHomepageContentRepository
                     sortOrder: "asc",
                   },
                 },
+                variants: {
+                  where: {
+                    isActive: true,
+                  },
+                  orderBy: {
+                    sortOrder: "asc",
+                  },
+                },
               },
             },
           },
@@ -212,6 +220,19 @@ export class PrismaHomepageContentRepository
                 imageUrl: primaryImage?.url ?? null,
                 imageAlt: primaryImage?.alt ?? product.name,
                 tone: mapVisualTone(item.tone),
+                variants: product.variants.map((variant) => ({
+                  id: variant.id,
+                  sku: variant.sku,
+                  size: variant.size ?? undefined,
+                  colorName: variant.colorName ?? undefined,
+                  colorHex: variant.colorHex ?? undefined,
+                  price: variant.price ? Number(variant.price) : undefined,
+                  compareAtPrice: variant.compareAtPrice
+                    ? Number(variant.compareAtPrice)
+                    : undefined,
+                  stockQuantity: variant.stockQuantity,
+                  isInStock: variant.stockQuantity > 0,
+                })),
               };
             });
 
