@@ -38,6 +38,26 @@ export type ProductVariant = Prisma.ProductVariantModel
  */
 export type ProductImage = Prisma.ProductImageModel
 /**
+ * Model Attribute
+ * 
+ */
+export type Attribute = Prisma.AttributeModel
+/**
+ * Model AttributeValue
+ * 
+ */
+export type AttributeValue = Prisma.AttributeValueModel
+/**
+ * Model CategoryAttribute
+ * 
+ */
+export type CategoryAttribute = Prisma.CategoryAttributeModel
+/**
+ * Model ProductAttributeValue
+ * 
+ */
+export type ProductAttributeValue = Prisma.ProductAttributeValueModel
+/**
  * Model Slider
  * 
  */

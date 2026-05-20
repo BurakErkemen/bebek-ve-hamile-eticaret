@@ -36,6 +36,13 @@ enum HomeSectionItemType {
   PRODUCT_REFERENCE
 }
 
+enum AttributeDisplayType {
+  CHECKBOX
+  RADIO
+  COLOR_SWATCH
+  BADGE
+}
+
 model Category {
   id          String     @id @default(cuid())
   name        String
@@ -48,6 +55,7 @@ model Category {
 
   products          Product[]
   homeSectionItems  HomeSectionItem[]
+  attributes        CategoryAttribute[]
 
   isActive    Boolean    @default(true)
   sortOrder   Int        @default(0)
@@ -81,6 +89,7 @@ model Product {
   variants         ProductVariant[]
   images           ProductImage[]
   homeSectionItems HomeSectionItem[]
+  attributeValues  ProductAttributeValue[]
 
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
@@ -133,6 +142,84 @@ model ProductImage {
   updatedAt   DateTime @updatedAt
 
   @@index([productId, isPrimary, sortOrder])
+}
+
+model Attribute {
+  id           String               @id @default(cuid())
+  name         String
+  slug         String               @unique
+  displayType  AttributeDisplayType @default(CHECKBOX)
+
+  isFilterable Boolean              @default(true)
+  isVisibleOnProductDetail Boolean @default(true)
+  isActive     Boolean              @default(true)
+  sortOrder    Int                  @default(0)
+
+  values       AttributeValue[]
+  categories   CategoryAttribute[]
+
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+
+  @@index([isFilterable, isActive, sortOrder])
+}
+
+model AttributeValue {
+  id           String                  @id @default(cuid())
+
+  attributeId  String
+  attribute    Attribute               @relation(fields: [attributeId], references: [id], onDelete: Cascade)
+
+  value        String
+  slug         String
+
+  colorHex     String?
+  sortOrder    Int                     @default(0)
+  isActive     Boolean                 @default(true)
+
+  productLinks ProductAttributeValue[]
+
+  createdAt    DateTime                @default(now())
+  updatedAt    DateTime                @updatedAt
+
+  @@unique([attributeId, slug])
+  @@index([attributeId, isActive, sortOrder])
+}
+
+model CategoryAttribute {
+  id              String    @id @default(cuid())
+
+  categoryId      String
+  category        Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  attributeId     String
+  attribute       Attribute @relation(fields: [attributeId], references: [id], onDelete: Cascade)
+
+  isFilterVisible Boolean   @default(true)
+  sortOrder       Int       @default(0)
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([categoryId, attributeId])
+  @@index([categoryId, isFilterVisible, sortOrder])
+}
+
+model ProductAttributeValue {
+  id               String         @id @default(cuid())
+
+  productId        String
+  product          Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  attributeValueId String
+  attributeValue   AttributeValue @relation(fields: [attributeValueId], references: [id], onDelete: Cascade)
+
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@unique([productId, attributeValueId])
+  @@index([productId])
+  @@index([attributeValueId])
 }
 
 model Slider {

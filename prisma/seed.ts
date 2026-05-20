@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import {
+  AttributeDisplayType,
   BannerPlacement,
   HomeSectionItemType,
   HomeSectionType,
@@ -33,6 +34,11 @@ const prisma = new PrismaClient({
 });
 
 async function clearSeedData() {
+  await prisma.productAttributeValue.deleteMany();
+  await prisma.categoryAttribute.deleteMany();
+  await prisma.attributeValue.deleteMany();
+  await prisma.attribute.deleteMany();
+
   await prisma.homeSectionItem.deleteMany();
   await prisma.homeSection.deleteMany();
 
@@ -208,7 +214,7 @@ async function seedProducts(categories: {
       shortDescription:
         "Yeni doğan bakım rutinine uygun başlangıç paketi.",
       description:
-        "Anne ve bebek bakımında temel ihtiyaçları bir araya getiren örnek ürün seti. Bu kayıt ileride gerçek bakım kategorisi ürünleriyle genişletilecek.",
+        "Anne ve bebek bakımında temel ihtiyaçları bir araya getiren örnek ürün seti.",
       basePrice: "749.90",
       compareAtPrice: null,
       isActive: true,
@@ -248,7 +254,7 @@ async function seedProducts(categories: {
       shortDescription:
         "Yeni doğan hazırlığı için düzenlenmiş kapsamlı çıkış seti.",
       description:
-        "Hastane sonrası ilk ihtiyaçları kapsayacak şekilde oluşturulan 10 parçalık bebek çıkış seti. Ürün vitrini, kategori filtreleri ve stok yönetimi senaryoları için örnek kayıt olarak kullanılacaktır.",
+        "Hastane sonrası ilk ihtiyaçları kapsayacak şekilde oluşturulan 10 parçalık bebek çıkış seti.",
       basePrice: "1299.90",
       compareAtPrice: "1499.90",
       isActive: true,
@@ -286,6 +292,327 @@ async function seedProducts(categories: {
     careStarterSet,
     hospitalExitSet,
   };
+}
+
+async function seedAttributes(input: {
+  categories: {
+    babyClothing: { id: string };
+    maternityClothing: { id: string };
+    motherBaby: { id: string };
+  };
+  products: {
+    organicBabyRomper: { id: string };
+    maternityDress: { id: string };
+    careStarterSet: { id: string };
+    hospitalExitSet: { id: string };
+  };
+}) {
+  const sizeAttribute = await prisma.attribute.create({
+    data: {
+      name: "Beden",
+      slug: "beden",
+      displayType: AttributeDisplayType.CHECKBOX,
+      isFilterable: true,
+      isVisibleOnProductDetail: true,
+      isActive: true,
+      sortOrder: 1,
+      values: {
+        create: [
+          { value: "0-3 Ay", slug: "0-3-ay", sortOrder: 1 },
+          { value: "3-6 Ay", slug: "3-6-ay", sortOrder: 2 },
+          { value: "Yeni Doğan", slug: "yeni-dogan", sortOrder: 3 },
+          { value: "S", slug: "s", sortOrder: 4 },
+          { value: "M", slug: "m", sortOrder: 5 },
+          { value: "L", slug: "l", sortOrder: 6 },
+        ],
+      },
+    },
+    include: {
+      values: true,
+    },
+  });
+
+  const colorAttribute = await prisma.attribute.create({
+    data: {
+      name: "Renk",
+      slug: "renk",
+      displayType: AttributeDisplayType.COLOR_SWATCH,
+      isFilterable: true,
+      isVisibleOnProductDetail: true,
+      isActive: true,
+      sortOrder: 2,
+      values: {
+        create: [
+          {
+            value: "Ekru",
+            slug: "ekru",
+            colorHex: "#F6EFE7",
+            sortOrder: 1,
+          },
+          {
+            value: "Pudra",
+            slug: "pudra",
+            colorHex: "#F2D6DC",
+            sortOrder: 2,
+          },
+          {
+            value: "Gül Kurusu",
+            slug: "gul-kurusu",
+            colorHex: "#C9929B",
+            sortOrder: 3,
+          },
+          {
+            value: "Beyaz",
+            slug: "beyaz",
+            colorHex: "#FFFFFF",
+            sortOrder: 4,
+          },
+        ],
+      },
+    },
+    include: {
+      values: true,
+    },
+  });
+
+  const fabricAttribute = await prisma.attribute.create({
+    data: {
+      name: "Kumaş",
+      slug: "kumas",
+      displayType: AttributeDisplayType.CHECKBOX,
+      isFilterable: true,
+      isVisibleOnProductDetail: true,
+      isActive: true,
+      sortOrder: 3,
+      values: {
+        create: [
+          {
+            value: "Organik Pamuk",
+            slug: "organik-pamuk",
+            sortOrder: 1,
+          },
+        ],
+      },
+    },
+    include: {
+      values: true,
+    },
+  });
+
+  const fitAttribute = await prisma.attribute.create({
+    data: {
+      name: "Kalıp",
+      slug: "kalip",
+      displayType: AttributeDisplayType.CHECKBOX,
+      isFilterable: true,
+      isVisibleOnProductDetail: true,
+      isActive: true,
+      sortOrder: 4,
+      values: {
+        create: [
+          {
+            value: "Rahat Kesim",
+            slug: "rahat-kesim",
+            sortOrder: 1,
+          },
+        ],
+      },
+    },
+    include: {
+      values: true,
+    },
+  });
+
+  const productTypeAttribute = await prisma.attribute.create({
+    data: {
+      name: "Ürün Tipi",
+      slug: "urun-tipi",
+      displayType: AttributeDisplayType.CHECKBOX,
+      isFilterable: true,
+      isVisibleOnProductDetail: true,
+      isActive: true,
+      sortOrder: 5,
+      values: {
+        create: [
+          {
+            value: "Bakım Seti",
+            slug: "bakim-seti",
+            sortOrder: 1,
+          },
+        ],
+      },
+    },
+    include: {
+      values: true,
+    },
+  });
+
+  const pieceCountAttribute = await prisma.attribute.create({
+    data: {
+      name: "Parça Sayısı",
+      slug: "parca-sayisi",
+      displayType: AttributeDisplayType.CHECKBOX,
+      isFilterable: true,
+      isVisibleOnProductDetail: true,
+      isActive: true,
+      sortOrder: 6,
+      values: {
+        create: [
+          {
+            value: "10 Parça",
+            slug: "10-parca",
+            sortOrder: 1,
+          },
+        ],
+      },
+    },
+    include: {
+      values: true,
+    },
+  });
+
+  await prisma.categoryAttribute.createMany({
+    data: [
+      {
+        categoryId: input.categories.babyClothing.id,
+        attributeId: sizeAttribute.id,
+        isFilterVisible: true,
+        sortOrder: 1,
+      },
+      {
+        categoryId: input.categories.babyClothing.id,
+        attributeId: colorAttribute.id,
+        isFilterVisible: true,
+        sortOrder: 2,
+      },
+      {
+        categoryId: input.categories.babyClothing.id,
+        attributeId: fabricAttribute.id,
+        isFilterVisible: true,
+        sortOrder: 3,
+      },
+      {
+        categoryId: input.categories.babyClothing.id,
+        attributeId: pieceCountAttribute.id,
+        isFilterVisible: true,
+        sortOrder: 4,
+      },
+
+      {
+        categoryId: input.categories.maternityClothing.id,
+        attributeId: sizeAttribute.id,
+        isFilterVisible: true,
+        sortOrder: 1,
+      },
+      {
+        categoryId: input.categories.maternityClothing.id,
+        attributeId: colorAttribute.id,
+        isFilterVisible: true,
+        sortOrder: 2,
+      },
+      {
+        categoryId: input.categories.maternityClothing.id,
+        attributeId: fitAttribute.id,
+        isFilterVisible: true,
+        sortOrder: 3,
+      },
+
+      {
+        categoryId: input.categories.motherBaby.id,
+        attributeId: productTypeAttribute.id,
+        isFilterVisible: true,
+        sortOrder: 1,
+      },
+    ],
+  });
+
+  const sizeMap = Object.fromEntries(
+    sizeAttribute.values.map((value) => [value.slug, value.id]),
+  );
+
+  const colorMap = Object.fromEntries(
+    colorAttribute.values.map((value) => [value.slug, value.id]),
+  );
+
+  const fabricMap = Object.fromEntries(
+    fabricAttribute.values.map((value) => [value.slug, value.id]),
+  );
+
+  const fitMap = Object.fromEntries(
+    fitAttribute.values.map((value) => [value.slug, value.id]),
+  );
+
+  const productTypeMap = Object.fromEntries(
+    productTypeAttribute.values.map((value) => [value.slug, value.id]),
+  );
+
+  const pieceCountMap = Object.fromEntries(
+    pieceCountAttribute.values.map((value) => [value.slug, value.id]),
+  );
+
+  await prisma.productAttributeValue.createMany({
+    data: [
+      {
+        productId: input.products.organicBabyRomper.id,
+        attributeValueId: sizeMap["0-3-ay"],
+      },
+      {
+        productId: input.products.organicBabyRomper.id,
+        attributeValueId: sizeMap["3-6-ay"],
+      },
+      {
+        productId: input.products.organicBabyRomper.id,
+        attributeValueId: colorMap["ekru"],
+      },
+      {
+        productId: input.products.organicBabyRomper.id,
+        attributeValueId: colorMap["pudra"],
+      },
+      {
+        productId: input.products.organicBabyRomper.id,
+        attributeValueId: fabricMap["organik-pamuk"],
+      },
+
+      {
+        productId: input.products.maternityDress.id,
+        attributeValueId: sizeMap["s"],
+      },
+      {
+        productId: input.products.maternityDress.id,
+        attributeValueId: sizeMap["m"],
+      },
+      {
+        productId: input.products.maternityDress.id,
+        attributeValueId: sizeMap["l"],
+      },
+      {
+        productId: input.products.maternityDress.id,
+        attributeValueId: colorMap["gul-kurusu"],
+      },
+      {
+        productId: input.products.maternityDress.id,
+        attributeValueId: fitMap["rahat-kesim"],
+      },
+
+      {
+        productId: input.products.careStarterSet.id,
+        attributeValueId: productTypeMap["bakim-seti"],
+      },
+
+      {
+        productId: input.products.hospitalExitSet.id,
+        attributeValueId: sizeMap["yeni-dogan"],
+      },
+      {
+        productId: input.products.hospitalExitSet.id,
+        attributeValueId: colorMap["beyaz"],
+      },
+      {
+        productId: input.products.hospitalExitSet.id,
+        attributeValueId: pieceCountMap["10-parca"],
+      },
+    ],
+  });
 }
 
 async function seedHeroSlider() {
@@ -502,6 +829,11 @@ async function main() {
 
   const categories = await seedCategories();
   const products = await seedProducts(categories);
+
+  await seedAttributes({
+    categories,
+    products,
+  });
 
   const slider = await seedHeroSlider();
   const banner = await seedPromoBanner();

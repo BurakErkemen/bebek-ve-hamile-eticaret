@@ -1,12 +1,21 @@
 import type { CategoryCatalogEntity } from "@/server/domain/entities/category-catalog.entity";
-import type { CategoryCatalogRepository } from "@/server/domain/repositories/category-catalog.repository";
+import type {
+  CategoryCatalogQuery,
+  CategoryCatalogRepository,
+} from "@/server/domain/repositories/category-catalog.repository";
 
 export class GetCategoryCatalogUseCase {
   constructor(
     private readonly categoryCatalogRepository: CategoryCatalogRepository,
   ) {}
 
-  async execute(slug: string): Promise<CategoryCatalogEntity | null> {
-    return this.categoryCatalogRepository.findCategoryCatalogBySlug(slug);
+  async execute(
+    slug: string,
+    query: CategoryCatalogQuery,
+  ): Promise<CategoryCatalogEntity | null> {
+    return this.categoryCatalogRepository.findCategoryCatalogBySlug(
+      slug,
+      query,
+    );
   }
 }

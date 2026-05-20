@@ -204,6 +204,23 @@ export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
 }
 
+export type EnumAttributeDisplayTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.AttributeDisplayType | Prisma.EnumAttributeDisplayTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.AttributeDisplayType[]
+  notIn?: $Enums.AttributeDisplayType[]
+  not?: Prisma.NestedEnumAttributeDisplayTypeFilter<$PrismaModel> | $Enums.AttributeDisplayType
+}
+
+export type EnumAttributeDisplayTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.AttributeDisplayType | Prisma.EnumAttributeDisplayTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.AttributeDisplayType[]
+  notIn?: $Enums.AttributeDisplayType[]
+  not?: Prisma.NestedEnumAttributeDisplayTypeWithAggregatesFilter<$PrismaModel> | $Enums.AttributeDisplayType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAttributeDisplayTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAttributeDisplayTypeFilter<$PrismaModel>
+}
+
 export type EnumSliderPlacementFilter<$PrismaModel = never> = {
   equals?: $Enums.SliderPlacement | Prisma.EnumSliderPlacementFieldRefInput<$PrismaModel>
   in?: $Enums.SliderPlacement[]
@@ -494,6 +511,23 @@ export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
   _min?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
   _max?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumAttributeDisplayTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.AttributeDisplayType | Prisma.EnumAttributeDisplayTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.AttributeDisplayType[]
+  notIn?: $Enums.AttributeDisplayType[]
+  not?: Prisma.NestedEnumAttributeDisplayTypeFilter<$PrismaModel> | $Enums.AttributeDisplayType
+}
+
+export type NestedEnumAttributeDisplayTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.AttributeDisplayType | Prisma.EnumAttributeDisplayTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.AttributeDisplayType[]
+  notIn?: $Enums.AttributeDisplayType[]
+  not?: Prisma.NestedEnumAttributeDisplayTypeWithAggregatesFilter<$PrismaModel> | $Enums.AttributeDisplayType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAttributeDisplayTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAttributeDisplayTypeFilter<$PrismaModel>
 }
 
 export type NestedEnumSliderPlacementFilter<$PrismaModel = never> = {

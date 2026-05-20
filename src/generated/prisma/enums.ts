@@ -51,3 +51,13 @@ export const HomeSectionItemType = {
 } as const
 
 export type HomeSectionItemType = (typeof HomeSectionItemType)[keyof typeof HomeSectionItemType]
+
+
+export const AttributeDisplayType = {
+  CHECKBOX: 'CHECKBOX',
+  RADIO: 'RADIO',
+  COLOR_SWATCH: 'COLOR_SWATCH',
+  BADGE: 'BADGE'
+} as const
+
+export type AttributeDisplayType = (typeof AttributeDisplayType)[keyof typeof AttributeDisplayType]
