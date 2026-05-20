@@ -70,7 +70,12 @@ export default async function ProductPage({
         />
 
         <ProductPurchasePanel
+          productId={product.id}
+          productSlug={product.slug}
           productName={product.name}
+          categoryLabel={product.category.name}
+          imageUrl={product.images[0]?.url ?? null}
+          imageAlt={product.images[0]?.alt ?? product.name}
           basePrice={product.basePrice}
           compareAtPrice={product.compareAtPrice}
           variants={product.variants}

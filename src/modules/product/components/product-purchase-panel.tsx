@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useCartStore } from "@/modules/cart/store/cart.store";
 
 type ProductVariant = {
   id: string;
@@ -15,7 +16,13 @@ type ProductVariant = {
 };
 
 type ProductPurchasePanelProps = {
+  productId: string;
+  productSlug: string;
   productName: string;
+  categoryLabel: string;
+  imageUrl?: string | null;
+  imageAlt?: string;
+
   basePrice: number;
   compareAtPrice?: number;
   variants: ProductVariant[];
@@ -38,18 +45,28 @@ function buildVariantLabel(variant: ProductVariant): string {
 }
 
 export function ProductPurchasePanel({
+  productId,
+  productSlug,
   productName,
+  categoryLabel,
+  imageUrl,
+  imageAlt,
   basePrice,
   compareAtPrice,
   variants,
   isFeatured,
 }: ProductPurchasePanelProps) {
+  const addItem = useCartStore((state) => state.addItem);
+  const openDrawer = useCartStore((state) => state.openDrawer);
+
   const initialVariant =
     variants.find((variant) => variant.isInStock) ?? variants[0];
 
   const [selectedVariantId, setSelectedVariantId] = useState(
     initialVariant?.id ?? "",
   );
+
+  const [feedbackMessage, setFeedbackMessage] = useState("");
 
   const selectedVariant = useMemo(() => {
     return (
@@ -65,6 +82,31 @@ export function ProductPurchasePanel({
   const isInStock = selectedVariant
     ? selectedVariant.isInStock
     : false;
+
+  function handleAddToCart() {
+    if (!selectedVariant || !selectedVariant.isInStock) {
+      return;
+    }
+
+    addItem({
+      productId,
+      variantId: selectedVariant.id,
+      sku: selectedVariant.sku,
+      productName,
+      productSlug,
+      categoryLabel,
+      imageUrl,
+      imageAlt,
+      variantLabel: buildVariantLabel(selectedVariant),
+      unitPrice: currentPrice,
+      compareAtPrice: currentCompareAtPrice,
+      stockQuantity: selectedVariant.stockQuantity,
+      quantity: 1,
+    });
+
+    setFeedbackMessage("Ürün sepete eklendi.");
+    openDrawer();
+  }
 
   return (
     <section className="rounded-[var(--radius-brand-xl)] border border-brand-border bg-brand-white p-6 md:p-8">
@@ -165,6 +207,7 @@ export function ProductPurchasePanel({
       <div className="mt-8 grid gap-3 sm:grid-cols-[1fr_auto]">
         <button
           type="button"
+          onClick={handleAddToCart}
           disabled={!isInStock}
           className="rounded-full bg-brand-primary px-6 py-4 font-semibold text-white transition hover:bg-brand-primary-dark disabled:cursor-not-allowed disabled:bg-brand-muted"
         >
@@ -180,10 +223,11 @@ export function ProductPurchasePanel({
         </button>
       </div>
 
-      <p className="mt-4 text-sm leading-6 text-brand-muted">
-        Sepet ve ödeme butonları bir sonraki alışveriş akışı adımlarında
-        gerçek backend işlemlerine bağlanacak.
-      </p>
+      {feedbackMessage ? (
+        <p className="mt-4 rounded-2xl bg-brand-accent/25 px-4 py-3 text-sm font-semibold text-[#4f7761]">
+          {feedbackMessage}
+        </p>
+      ) : null}
     </section>
   );
 }

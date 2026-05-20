@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HeaderCartButton } from "@/components/layout/header-cart-button";
 
 const mainNavigation = [
   {
@@ -61,15 +62,7 @@ export function Header() {
             Giriş Yap
           </Link>
 
-          <Link
-            href="/sepet"
-            className="inline-flex items-center gap-2 rounded-full bg-brand-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-primary-dark"
-          >
-            <span>Sepet</span>
-            <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-white px-1 text-xs font-bold text-brand-primary-dark">
-              0
-            </span>
-          </Link>
+          <HeaderCartButton />
         </div>
       </div>
 

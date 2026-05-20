@@ -61,3 +61,26 @@ export const AttributeDisplayType = {
 } as const
 
 export type AttributeDisplayType = (typeof AttributeDisplayType)[keyof typeof AttributeDisplayType]
+
+
+export const OrderStatus = {
+  DRAFT: 'DRAFT',
+  PENDING_PAYMENT: 'PENDING_PAYMENT',
+  PROCESSING: 'PROCESSING',
+  SHIPPED: 'SHIPPED',
+  DELIVERED: 'DELIVERED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
+
+
+export const PaymentStatus = {
+  NOT_STARTED: 'NOT_STARTED',
+  PENDING: 'PENDING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED'
+} as const
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
