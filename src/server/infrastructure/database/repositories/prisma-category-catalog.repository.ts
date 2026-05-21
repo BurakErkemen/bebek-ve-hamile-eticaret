@@ -211,39 +211,39 @@ export class PrismaCategoryCatalogRepository
     const hasPriceFilter = Object.keys(priceFilter).length > 0;
 
     const products = await prisma.product.findMany({
+  where: {
+    categoryId: category.id,
+    isActive: true,
+
+    ...(hasPriceFilter
+      ? {
+          basePrice: priceFilter,
+        }
+      : {}),
+
+    ...(attributeFilterClauses.length > 0
+      ? {
+          AND: attributeFilterClauses,
+        }
+      : {}),
+  },
+  orderBy: buildOrderBy(query.sort),
+  include: {
+    images: {
+      orderBy: {
+        sortOrder: "asc",
+      },
+    },
+    variants: {
       where: {
-        categoryId: category.id,
         isActive: true,
-
-        ...(hasPriceFilter
-          ? {
-              basePrice: priceFilter,
-            }
-          : {}),
-
-        ...(attributeFilterClauses.length > 0
-          ? {
-              AND: attributeFilterClauses,
-            }
-          : {}),
       },
-      orderBy: buildOrderBy(query.sort),
-      include: {
-        images: {
-          orderBy: {
-            sortOrder: "asc",
-          },
-        },
-        variants: {
-          where: {
-            isActive: true,
-          },
-          orderBy: {
-            sortOrder: "asc",
-          },
-        },
+      orderBy: {
+        sortOrder: "asc",
       },
-    });
+    },
+  },
+});
 
     const mappedProducts: CategoryCatalogProductEntity[] = products.map(
       (product, index) => {

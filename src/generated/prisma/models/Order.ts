@@ -27,6 +27,7 @@ export type AggregateOrder = {
 }
 
 export type OrderAvgAggregateOutputType = {
+  paytrTotalAmount: runtime.Decimal | null
   subtotal: runtime.Decimal | null
   shippingFee: runtime.Decimal | null
   discountAmount: runtime.Decimal | null
@@ -34,6 +35,7 @@ export type OrderAvgAggregateOutputType = {
 }
 
 export type OrderSumAggregateOutputType = {
+  paytrTotalAmount: runtime.Decimal | null
   subtotal: runtime.Decimal | null
   shippingFee: runtime.Decimal | null
   discountAmount: runtime.Decimal | null
@@ -46,6 +48,11 @@ export type OrderMinAggregateOutputType = {
   merchantOid: string | null
   status: $Enums.OrderStatus | null
   paymentStatus: $Enums.PaymentStatus | null
+  paytrTotalAmount: runtime.Decimal | null
+  paymentFailureCode: string | null
+  paymentFailureMessage: string | null
+  paidAt: Date | null
+  cancelledAt: Date | null
   customerFirstName: string | null
   customerLastName: string | null
   customerEmail: string | null
@@ -71,6 +78,11 @@ export type OrderMaxAggregateOutputType = {
   merchantOid: string | null
   status: $Enums.OrderStatus | null
   paymentStatus: $Enums.PaymentStatus | null
+  paytrTotalAmount: runtime.Decimal | null
+  paymentFailureCode: string | null
+  paymentFailureMessage: string | null
+  paidAt: Date | null
+  cancelledAt: Date | null
   customerFirstName: string | null
   customerLastName: string | null
   customerEmail: string | null
@@ -96,6 +108,11 @@ export type OrderCountAggregateOutputType = {
   merchantOid: number
   status: number
   paymentStatus: number
+  paytrTotalAmount: number
+  paymentFailureCode: number
+  paymentFailureMessage: number
+  paidAt: number
+  cancelledAt: number
   customerFirstName: number
   customerLastName: number
   customerEmail: number
@@ -118,6 +135,7 @@ export type OrderCountAggregateOutputType = {
 
 
 export type OrderAvgAggregateInputType = {
+  paytrTotalAmount?: true
   subtotal?: true
   shippingFee?: true
   discountAmount?: true
@@ -125,6 +143,7 @@ export type OrderAvgAggregateInputType = {
 }
 
 export type OrderSumAggregateInputType = {
+  paytrTotalAmount?: true
   subtotal?: true
   shippingFee?: true
   discountAmount?: true
@@ -137,6 +156,11 @@ export type OrderMinAggregateInputType = {
   merchantOid?: true
   status?: true
   paymentStatus?: true
+  paytrTotalAmount?: true
+  paymentFailureCode?: true
+  paymentFailureMessage?: true
+  paidAt?: true
+  cancelledAt?: true
   customerFirstName?: true
   customerLastName?: true
   customerEmail?: true
@@ -162,6 +186,11 @@ export type OrderMaxAggregateInputType = {
   merchantOid?: true
   status?: true
   paymentStatus?: true
+  paytrTotalAmount?: true
+  paymentFailureCode?: true
+  paymentFailureMessage?: true
+  paidAt?: true
+  cancelledAt?: true
   customerFirstName?: true
   customerLastName?: true
   customerEmail?: true
@@ -187,6 +216,11 @@ export type OrderCountAggregateInputType = {
   merchantOid?: true
   status?: true
   paymentStatus?: true
+  paytrTotalAmount?: true
+  paymentFailureCode?: true
+  paymentFailureMessage?: true
+  paidAt?: true
+  cancelledAt?: true
   customerFirstName?: true
   customerLastName?: true
   customerEmail?: true
@@ -299,6 +333,11 @@ export type OrderGroupByOutputType = {
   merchantOid: string | null
   status: $Enums.OrderStatus
   paymentStatus: $Enums.PaymentStatus
+  paytrTotalAmount: runtime.Decimal | null
+  paymentFailureCode: string | null
+  paymentFailureMessage: string | null
+  paidAt: Date | null
+  cancelledAt: Date | null
   customerFirstName: string
   customerLastName: string
   customerEmail: string
@@ -347,6 +386,11 @@ export type OrderWhereInput = {
   merchantOid?: Prisma.StringNullableFilter<"Order"> | string | null
   status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumPaymentStatusFilter<"Order"> | $Enums.PaymentStatus
+  paytrTotalAmount?: Prisma.DecimalNullableFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentFailureCode?: Prisma.StringNullableFilter<"Order"> | string | null
+  paymentFailureMessage?: Prisma.StringNullableFilter<"Order"> | string | null
+  paidAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
+  cancelledAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
   customerFirstName?: Prisma.StringFilter<"Order"> | string
   customerLastName?: Prisma.StringFilter<"Order"> | string
   customerEmail?: Prisma.StringFilter<"Order"> | string
@@ -373,6 +417,11 @@ export type OrderOrderByWithRelationInput = {
   merchantOid?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
+  paytrTotalAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentFailureCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentFailureMessage?: Prisma.SortOrderInput | Prisma.SortOrder
+  paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   customerFirstName?: Prisma.SortOrder
   customerLastName?: Prisma.SortOrder
   customerEmail?: Prisma.SortOrder
@@ -403,6 +452,11 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.OrderWhereInput | Prisma.OrderWhereInput[]
   status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumPaymentStatusFilter<"Order"> | $Enums.PaymentStatus
+  paytrTotalAmount?: Prisma.DecimalNullableFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentFailureCode?: Prisma.StringNullableFilter<"Order"> | string | null
+  paymentFailureMessage?: Prisma.StringNullableFilter<"Order"> | string | null
+  paidAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
+  cancelledAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
   customerFirstName?: Prisma.StringFilter<"Order"> | string
   customerLastName?: Prisma.StringFilter<"Order"> | string
   customerEmail?: Prisma.StringFilter<"Order"> | string
@@ -429,6 +483,11 @@ export type OrderOrderByWithAggregationInput = {
   merchantOid?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
+  paytrTotalAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentFailureCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentFailureMessage?: Prisma.SortOrderInput | Prisma.SortOrder
+  paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   customerFirstName?: Prisma.SortOrder
   customerLastName?: Prisma.SortOrder
   customerEmail?: Prisma.SortOrder
@@ -462,6 +521,11 @@ export type OrderScalarWhereWithAggregatesInput = {
   merchantOid?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
   status?: Prisma.EnumOrderStatusWithAggregatesFilter<"Order"> | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumPaymentStatusWithAggregatesFilter<"Order"> | $Enums.PaymentStatus
+  paytrTotalAmount?: Prisma.DecimalNullableWithAggregatesFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentFailureCode?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  paymentFailureMessage?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  paidAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
+  cancelledAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
   customerFirstName?: Prisma.StringWithAggregatesFilter<"Order"> | string
   customerLastName?: Prisma.StringWithAggregatesFilter<"Order"> | string
   customerEmail?: Prisma.StringWithAggregatesFilter<"Order"> | string
@@ -487,6 +551,11 @@ export type OrderCreateInput = {
   merchantOid?: string | null
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.PaymentStatus
+  paytrTotalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentFailureCode?: string | null
+  paymentFailureMessage?: string | null
+  paidAt?: Date | string | null
+  cancelledAt?: Date | string | null
   customerFirstName: string
   customerLastName: string
   customerEmail: string
@@ -513,6 +582,11 @@ export type OrderUncheckedCreateInput = {
   merchantOid?: string | null
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.PaymentStatus
+  paytrTotalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentFailureCode?: string | null
+  paymentFailureMessage?: string | null
+  paidAt?: Date | string | null
+  cancelledAt?: Date | string | null
   customerFirstName: string
   customerLastName: string
   customerEmail: string
@@ -539,6 +613,11 @@ export type OrderUpdateInput = {
   merchantOid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paytrTotalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentFailureCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentFailureMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerFirstName?: Prisma.StringFieldUpdateOperationsInput | string
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   customerEmail?: Prisma.StringFieldUpdateOperationsInput | string
@@ -565,6 +644,11 @@ export type OrderUncheckedUpdateInput = {
   merchantOid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paytrTotalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentFailureCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentFailureMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerFirstName?: Prisma.StringFieldUpdateOperationsInput | string
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   customerEmail?: Prisma.StringFieldUpdateOperationsInput | string
@@ -591,6 +675,11 @@ export type OrderCreateManyInput = {
   merchantOid?: string | null
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.PaymentStatus
+  paytrTotalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentFailureCode?: string | null
+  paymentFailureMessage?: string | null
+  paidAt?: Date | string | null
+  cancelledAt?: Date | string | null
   customerFirstName: string
   customerLastName: string
   customerEmail: string
@@ -616,6 +705,11 @@ export type OrderUpdateManyMutationInput = {
   merchantOid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paytrTotalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentFailureCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentFailureMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerFirstName?: Prisma.StringFieldUpdateOperationsInput | string
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   customerEmail?: Prisma.StringFieldUpdateOperationsInput | string
@@ -641,6 +735,11 @@ export type OrderUncheckedUpdateManyInput = {
   merchantOid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paytrTotalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentFailureCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentFailureMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerFirstName?: Prisma.StringFieldUpdateOperationsInput | string
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   customerEmail?: Prisma.StringFieldUpdateOperationsInput | string
@@ -672,6 +771,11 @@ export type OrderCountOrderByAggregateInput = {
   merchantOid?: Prisma.SortOrder
   status?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
+  paytrTotalAmount?: Prisma.SortOrder
+  paymentFailureCode?: Prisma.SortOrder
+  paymentFailureMessage?: Prisma.SortOrder
+  paidAt?: Prisma.SortOrder
+  cancelledAt?: Prisma.SortOrder
   customerFirstName?: Prisma.SortOrder
   customerLastName?: Prisma.SortOrder
   customerEmail?: Prisma.SortOrder
@@ -692,6 +796,7 @@ export type OrderCountOrderByAggregateInput = {
 }
 
 export type OrderAvgOrderByAggregateInput = {
+  paytrTotalAmount?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   shippingFee?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
@@ -704,6 +809,11 @@ export type OrderMaxOrderByAggregateInput = {
   merchantOid?: Prisma.SortOrder
   status?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
+  paytrTotalAmount?: Prisma.SortOrder
+  paymentFailureCode?: Prisma.SortOrder
+  paymentFailureMessage?: Prisma.SortOrder
+  paidAt?: Prisma.SortOrder
+  cancelledAt?: Prisma.SortOrder
   customerFirstName?: Prisma.SortOrder
   customerLastName?: Prisma.SortOrder
   customerEmail?: Prisma.SortOrder
@@ -729,6 +839,11 @@ export type OrderMinOrderByAggregateInput = {
   merchantOid?: Prisma.SortOrder
   status?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
+  paytrTotalAmount?: Prisma.SortOrder
+  paymentFailureCode?: Prisma.SortOrder
+  paymentFailureMessage?: Prisma.SortOrder
+  paidAt?: Prisma.SortOrder
+  cancelledAt?: Prisma.SortOrder
   customerFirstName?: Prisma.SortOrder
   customerLastName?: Prisma.SortOrder
   customerEmail?: Prisma.SortOrder
@@ -749,6 +864,7 @@ export type OrderMinOrderByAggregateInput = {
 }
 
 export type OrderSumOrderByAggregateInput = {
+  paytrTotalAmount?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   shippingFee?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
@@ -766,6 +882,10 @@ export type EnumOrderStatusFieldUpdateOperationsInput = {
 
 export type EnumPaymentStatusFieldUpdateOperationsInput = {
   set?: $Enums.PaymentStatus
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type OrderCreateNestedOneWithoutItemsInput = {
@@ -788,6 +908,11 @@ export type OrderCreateWithoutItemsInput = {
   merchantOid?: string | null
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.PaymentStatus
+  paytrTotalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentFailureCode?: string | null
+  paymentFailureMessage?: string | null
+  paidAt?: Date | string | null
+  cancelledAt?: Date | string | null
   customerFirstName: string
   customerLastName: string
   customerEmail: string
@@ -813,6 +938,11 @@ export type OrderUncheckedCreateWithoutItemsInput = {
   merchantOid?: string | null
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.PaymentStatus
+  paytrTotalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentFailureCode?: string | null
+  paymentFailureMessage?: string | null
+  paidAt?: Date | string | null
+  cancelledAt?: Date | string | null
   customerFirstName: string
   customerLastName: string
   customerEmail: string
@@ -854,6 +984,11 @@ export type OrderUpdateWithoutItemsInput = {
   merchantOid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paytrTotalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentFailureCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentFailureMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerFirstName?: Prisma.StringFieldUpdateOperationsInput | string
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   customerEmail?: Prisma.StringFieldUpdateOperationsInput | string
@@ -879,6 +1014,11 @@ export type OrderUncheckedUpdateWithoutItemsInput = {
   merchantOid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paytrTotalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentFailureCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentFailureMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerFirstName?: Prisma.StringFieldUpdateOperationsInput | string
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   customerEmail?: Prisma.StringFieldUpdateOperationsInput | string
@@ -935,6 +1075,11 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   merchantOid?: boolean
   status?: boolean
   paymentStatus?: boolean
+  paytrTotalAmount?: boolean
+  paymentFailureCode?: boolean
+  paymentFailureMessage?: boolean
+  paidAt?: boolean
+  cancelledAt?: boolean
   customerFirstName?: boolean
   customerLastName?: boolean
   customerEmail?: boolean
@@ -964,6 +1109,11 @@ export type OrderSelectScalar = {
   merchantOid?: boolean
   status?: boolean
   paymentStatus?: boolean
+  paytrTotalAmount?: boolean
+  paymentFailureCode?: boolean
+  paymentFailureMessage?: boolean
+  paidAt?: boolean
+  cancelledAt?: boolean
   customerFirstName?: boolean
   customerLastName?: boolean
   customerEmail?: boolean
@@ -983,7 +1133,7 @@ export type OrderSelectScalar = {
   updatedAt?: boolean
 }
 
-export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orderNumber" | "merchantOid" | "status" | "paymentStatus" | "customerFirstName" | "customerLastName" | "customerEmail" | "customerPhone" | "shippingCountry" | "shippingCity" | "shippingDistrict" | "shippingNeighborhood" | "shippingPostalCode" | "shippingAddressLine" | "customerNote" | "subtotal" | "shippingFee" | "discountAmount" | "totalAmount" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orderNumber" | "merchantOid" | "status" | "paymentStatus" | "paytrTotalAmount" | "paymentFailureCode" | "paymentFailureMessage" | "paidAt" | "cancelledAt" | "customerFirstName" | "customerLastName" | "customerEmail" | "customerPhone" | "shippingCountry" | "shippingCity" | "shippingDistrict" | "shippingNeighborhood" | "shippingPostalCode" | "shippingAddressLine" | "customerNote" | "subtotal" | "shippingFee" | "discountAmount" | "totalAmount" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
 export type OrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   items?: boolean | Prisma.Order$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.OrderCountOutputTypeDefaultArgs<ExtArgs>
@@ -1000,6 +1150,11 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     merchantOid: string | null
     status: $Enums.OrderStatus
     paymentStatus: $Enums.PaymentStatus
+    paytrTotalAmount: runtime.Decimal | null
+    paymentFailureCode: string | null
+    paymentFailureMessage: string | null
+    paidAt: Date | null
+    cancelledAt: Date | null
     customerFirstName: string
     customerLastName: string
     customerEmail: string
@@ -1392,6 +1547,11 @@ export interface OrderFieldRefs {
   readonly merchantOid: Prisma.FieldRef<"Order", 'String'>
   readonly status: Prisma.FieldRef<"Order", 'OrderStatus'>
   readonly paymentStatus: Prisma.FieldRef<"Order", 'PaymentStatus'>
+  readonly paytrTotalAmount: Prisma.FieldRef<"Order", 'Decimal'>
+  readonly paymentFailureCode: Prisma.FieldRef<"Order", 'String'>
+  readonly paymentFailureMessage: Prisma.FieldRef<"Order", 'String'>
+  readonly paidAt: Prisma.FieldRef<"Order", 'DateTime'>
+  readonly cancelledAt: Prisma.FieldRef<"Order", 'DateTime'>
   readonly customerFirstName: Prisma.FieldRef<"Order", 'String'>
   readonly customerLastName: Prisma.FieldRef<"Order", 'String'>
   readonly customerEmail: Prisma.FieldRef<"Order", 'String'>

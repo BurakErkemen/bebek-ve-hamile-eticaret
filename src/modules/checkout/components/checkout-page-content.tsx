@@ -7,6 +7,7 @@ import {
   calculateCartSubtotal,
   calculateCartTotalItems,
 } from "@/modules/cart/utils/cart-calculations";
+import { PaytrIframe } from "@/modules/checkout/components/paytr-iframe";
 
 type DraftOrderResponse = {
   orderId: string;
@@ -65,6 +66,7 @@ export function CheckoutPageContent() {
   const [errorMessage, setErrorMessage] = useState("");
   const [createdOrder, setCreatedOrder] =
     useState<DraftOrderResponse | null>(null);
+  const [paytrIframeToken, setPaytrIframeToken] = useState("");
 
   const subtotal = calculateCartSubtotal(items);
   const totalItems = calculateCartTotalItems(items);
@@ -133,27 +135,48 @@ export function CheckoutPageContent() {
       const result = await response.json();
 
       if (!response.ok) {
-  const issueMessage =
-    Array.isArray(result.issues) && result.issues.length > 0
-      ? result.issues
-          .map(
-            (issue: { path?: string; message?: string }) =>
-              `${issue.path ?? "alan"}: ${issue.message ?? "geçersiz"}`,
-          )
-          .join(" | ")
-      : "";
+        const issueMessage =
+          Array.isArray(result.issues) && result.issues.length > 0
+            ? result.issues
+                .map(
+                  (issue: { path?: string; message?: string }) =>
+                    `${issue.path ?? "alan"}: ${issue.message ?? "geçersiz"}`,
+                )
+                .join(" | ")
+            : "";
 
-  setErrorMessage(
-    issueMessage
-      ? `${result.message ?? "Checkout formu geçersiz."} ${issueMessage}`
-      : result.message ??
-          "Sipariş hazırlanırken bir doğrulama hatası oluştu.",
-  );
+        setErrorMessage(
+          issueMessage
+            ? `${result.message ?? "Checkout formu geçersiz."} ${issueMessage}`
+            : result.message ??
+                "Sipariş hazırlanırken bir doğrulama hatası oluştu.",
+        );
 
-  return;
-}
+        return;
+      }
+    setCreatedOrder(result.order);
 
-      setCreatedOrder(result.order);
+    const paymentResponse = await fetch("/api/payment/paytr/initiate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        orderId: result.order.orderId,
+      }),
+    });
+
+    const paymentResult = await paymentResponse.json();
+
+    if (!paymentResponse.ok) {
+      setErrorMessage(
+        paymentResult.message ??
+          "PayTR ödeme oturumu oluşturulamadı.",
+      );
+      return;
+    }
+
+    setPaytrIframeToken(paymentResult.payment.iframeToken);
     } catch {
       setErrorMessage(
         "Checkout isteği gönderilemedi. Lütfen tekrar deneyin.",
@@ -306,6 +329,9 @@ export function CheckoutPageContent() {
             <p className="font-display text-lg font-bold text-brand-text">
               Taslak sipariş oluşturuldu.
             </p>
+            {paytrIframeToken ? (
+              <PaytrIframe iframeToken={paytrIframeToken} />
+            ) : null}
 
             <p className="mt-2 text-sm leading-6 text-brand-muted">
               Sipariş numarası:

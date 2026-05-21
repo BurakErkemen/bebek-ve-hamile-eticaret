@@ -171,6 +171,11 @@ model Order {
 
   status              OrderStatus   @default(DRAFT)
   paymentStatus       PaymentStatus @default(NOT_STARTED)
+  paytrTotalAmount    Decimal?      @db.Decimal(10, 2)
+  paymentFailureCode  String?
+  paymentFailureMessage String?     @db.Text
+  paidAt              DateTime?
+  cancelledAt         DateTime?
 
   customerFirstName   String
   customerLastName    String
