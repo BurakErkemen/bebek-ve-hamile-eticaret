@@ -10,6 +10,11 @@ export type ProductCardVariant = {
   isInStock: boolean;
 };
 
+export type ProductCardSelectedVariant = {
+  label: string;
+  colorHex?: string;
+};
+
 export type ProductCardItem = {
   id: string;
   name: string;
@@ -22,4 +27,5 @@ export type ProductCardItem = {
   imageAlt?: string;
   tone: "rose" | "sage" | "peach";
   variants?: ProductCardVariant[];
+  selectedVariant?: ProductCardSelectedVariant;
 };

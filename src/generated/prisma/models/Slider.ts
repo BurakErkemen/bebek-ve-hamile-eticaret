@@ -246,7 +246,6 @@ export type SliderOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   slides?: Prisma.SliderSlideOrderByRelationAggregateInput
   sections?: Prisma.HomeSectionOrderByRelationAggregateInput
-  _relevance?: Prisma.SliderOrderByRelevanceInput
 }
 
 export type SliderWhereUniqueInput = Prisma.AtLeast<{
@@ -368,12 +367,6 @@ export type SliderUncheckedUpdateManyInput = {
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type SliderOrderByRelevanceInput = {
-  fields: Prisma.SliderOrderByRelevanceFieldEnum | Prisma.SliderOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type SliderCountOrderByAggregateInput = {
@@ -631,7 +624,25 @@ export type SliderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   _count?: boolean | Prisma.SliderCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["slider"]>
 
+export type SliderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  name?: boolean
+  placement?: boolean
+  isActive?: boolean
+  sortOrder?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+}, ExtArgs["result"]["slider"]>
 
+export type SliderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  name?: boolean
+  placement?: boolean
+  isActive?: boolean
+  sortOrder?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+}, ExtArgs["result"]["slider"]>
 
 export type SliderSelectScalar = {
   id?: boolean
@@ -649,6 +660,8 @@ export type SliderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   sections?: boolean | Prisma.Slider$sectionsArgs<ExtArgs>
   _count?: boolean | Prisma.SliderCountOutputTypeDefaultArgs<ExtArgs>
 }
+export type SliderIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type SliderIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $SliderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Slider"
@@ -782,6 +795,30 @@ export interface SliderDelegate<ExtArgs extends runtime.Types.Extensions.Interna
   createMany<T extends SliderCreateManyArgs>(args?: Prisma.SelectSubset<T, SliderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Sliders and returns the data saved in the database.
+   * @param {SliderCreateManyAndReturnArgs} args - Arguments to create many Sliders.
+   * @example
+   * // Create many Sliders
+   * const slider = await prisma.slider.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Sliders and only return the `id`
+   * const sliderWithIdOnly = await prisma.slider.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends SliderCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, SliderCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SliderPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Slider.
    * @param {SliderDeleteArgs} args - Arguments to delete one Slider.
    * @example
@@ -844,6 +881,36 @@ export interface SliderDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    * 
    */
   updateMany<T extends SliderUpdateManyArgs>(args: Prisma.SelectSubset<T, SliderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Sliders and returns the data updated in the database.
+   * @param {SliderUpdateManyAndReturnArgs} args - Arguments to update many Sliders.
+   * @example
+   * // Update many Sliders
+   * const slider = await prisma.slider.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Sliders and only return the `id`
+   * const sliderWithIdOnly = await prisma.slider.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends SliderUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, SliderUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SliderPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Slider.
@@ -1280,6 +1347,25 @@ export type SliderCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
+ * Slider createManyAndReturn
+ */
+export type SliderCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Slider
+   */
+  select?: Prisma.SliderSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Slider
+   */
+  omit?: Prisma.SliderOmit<ExtArgs> | null
+  /**
+   * The data used to create many Sliders.
+   */
+  data: Prisma.SliderCreateManyInput | Prisma.SliderCreateManyInput[]
+  skipDuplicates?: boolean
+}
+
+/**
  * Slider update
  */
 export type SliderUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1309,6 +1395,32 @@ export type SliderUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
  * Slider updateMany
  */
 export type SliderUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * The data used to update Sliders.
+   */
+  data: Prisma.XOR<Prisma.SliderUpdateManyMutationInput, Prisma.SliderUncheckedUpdateManyInput>
+  /**
+   * Filter which Sliders to update
+   */
+  where?: Prisma.SliderWhereInput
+  /**
+   * Limit how many Sliders to update.
+   */
+  limit?: number
+}
+
+/**
+ * Slider updateManyAndReturn
+ */
+export type SliderUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Slider
+   */
+  select?: Prisma.SliderSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Slider
+   */
+  omit?: Prisma.SliderOmit<ExtArgs> | null
   /**
    * The data used to update Sliders.
    */

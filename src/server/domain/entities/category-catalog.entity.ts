@@ -22,6 +22,10 @@ export type CategoryCatalogProductEntity = {
   badge?: string;
   tone: "rose" | "sage" | "peach";
   variants: CategoryCatalogProductVariantEntity[];
+  selectedVariant?: {
+    label: string;
+    colorHex?: string;
+  };
 };
 
 export type CategoryFilterValueEntity = {

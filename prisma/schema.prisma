@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
 }
 
 enum VisualTone {
@@ -451,4 +451,41 @@ model HomeSectionItem {
   @@index([itemType])
   @@index([categoryId])
   @@index([productId])
+}
+model BlogPost {
+  id            String    @id @default(cuid())
+  title         String
+  slug          String    @unique
+  excerpt       String?   @db.Text
+  content       String    @db.Text
+  coverImageUrl String?
+  coverImageAlt String?
+  isPublished   Boolean   @default(false)
+  publishedAt   DateTime?
+  sortOrder     Int       @default(0)
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([isPublished, publishedAt])
+  @@index([slug])
+}
+
+model SiteSetting {
+  key       String   @id
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt
+}
+
+model Page {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  content   String   @db.Text
+  isActive  Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug, isActive])
 }

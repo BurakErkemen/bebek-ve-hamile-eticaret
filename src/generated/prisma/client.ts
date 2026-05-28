@@ -116,3 +116,18 @@ export type HomeSection = Prisma.HomeSectionModel
  * 
  */
 export type HomeSectionItem = Prisma.HomeSectionItemModel
+/**
+ * Model BlogPost
+ * 
+ */
+export type BlogPost = Prisma.BlogPostModel
+/**
+ * Model SiteSetting
+ * 
+ */
+export type SiteSetting = Prisma.SiteSettingModel
+/**
+ * Model Page
+ * 
+ */
+export type Page = Prisma.PageModel

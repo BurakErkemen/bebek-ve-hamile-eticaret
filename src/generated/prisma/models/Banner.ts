@@ -316,7 +316,6 @@ export type BannerOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   sections?: Prisma.HomeSectionOrderByRelationAggregateInput
-  _relevance?: Prisma.BannerOrderByRelevanceInput
 }
 
 export type BannerWhereUniqueInput = Prisma.AtLeast<{
@@ -513,12 +512,6 @@ export type BannerUncheckedUpdateManyInput = {
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type BannerOrderByRelevanceInput = {
-  fields: Prisma.BannerOrderByRelevanceFieldEnum | Prisma.BannerOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type BannerCountOrderByAggregateInput = {
@@ -747,7 +740,41 @@ export type BannerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   _count?: boolean | Prisma.BannerCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["banner"]>
 
+export type BannerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  name?: boolean
+  placement?: boolean
+  eyebrow?: boolean
+  title?: boolean
+  description?: boolean
+  actionLabel?: boolean
+  actionHref?: boolean
+  imageUrl?: boolean
+  imageAlt?: boolean
+  tone?: boolean
+  isActive?: boolean
+  sortOrder?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+}, ExtArgs["result"]["banner"]>
 
+export type BannerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  name?: boolean
+  placement?: boolean
+  eyebrow?: boolean
+  title?: boolean
+  description?: boolean
+  actionLabel?: boolean
+  actionHref?: boolean
+  imageUrl?: boolean
+  imageAlt?: boolean
+  tone?: boolean
+  isActive?: boolean
+  sortOrder?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+}, ExtArgs["result"]["banner"]>
 
 export type BannerSelectScalar = {
   id?: boolean
@@ -772,6 +799,8 @@ export type BannerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   sections?: boolean | Prisma.Banner$sectionsArgs<ExtArgs>
   _count?: boolean | Prisma.BannerCountOutputTypeDefaultArgs<ExtArgs>
 }
+export type BannerIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type BannerIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $BannerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Banner"
@@ -912,6 +941,30 @@ export interface BannerDelegate<ExtArgs extends runtime.Types.Extensions.Interna
   createMany<T extends BannerCreateManyArgs>(args?: Prisma.SelectSubset<T, BannerCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Banners and returns the data saved in the database.
+   * @param {BannerCreateManyAndReturnArgs} args - Arguments to create many Banners.
+   * @example
+   * // Create many Banners
+   * const banner = await prisma.banner.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Banners and only return the `id`
+   * const bannerWithIdOnly = await prisma.banner.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends BannerCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, BannerCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BannerPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Banner.
    * @param {BannerDeleteArgs} args - Arguments to delete one Banner.
    * @example
@@ -974,6 +1027,36 @@ export interface BannerDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    * 
    */
   updateMany<T extends BannerUpdateManyArgs>(args: Prisma.SelectSubset<T, BannerUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Banners and returns the data updated in the database.
+   * @param {BannerUpdateManyAndReturnArgs} args - Arguments to update many Banners.
+   * @example
+   * // Update many Banners
+   * const banner = await prisma.banner.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Banners and only return the `id`
+   * const bannerWithIdOnly = await prisma.banner.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends BannerUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, BannerUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BannerPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Banner.
@@ -1417,6 +1500,25 @@ export type BannerCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
+ * Banner createManyAndReturn
+ */
+export type BannerCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Banner
+   */
+  select?: Prisma.BannerSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Banner
+   */
+  omit?: Prisma.BannerOmit<ExtArgs> | null
+  /**
+   * The data used to create many Banners.
+   */
+  data: Prisma.BannerCreateManyInput | Prisma.BannerCreateManyInput[]
+  skipDuplicates?: boolean
+}
+
+/**
  * Banner update
  */
 export type BannerUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1446,6 +1548,32 @@ export type BannerUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
  * Banner updateMany
  */
 export type BannerUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * The data used to update Banners.
+   */
+  data: Prisma.XOR<Prisma.BannerUpdateManyMutationInput, Prisma.BannerUncheckedUpdateManyInput>
+  /**
+   * Filter which Banners to update
+   */
+  where?: Prisma.BannerWhereInput
+  /**
+   * Limit how many Banners to update.
+   */
+  limit?: number
+}
+
+/**
+ * Banner updateManyAndReturn
+ */
+export type BannerUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Banner
+   */
+  select?: Prisma.BannerSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Banner
+   */
+  omit?: Prisma.BannerOmit<ExtArgs> | null
   /**
    * The data used to update Banners.
    */

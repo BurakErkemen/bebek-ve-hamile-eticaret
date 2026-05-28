@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { PrismaMariaDb } from "@prisma/adapter-mariadb";
+import { PrismaPg } from "@prisma/adapter-pg";
 import {
   AttributeDisplayType,
   BannerPlacement,
@@ -10,27 +10,8 @@ import {
   VisualTone,
 } from "../src/generated/prisma/client";
 
-function createMariaDbAdapter() {
-  const databaseUrl = process.env.DATABASE_URL;
-
-  if (!databaseUrl) {
-    throw new Error("DATABASE_URL is not defined.");
-  }
-
-  const parsedUrl = new URL(databaseUrl);
-
-  return new PrismaMariaDb({
-    host: parsedUrl.hostname,
-    port: Number(parsedUrl.port || 3306),
-    user: decodeURIComponent(parsedUrl.username),
-    password: decodeURIComponent(parsedUrl.password),
-    database: parsedUrl.pathname.replace("/", ""),
-    connectionLimit: 5,
-  });
-}
-
 const prisma = new PrismaClient({
-  adapter: createMariaDbAdapter(),
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL! }),
 });
 
 async function clearSeedData() {
@@ -822,10 +803,54 @@ async function seedHomeSections(input: {
   });
 }
 
+async function seedCorporatePages() {
+  const pages: { slug: string; title: string; content: string; sortOrder: number }[] = [
+    {
+      slug: "hakkimizda",
+      title: "Hakkımızda",
+      content:
+        "<p>Bebek &amp; Hamile olarak anne adayları ve bebekler için güvenli, konforlu ve kaliteli ürünler sunuyoruz.</p>",
+      sortOrder: 1,
+    },
+    // Hizmetler içeriği bilinçli olarak boş bırakıldı — içerik girilene kadar footer'da gizlenir.
+    { slug: "hizmetler", title: "Hizmetler", content: "", sortOrder: 2 },
+    {
+      slug: "gizlilik-ilkeleri",
+      title: "Gizlilik İlkeleri",
+      content:
+        "<p>Kişisel verileriniz yalnızca siparişlerinizin işlenmesi amacıyla kullanılır ve üçüncü taraflarla paylaşılmaz.</p>",
+      sortOrder: 3,
+    },
+    {
+      slug: "sartlar-ve-kosullar",
+      title: "Şartlar ve Koşullar",
+      content:
+        "<p>Sitemizi kullanarak aşağıdaki şartları ve koşulları kabul etmiş olursunuz.</p>",
+      sortOrder: 4,
+    },
+    {
+      slug: "teslimat-bilgileri",
+      title: "Teslimat Bilgileri",
+      content:
+        "<p>Siparişleriniz onaylandıktan sonra 1-3 iş günü içerisinde kargoya teslim edilir.</p>",
+      sortOrder: 5,
+    },
+  ];
+
+  for (const page of pages) {
+    await prisma.page.upsert({
+      where: { slug: page.slug },
+      create: { ...page, isActive: true },
+      update: {},
+    });
+  }
+}
+
 async function main() {
   console.log("Seed işlemi başlatıldı...");
 
   await clearSeedData();
+  await seedCorporatePages();
 
   const categories = await seedCategories();
   const products = await seedProducts(categories);

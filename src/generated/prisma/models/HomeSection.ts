@@ -302,7 +302,6 @@ export type HomeSectionOrderByWithRelationInput = {
   slider?: Prisma.SliderOrderByWithRelationInput
   banner?: Prisma.BannerOrderByWithRelationInput
   items?: Prisma.HomeSectionItemOrderByRelationAggregateInput
-  _relevance?: Prisma.HomeSectionOrderByRelevanceInput
 }
 
 export type HomeSectionWhereUniqueInput = Prisma.AtLeast<{
@@ -489,12 +488,6 @@ export type HomeSectionListRelationFilter = {
 
 export type HomeSectionOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type HomeSectionOrderByRelevanceInput = {
-  fields: Prisma.HomeSectionOrderByRelevanceFieldEnum | Prisma.HomeSectionOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type HomeSectionCountOrderByAggregateInput = {
@@ -1050,7 +1043,41 @@ export type HomeSectionSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   _count?: boolean | Prisma.HomeSectionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["homeSection"]>
 
+export type HomeSectionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  type?: boolean
+  eyebrow?: boolean
+  title?: boolean
+  description?: boolean
+  actionLabel?: boolean
+  actionHref?: boolean
+  sliderId?: boolean
+  bannerId?: boolean
+  isActive?: boolean
+  sortOrder?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  slider?: boolean | Prisma.HomeSection$sliderArgs<ExtArgs>
+  banner?: boolean | Prisma.HomeSection$bannerArgs<ExtArgs>
+}, ExtArgs["result"]["homeSection"]>
 
+export type HomeSectionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  type?: boolean
+  eyebrow?: boolean
+  title?: boolean
+  description?: boolean
+  actionLabel?: boolean
+  actionHref?: boolean
+  sliderId?: boolean
+  bannerId?: boolean
+  isActive?: boolean
+  sortOrder?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  slider?: boolean | Prisma.HomeSection$sliderArgs<ExtArgs>
+  banner?: boolean | Prisma.HomeSection$bannerArgs<ExtArgs>
+}, ExtArgs["result"]["homeSection"]>
 
 export type HomeSectionSelectScalar = {
   id?: boolean
@@ -1074,6 +1101,14 @@ export type HomeSectionInclude<ExtArgs extends runtime.Types.Extensions.Internal
   banner?: boolean | Prisma.HomeSection$bannerArgs<ExtArgs>
   items?: boolean | Prisma.HomeSection$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.HomeSectionCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type HomeSectionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  slider?: boolean | Prisma.HomeSection$sliderArgs<ExtArgs>
+  banner?: boolean | Prisma.HomeSection$bannerArgs<ExtArgs>
+}
+export type HomeSectionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  slider?: boolean | Prisma.HomeSection$sliderArgs<ExtArgs>
+  banner?: boolean | Prisma.HomeSection$bannerArgs<ExtArgs>
 }
 
 export type $HomeSectionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1215,6 +1250,30 @@ export interface HomeSectionDelegate<ExtArgs extends runtime.Types.Extensions.In
   createMany<T extends HomeSectionCreateManyArgs>(args?: Prisma.SelectSubset<T, HomeSectionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many HomeSections and returns the data saved in the database.
+   * @param {HomeSectionCreateManyAndReturnArgs} args - Arguments to create many HomeSections.
+   * @example
+   * // Create many HomeSections
+   * const homeSection = await prisma.homeSection.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many HomeSections and only return the `id`
+   * const homeSectionWithIdOnly = await prisma.homeSection.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends HomeSectionCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, HomeSectionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HomeSectionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a HomeSection.
    * @param {HomeSectionDeleteArgs} args - Arguments to delete one HomeSection.
    * @example
@@ -1277,6 +1336,36 @@ export interface HomeSectionDelegate<ExtArgs extends runtime.Types.Extensions.In
    * 
    */
   updateMany<T extends HomeSectionUpdateManyArgs>(args: Prisma.SelectSubset<T, HomeSectionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more HomeSections and returns the data updated in the database.
+   * @param {HomeSectionUpdateManyAndReturnArgs} args - Arguments to update many HomeSections.
+   * @example
+   * // Update many HomeSections
+   * const homeSection = await prisma.homeSection.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more HomeSections and only return the `id`
+   * const homeSectionWithIdOnly = await prisma.homeSection.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends HomeSectionUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, HomeSectionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HomeSectionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one HomeSection.
@@ -1720,6 +1809,29 @@ export type HomeSectionCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
+ * HomeSection createManyAndReturn
+ */
+export type HomeSectionCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the HomeSection
+   */
+  select?: Prisma.HomeSectionSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the HomeSection
+   */
+  omit?: Prisma.HomeSectionOmit<ExtArgs> | null
+  /**
+   * The data used to create many HomeSections.
+   */
+  data: Prisma.HomeSectionCreateManyInput | Prisma.HomeSectionCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HomeSectionIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * HomeSection update
  */
 export type HomeSectionUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1761,6 +1873,36 @@ export type HomeSectionUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many HomeSections to update.
    */
   limit?: number
+}
+
+/**
+ * HomeSection updateManyAndReturn
+ */
+export type HomeSectionUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the HomeSection
+   */
+  select?: Prisma.HomeSectionSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the HomeSection
+   */
+  omit?: Prisma.HomeSectionOmit<ExtArgs> | null
+  /**
+   * The data used to update HomeSections.
+   */
+  data: Prisma.XOR<Prisma.HomeSectionUpdateManyMutationInput, Prisma.HomeSectionUncheckedUpdateManyInput>
+  /**
+   * Filter which HomeSections to update
+   */
+  where?: Prisma.HomeSectionWhereInput
+  /**
+   * Limit how many HomeSections to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HomeSectionIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

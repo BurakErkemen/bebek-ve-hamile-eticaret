@@ -176,25 +176,30 @@ export default async function CategoryPage({
         productCount={category.products.length}
       />
 
-      <section className="mt-8 grid gap-6 lg:grid-cols-[320px_1fr]">
-        <CategoryFilterPanel filters={category.filters} />
+      {(() => {
+        const hasFilters = category.filters.length > 0;
+        return (
+          <section className={`mt-8 ${hasFilters ? "grid gap-6 lg:grid-cols-[280px_1fr]" : ""}`}>
+            {hasFilters && <CategoryFilterPanel filters={category.filters} />}
 
-        <div className="space-y-6">
-          <CategoryCatalogToolbar
-            sort={query.sort}
-            minPrice={query.minPrice}
-            maxPrice={query.maxPrice}
-          />
+            <div className="space-y-4">
+              <CategoryCatalogToolbar
+                sort={query.sort}
+                minPrice={query.minPrice}
+                maxPrice={query.maxPrice}
+              />
 
-          <CategoryActiveFilters
-            filters={category.filters}
-            minPrice={query.minPrice}
-            maxPrice={query.maxPrice}
-          />
+              <CategoryActiveFilters
+                filters={category.filters}
+                minPrice={query.minPrice}
+                maxPrice={query.maxPrice}
+              />
 
-          <CategoryProductGrid products={category.products} />
-        </div>
-      </section>
+              <CategoryProductGrid products={category.products} hasSidebar={hasFilters} />
+            </div>
+          </section>
+        );
+      })()}
     </main>
   );
 }

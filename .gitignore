@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# uploads — Docker volume ile yönetilir, git'e alınmaz
+/public/uploads/*
+!/public/uploads/.gitkeep

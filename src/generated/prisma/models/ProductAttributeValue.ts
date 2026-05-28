@@ -194,7 +194,6 @@ export type ProductAttributeValueOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   product?: Prisma.ProductOrderByWithRelationInput
   attributeValue?: Prisma.AttributeValueOrderByWithRelationInput
-  _relevance?: Prisma.ProductAttributeValueOrderByRelevanceInput
 }
 
 export type ProductAttributeValueWhereUniqueInput = Prisma.AtLeast<{
@@ -295,12 +294,6 @@ export type ProductAttributeValueListRelationFilter = {
 
 export type ProductAttributeValueOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type ProductAttributeValueOrderByRelevanceInput = {
-  fields: Prisma.ProductAttributeValueOrderByRelevanceFieldEnum | Prisma.ProductAttributeValueOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type ProductAttributeValueProductIdAttributeValueIdCompoundUniqueInput = {
@@ -575,7 +568,25 @@ export type ProductAttributeValueSelect<ExtArgs extends runtime.Types.Extensions
   attributeValue?: boolean | Prisma.AttributeValueDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productAttributeValue"]>
 
+export type ProductAttributeValueSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  productId?: boolean
+  attributeValueId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  attributeValue?: boolean | Prisma.AttributeValueDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["productAttributeValue"]>
 
+export type ProductAttributeValueSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  productId?: boolean
+  attributeValueId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  attributeValue?: boolean | Prisma.AttributeValueDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["productAttributeValue"]>
 
 export type ProductAttributeValueSelectScalar = {
   id?: boolean
@@ -587,6 +598,14 @@ export type ProductAttributeValueSelectScalar = {
 
 export type ProductAttributeValueOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "attributeValueId" | "createdAt" | "updatedAt", ExtArgs["result"]["productAttributeValue"]>
 export type ProductAttributeValueInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  attributeValue?: boolean | Prisma.AttributeValueDefaultArgs<ExtArgs>
+}
+export type ProductAttributeValueIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  attributeValue?: boolean | Prisma.AttributeValueDefaultArgs<ExtArgs>
+}
+export type ProductAttributeValueIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   attributeValue?: boolean | Prisma.AttributeValueDefaultArgs<ExtArgs>
 }
@@ -721,6 +740,30 @@ export interface ProductAttributeValueDelegate<ExtArgs extends runtime.Types.Ext
   createMany<T extends ProductAttributeValueCreateManyArgs>(args?: Prisma.SelectSubset<T, ProductAttributeValueCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many ProductAttributeValues and returns the data saved in the database.
+   * @param {ProductAttributeValueCreateManyAndReturnArgs} args - Arguments to create many ProductAttributeValues.
+   * @example
+   * // Create many ProductAttributeValues
+   * const productAttributeValue = await prisma.productAttributeValue.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many ProductAttributeValues and only return the `id`
+   * const productAttributeValueWithIdOnly = await prisma.productAttributeValue.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends ProductAttributeValueCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, ProductAttributeValueCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductAttributeValuePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a ProductAttributeValue.
    * @param {ProductAttributeValueDeleteArgs} args - Arguments to delete one ProductAttributeValue.
    * @example
@@ -783,6 +826,36 @@ export interface ProductAttributeValueDelegate<ExtArgs extends runtime.Types.Ext
    * 
    */
   updateMany<T extends ProductAttributeValueUpdateManyArgs>(args: Prisma.SelectSubset<T, ProductAttributeValueUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more ProductAttributeValues and returns the data updated in the database.
+   * @param {ProductAttributeValueUpdateManyAndReturnArgs} args - Arguments to update many ProductAttributeValues.
+   * @example
+   * // Update many ProductAttributeValues
+   * const productAttributeValue = await prisma.productAttributeValue.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more ProductAttributeValues and only return the `id`
+   * const productAttributeValueWithIdOnly = await prisma.productAttributeValue.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends ProductAttributeValueUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, ProductAttributeValueUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductAttributeValuePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one ProductAttributeValue.
@@ -1217,6 +1290,29 @@ export type ProductAttributeValueCreateManyArgs<ExtArgs extends runtime.Types.Ex
 }
 
 /**
+ * ProductAttributeValue createManyAndReturn
+ */
+export type ProductAttributeValueCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProductAttributeValue
+   */
+  select?: Prisma.ProductAttributeValueSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProductAttributeValue
+   */
+  omit?: Prisma.ProductAttributeValueOmit<ExtArgs> | null
+  /**
+   * The data used to create many ProductAttributeValues.
+   */
+  data: Prisma.ProductAttributeValueCreateManyInput | Prisma.ProductAttributeValueCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductAttributeValueIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * ProductAttributeValue update
  */
 export type ProductAttributeValueUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1258,6 +1354,36 @@ export type ProductAttributeValueUpdateManyArgs<ExtArgs extends runtime.Types.Ex
    * Limit how many ProductAttributeValues to update.
    */
   limit?: number
+}
+
+/**
+ * ProductAttributeValue updateManyAndReturn
+ */
+export type ProductAttributeValueUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProductAttributeValue
+   */
+  select?: Prisma.ProductAttributeValueSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProductAttributeValue
+   */
+  omit?: Prisma.ProductAttributeValueOmit<ExtArgs> | null
+  /**
+   * The data used to update ProductAttributeValues.
+   */
+  data: Prisma.XOR<Prisma.ProductAttributeValueUpdateManyMutationInput, Prisma.ProductAttributeValueUncheckedUpdateManyInput>
+  /**
+   * Filter which ProductAttributeValues to update
+   */
+  where?: Prisma.ProductAttributeValueWhereInput
+  /**
+   * Limit how many ProductAttributeValues to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductAttributeValueIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

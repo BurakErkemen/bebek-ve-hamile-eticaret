@@ -174,6 +174,36 @@ export class PrismaCategoryCatalogRepository
         };
       });
 
+    const selectedColorLabels = new Set<string>();
+    const selectedSizeLabels = new Set<string>();
+    let selectedColorHex: string | undefined;
+
+    for (const filterGroup of filterGroups) {
+      const selectedValues = filterGroup.values.filter(
+        (value) => value.isSelected,
+      );
+
+      if (selectedValues.length === 0) {
+        continue;
+      }
+
+      if (filterGroup.displayType === "COLOR_SWATCH") {
+        for (const value of selectedValues) {
+          selectedColorLabels.add(value.value.trim().toLowerCase());
+          if (!selectedColorHex) {
+            selectedColorHex = value.colorHex;
+          }
+        }
+      } else {
+        for (const value of selectedValues) {
+          selectedSizeLabels.add(value.value.trim().toLowerCase());
+        }
+      }
+    }
+
+    const hasVariantSelection =
+      selectedColorLabels.size > 0 || selectedSizeLabels.size > 0;
+
     const attributeFilterClauses = Object.entries(selectedFilters).map(
       ([attributeSlug, valueSlugs]) => ({
         attributeValues: {
@@ -251,15 +281,58 @@ export class PrismaCategoryCatalogRepository
           product.images.find((image) => image.isPrimary) ??
           product.images[0];
 
+        const matchingVariants = hasVariantSelection
+          ? product.variants.filter((variant) => {
+              const colorMatches =
+                selectedColorLabels.size === 0 ||
+                (variant.colorName != null &&
+                  selectedColorLabels.has(
+                    variant.colorName.trim().toLowerCase(),
+                  ));
+
+              const sizeMatches =
+                selectedSizeLabels.size === 0 ||
+                (variant.size != null &&
+                  selectedSizeLabels.has(variant.size.trim().toLowerCase()));
+
+              return colorMatches && sizeMatches;
+            })
+          : [];
+
+        const matchedVariant =
+          matchingVariants.find((variant) => variant.stockQuantity > 0) ??
+          matchingVariants[0];
+
+        const displayPrice =
+          matchedVariant?.price != null
+            ? Number(matchedVariant.price)
+            : Number(product.basePrice);
+
+        const displayCompareAtPrice =
+          matchedVariant?.compareAtPrice != null
+            ? Number(matchedVariant.compareAtPrice)
+            : product.compareAtPrice
+              ? Number(product.compareAtPrice)
+              : undefined;
+
+        const selectedVariant = matchedVariant
+          ? {
+              label:
+                [matchedVariant.size, matchedVariant.colorName]
+                  .filter(Boolean)
+                  .join(" / ") || matchedVariant.sku,
+              colorHex: matchedVariant.colorHex ?? selectedColorHex,
+            }
+          : undefined;
+
         return {
           id: product.id,
           name: product.name,
           slug: product.slug,
           categoryLabel: category.name,
-          price: Number(product.basePrice),
-          compareAtPrice: product.compareAtPrice
-            ? Number(product.compareAtPrice)
-            : undefined,
+          price: displayPrice,
+          compareAtPrice: displayCompareAtPrice,
+          selectedVariant,
           imageUrl: primaryImage?.url ?? null,
           imageAlt: primaryImage?.alt ?? product.name,
           badge: product.isFeatured ? "Öne Çıkan" : undefined,

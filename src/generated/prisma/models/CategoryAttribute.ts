@@ -246,7 +246,6 @@ export type CategoryAttributeOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   category?: Prisma.CategoryOrderByWithRelationInput
   attribute?: Prisma.AttributeOrderByWithRelationInput
-  _relevance?: Prisma.CategoryAttributeOrderByRelevanceInput
 }
 
 export type CategoryAttributeWhereUniqueInput = Prisma.AtLeast<{
@@ -369,12 +368,6 @@ export type CategoryAttributeListRelationFilter = {
 
 export type CategoryAttributeOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type CategoryAttributeOrderByRelevanceInput = {
-  fields: Prisma.CategoryAttributeOrderByRelevanceFieldEnum | Prisma.CategoryAttributeOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type CategoryAttributeCategoryIdAttributeIdCompoundUniqueInput = {
@@ -691,7 +684,29 @@ export type CategoryAttributeSelect<ExtArgs extends runtime.Types.Extensions.Int
   attribute?: boolean | Prisma.AttributeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["categoryAttribute"]>
 
+export type CategoryAttributeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  categoryId?: boolean
+  attributeId?: boolean
+  isFilterVisible?: boolean
+  sortOrder?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
+  attribute?: boolean | Prisma.AttributeDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["categoryAttribute"]>
 
+export type CategoryAttributeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  categoryId?: boolean
+  attributeId?: boolean
+  isFilterVisible?: boolean
+  sortOrder?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
+  attribute?: boolean | Prisma.AttributeDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["categoryAttribute"]>
 
 export type CategoryAttributeSelectScalar = {
   id?: boolean
@@ -705,6 +720,14 @@ export type CategoryAttributeSelectScalar = {
 
 export type CategoryAttributeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "categoryId" | "attributeId" | "isFilterVisible" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["categoryAttribute"]>
 export type CategoryAttributeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
+  attribute?: boolean | Prisma.AttributeDefaultArgs<ExtArgs>
+}
+export type CategoryAttributeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
+  attribute?: boolean | Prisma.AttributeDefaultArgs<ExtArgs>
+}
+export type CategoryAttributeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   attribute?: boolean | Prisma.AttributeDefaultArgs<ExtArgs>
 }
@@ -841,6 +864,30 @@ export interface CategoryAttributeDelegate<ExtArgs extends runtime.Types.Extensi
   createMany<T extends CategoryAttributeCreateManyArgs>(args?: Prisma.SelectSubset<T, CategoryAttributeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many CategoryAttributes and returns the data saved in the database.
+   * @param {CategoryAttributeCreateManyAndReturnArgs} args - Arguments to create many CategoryAttributes.
+   * @example
+   * // Create many CategoryAttributes
+   * const categoryAttribute = await prisma.categoryAttribute.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many CategoryAttributes and only return the `id`
+   * const categoryAttributeWithIdOnly = await prisma.categoryAttribute.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends CategoryAttributeCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, CategoryAttributeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CategoryAttributePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a CategoryAttribute.
    * @param {CategoryAttributeDeleteArgs} args - Arguments to delete one CategoryAttribute.
    * @example
@@ -903,6 +950,36 @@ export interface CategoryAttributeDelegate<ExtArgs extends runtime.Types.Extensi
    * 
    */
   updateMany<T extends CategoryAttributeUpdateManyArgs>(args: Prisma.SelectSubset<T, CategoryAttributeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more CategoryAttributes and returns the data updated in the database.
+   * @param {CategoryAttributeUpdateManyAndReturnArgs} args - Arguments to update many CategoryAttributes.
+   * @example
+   * // Update many CategoryAttributes
+   * const categoryAttribute = await prisma.categoryAttribute.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more CategoryAttributes and only return the `id`
+   * const categoryAttributeWithIdOnly = await prisma.categoryAttribute.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends CategoryAttributeUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, CategoryAttributeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CategoryAttributePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one CategoryAttribute.
@@ -1339,6 +1416,29 @@ export type CategoryAttributeCreateManyArgs<ExtArgs extends runtime.Types.Extens
 }
 
 /**
+ * CategoryAttribute createManyAndReturn
+ */
+export type CategoryAttributeCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CategoryAttribute
+   */
+  select?: Prisma.CategoryAttributeSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the CategoryAttribute
+   */
+  omit?: Prisma.CategoryAttributeOmit<ExtArgs> | null
+  /**
+   * The data used to create many CategoryAttributes.
+   */
+  data: Prisma.CategoryAttributeCreateManyInput | Prisma.CategoryAttributeCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CategoryAttributeIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * CategoryAttribute update
  */
 export type CategoryAttributeUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1380,6 +1480,36 @@ export type CategoryAttributeUpdateManyArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many CategoryAttributes to update.
    */
   limit?: number
+}
+
+/**
+ * CategoryAttribute updateManyAndReturn
+ */
+export type CategoryAttributeUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CategoryAttribute
+   */
+  select?: Prisma.CategoryAttributeSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the CategoryAttribute
+   */
+  omit?: Prisma.CategoryAttributeOmit<ExtArgs> | null
+  /**
+   * The data used to update CategoryAttributes.
+   */
+  data: Prisma.XOR<Prisma.CategoryAttributeUpdateManyMutationInput, Prisma.CategoryAttributeUncheckedUpdateManyInput>
+  /**
+   * Filter which CategoryAttributes to update
+   */
+  where?: Prisma.CategoryAttributeWhereInput
+  /**
+   * Limit how many CategoryAttributes to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CategoryAttributeIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

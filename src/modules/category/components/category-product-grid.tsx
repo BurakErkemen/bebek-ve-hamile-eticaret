@@ -3,28 +3,26 @@ import type { ProductCardItem } from "@/modules/product/types/product-card.types
 
 type CategoryProductGridProps = {
   products: ProductCardItem[];
+  hasSidebar?: boolean;
 };
 
-export function CategoryProductGrid({
-  products,
-}: CategoryProductGridProps) {
+export function CategoryProductGrid({ products, hasSidebar = false }: CategoryProductGridProps) {
   if (products.length === 0) {
     return (
-      <section className="mt-8 rounded-[var(--radius-brand-lg)] border border-dashed border-brand-border bg-brand-white p-8 text-center">
-        <h2 className="font-display text-xl font-bold text-brand-text">
-          Bu kategoride henüz ürün bulunmuyor.
-        </h2>
-
-        <p className="mt-3 text-sm leading-6 text-brand-muted">
-          Ürünler eklendiğinde burada listelenecek.
-        </p>
+      <section className="rounded-2xl border border-dashed border-brand-border bg-brand-white p-10 text-center">
+        <p className="font-semibold text-brand-text">Bu kategoride henüz ürün bulunmuyor.</p>
+        <p className="mt-1 text-sm text-brand-muted">Ürünler eklendiğinde burada listelenecek.</p>
       </section>
     );
   }
 
+  const gridCols = hasSidebar
+    ? "grid-cols-2 sm:grid-cols-2 md:grid-cols-3"
+    : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4";
+
   return (
-    <section className="mt-8">
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <section>
+      <div className={`grid gap-4 ${gridCols}`}>
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
