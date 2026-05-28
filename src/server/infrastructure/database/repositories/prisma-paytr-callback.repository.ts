@@ -65,48 +65,8 @@ export class PrismaPaytrCallbackRepository
       }
 
       if (input.status === "success") {
-        for (const item of order.items) {
-          if (!item.variantId) {
-            continue;
-          }
-
-          const variant = await transaction.productVariant.findUnique({
-            where: {
-              id: item.variantId,
-            },
-            select: {
-              id: true,
-              stockQuantity: true,
-              sku: true,
-            },
-          });
-
-          if (!variant) {
-            throw new PaymentError(
-              `${item.sku} varyantı bulunamadı.`,
-              409,
-            );
-          }
-
-          if (variant.stockQuantity < item.quantity) {
-            throw new PaymentError(
-              `${item.sku} varyantı için yeterli stok yok.`,
-              409,
-            );
-          }
-
-          await transaction.productVariant.update({
-            where: {
-              id: variant.id,
-            },
-            data: {
-              stockQuantity: {
-                decrement: item.quantity,
-              },
-            },
-          });
-        }
-
+        // Stok ödeme başlatılırken (initiate) rezerve edilmişti; burada yalnızca
+        // siparişi kesinleştiriyoruz. Tekrar stok düşülmez.
         await transaction.order.update({
           where: {
             id: order.id,
@@ -120,6 +80,26 @@ export class PrismaPaytrCallbackRepository
         });
 
         return;
+      }
+
+      // Ödeme başarısız: rezerve edilen stok geri bırakılır.
+      if (order.status === OrderStatus.PENDING_PAYMENT) {
+        for (const item of order.items) {
+          if (!item.variantId) {
+            continue;
+          }
+
+          await transaction.productVariant.update({
+            where: {
+              id: item.variantId,
+            },
+            data: {
+              stockQuantity: {
+                increment: item.quantity,
+              },
+            },
+          });
+        }
       }
 
       await transaction.order.update({

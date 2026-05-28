@@ -1,4 +1,6 @@
 export type CreateDraftOrderInput = {
+  userId?: string;
+
   customer: {
     firstName: string;
     lastName: string;

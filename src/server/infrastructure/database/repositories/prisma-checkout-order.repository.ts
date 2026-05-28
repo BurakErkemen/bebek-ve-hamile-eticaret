@@ -4,8 +4,13 @@ import type {
   DraftOrderResult,
 } from "@/server/domain/entities/draft-order.entity";
 import type { CheckoutOrderRepository } from "@/server/domain/repositories/checkout-order.repository";
+import { SETTING_KEYS } from "@/server/domain/entities/site-setting.entity";
 import { prisma } from "@/server/infrastructure/database/prisma/prisma-client";
 import { CheckoutOrderError } from "@/shared/errors/checkout-order.error";
+import {
+  calculateShippingFee,
+  parseShippingConfig,
+} from "@/shared/utils/shipping";
 
 function roundMoney(value: number): number {
   return Math.round(value * 100) / 100;
@@ -158,7 +163,27 @@ export class PrismaCheckoutOrderRepository
         orderItems.reduce((total, item) => total + item.lineTotal, 0),
       );
 
-      const shippingFee = 0;
+      const shippingSettings = await transaction.siteSetting.findMany({
+        where: {
+          key: {
+            in: [
+              SETTING_KEYS.SHIPPING_FEE,
+              SETTING_KEYS.FREE_SHIPPING_THRESHOLD,
+            ],
+          },
+        },
+      });
+
+      const settingsByKey = new Map(
+        shippingSettings.map((row) => [row.key, row.value]),
+      );
+
+      const shippingConfig = parseShippingConfig({
+        fee: settingsByKey.get(SETTING_KEYS.SHIPPING_FEE),
+        freeThreshold: settingsByKey.get(SETTING_KEYS.FREE_SHIPPING_THRESHOLD),
+      });
+
+      const shippingFee = calculateShippingFee(subtotal, shippingConfig);
       const discountAmount = 0;
       const totalAmount = roundMoney(
         subtotal + shippingFee - discountAmount,
@@ -167,6 +192,8 @@ export class PrismaCheckoutOrderRepository
       const order = await transaction.order.create({
         data: {
           orderNumber: createOrderNumber(),
+
+          userId: input.userId ?? null,
 
           customerFirstName: input.customer.firstName,
           customerLastName: input.customer.lastName,

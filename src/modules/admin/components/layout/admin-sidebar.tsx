@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 type NavItem = {
   href: string;
@@ -138,17 +139,28 @@ const navGroups: NavGroup[] = [
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  async function handleLogout() {
+    await fetch("/api/admin/auth/logout", { method: "POST" });
+    router.replace("/admin/giris");
+    router.refresh();
+  }
 
   return (
     <aside className="fixed inset-y-0 left-0 w-60 bg-white border-r border-gray-100 flex flex-col z-10">
       {/* Logo */}
       <div className="h-14 flex items-center gap-2.5 px-5 border-b border-gray-100">
-        <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center flex-shrink-0">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-          </svg>
-        </div>
-        <span className="font-semibold text-gray-900 text-sm tracking-tight">BebekShop</span>
+        <Link href="/admin" className="flex items-center" aria-label="Dastini Bebe Market Admin">
+          <Image
+            src="/logo.png"
+            alt="Dastini Bebe Market"
+            width={313}
+            height={125}
+            priority
+            className="h-9 w-auto"
+          />
+        </Link>
         <span className="ml-auto text-[10px] font-medium text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">Admin</span>
       </div>
 
@@ -188,7 +200,7 @@ export default function AdminSidebar() {
       </nav>
 
       {/* Footer */}
-      <div className="px-4 py-3 border-t border-gray-100">
+      <div className="px-4 py-3 border-t border-gray-100 space-y-2">
         <Link
           href="/"
           target="_blank"
@@ -199,6 +211,16 @@ export default function AdminSidebar() {
           </svg>
           Siteyi görüntüle
         </Link>
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="flex w-full items-center gap-1.5 text-xs text-gray-400 hover:text-red-600 transition-colors"
+        >
+          <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            <path d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+          </svg>
+          Çıkış yap
+        </button>
       </div>
     </aside>
   );

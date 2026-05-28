@@ -14,6 +14,8 @@ export const SETTING_KEYS = {
   SOCIAL_TIKTOK: "social_tiktok",
   SOCIAL_YOUTUBE: "social_youtube",
   SOCIAL_TWITTER: "social_twitter",
+  SHIPPING_FEE: "shipping_fee",
+  FREE_SHIPPING_THRESHOLD: "free_shipping_threshold",
 } as const;
 
 export type SettingKey = (typeof SETTING_KEYS)[keyof typeof SETTING_KEYS];

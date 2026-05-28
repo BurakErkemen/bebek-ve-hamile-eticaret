@@ -124,7 +124,7 @@ export async function Footer() {
               <h3 className="font-display text-base font-bold text-brand-text">Müşteri Hizmetleri</h3>
               <ul className="mt-4 space-y-3">
                 {[
-                  { label: "Sipariş Takibi", href: "#" },
+                  { label: "Sipariş Takibi", href: "/siparis-takibi" },
                   { label: "İade ve Değişim", href: "#" },
                   { label: "Sık Sorulan Sorular", href: "#" },
                 ].map((item) => (

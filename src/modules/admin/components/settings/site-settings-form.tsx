@@ -86,6 +86,40 @@ export default function SiteSettingsForm({ initialSettings }: Props) {
         </div>
       </section>
 
+      {/* Kargo */}
+      <section className="bg-white rounded-xl border border-gray-100 overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-100">
+          <h2 className="text-sm font-semibold text-gray-700">Kargo Ayarları</h2>
+          <p className="text-xs text-gray-400 mt-0.5">Kargo ücreti ve ücretsiz kargo eşiği (TL). Boş ya da 0 bırakılırsa kargo ücretsiz olur.</p>
+        </div>
+        <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1.5">Kargo ücreti (TL)</label>
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              value={values[SETTING_KEYS.SHIPPING_FEE] ?? ""}
+              onChange={(e) => set(SETTING_KEYS.SHIPPING_FEE, e.target.value)}
+              placeholder="49.90"
+              className={inputClass()}
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1.5">Ücretsiz kargo eşiği (TL)</label>
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              value={values[SETTING_KEYS.FREE_SHIPPING_THRESHOLD] ?? ""}
+              onChange={(e) => set(SETTING_KEYS.FREE_SHIPPING_THRESHOLD, e.target.value)}
+              placeholder="1500"
+              className={inputClass()}
+            />
+          </div>
+        </div>
+      </section>
+
       {/* Site Renkleri */}
       <section className="bg-white rounded-xl border border-gray-100 overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-100">

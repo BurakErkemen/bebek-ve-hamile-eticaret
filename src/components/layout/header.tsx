@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import { HeaderAccountButton } from "@/components/layout/header-account-button";
 import { HeaderCartButton } from "@/components/layout/header-cart-button";
+import { SearchBar } from "@/modules/search/components/search-bar";
 import { getCachedNavCategories } from "@/server/application/layout/get-nav-categories.cached";
 
 const NAV_CATEGORY_LIMIT = 4;
@@ -123,13 +125,16 @@ export async function Header() {
 
         {/* Sağ aksiyonlar */}
         <div className="flex items-center gap-2">
-          <Link
-            href="/giris"
-            className="hidden rounded-full border border-brand-border bg-brand-white px-4 py-2 text-sm font-semibold text-brand-text transition hover:bg-brand-secondary sm:inline-flex"
-          >
-            Giriş Yap
-          </Link>
+          <SearchBar className="hidden w-56 lg:flex" />
+          <HeaderAccountButton />
           <HeaderCartButton />
+        </div>
+      </div>
+
+      {/* Mobil arama */}
+      <div className="border-t border-brand-border px-4 py-3 lg:hidden">
+        <div className="mx-auto w-full max-w-7xl">
+          <SearchBar />
         </div>
       </div>
 

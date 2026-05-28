@@ -1,6 +1,11 @@
-﻿import { NextResponse } from "next/server";
+﻿import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 import { CreateDraftOrderUseCase } from "@/server/application/checkout/create-draft-order.use-case";
 import { PrismaCheckoutOrderRepository } from "@/server/infrastructure/database/repositories/prisma-checkout-order.repository";
+import {
+  CUSTOMER_SESSION_COOKIE,
+  verifyCustomerToken,
+} from "@/server/infrastructure/auth/customer-session";
 import { checkoutRequestSchema } from "@/server/presentation/validators/checkout.validator";
 import { CheckoutOrderError } from "@/shared/errors/checkout-order.error";
 
@@ -29,15 +34,21 @@ export async function POST(request: Request) {
       );
     }
 
+    const sessionToken = (await cookies()).get(
+      CUSTOMER_SESSION_COOKIE,
+    )?.value;
+    const userId = verifyCustomerToken(sessionToken) ?? undefined;
+
     const checkoutOrderRepository =
       new PrismaCheckoutOrderRepository();
 
     const createDraftOrderUseCase =
       new CreateDraftOrderUseCase(checkoutOrderRepository);
 
-    const order = await createDraftOrderUseCase.execute(
-      parsedPayload.data,
-    );
+    const order = await createDraftOrderUseCase.execute({
+      ...parsedPayload.data,
+      userId,
+    });
 
     return NextResponse.json(
       {

@@ -8,6 +8,10 @@ import {
   calculateCartTotalItems,
 } from "@/modules/cart/utils/cart-calculations";
 import { PaytrIframe } from "@/modules/checkout/components/paytr-iframe";
+import {
+  calculateShippingFee,
+  type ShippingConfig,
+} from "@/shared/utils/shipping";
 
 type DraftOrderResponse = {
   orderId: string;
@@ -55,12 +59,27 @@ const currencyFormatter = new Intl.NumberFormat("tr-TR", {
   currency: "TRY",
 });
 
-export function CheckoutPageContent() {
+type InitialCustomer = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+};
+
+export function CheckoutPageContent({
+  shippingConfig,
+  initialCustomer,
+}: {
+  shippingConfig: ShippingConfig;
+  initialCustomer?: InitialCustomer;
+}) {
   const items = useCartStore((state) => state.items);
   const hasHydrated = useCartStore((state) => state.hasHydrated);
 
-  const [formState, setFormState] =
-    useState<CheckoutFormState>(initialFormState);
+  const [formState, setFormState] = useState<CheckoutFormState>({
+    ...initialFormState,
+    ...(initialCustomer ?? {}),
+  });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -70,6 +89,12 @@ export function CheckoutPageContent() {
 
   const subtotal = calculateCartSubtotal(items);
   const totalItems = calculateCartTotalItems(items);
+  const shippingFee = calculateShippingFee(subtotal, shippingConfig);
+  const total = subtotal + shippingFee;
+  const freeShippingRemaining =
+    shippingConfig.freeThreshold !== null && shippingFee > 0
+      ? shippingConfig.freeThreshold - subtotal
+      : 0;
 
   const checkoutItems = useMemo(() => {
     return items.map((item) => ({
@@ -402,9 +427,18 @@ export function CheckoutPageContent() {
           <div className="flex items-center justify-between">
             <span className="text-brand-muted">Kargo</span>
             <span className="font-semibold text-brand-text">
-              Sonraki adımda
+              {shippingFee > 0
+                ? currencyFormatter.format(shippingFee)
+                : "Ücretsiz"}
             </span>
           </div>
+
+          {freeShippingRemaining > 0 && (
+            <p className="rounded-lg bg-brand-secondary px-3 py-2 text-xs text-brand-text">
+              {currencyFormatter.format(freeShippingRemaining)} daha ekleyin,
+              kargo ücretsiz olsun.
+            </p>
+          )}
         </div>
 
         <div className="mt-6 flex items-center justify-between">
@@ -413,7 +447,7 @@ export function CheckoutPageContent() {
           </span>
 
           <strong className="text-2xl font-bold text-brand-text">
-            {currencyFormatter.format(subtotal)}
+            {currencyFormatter.format(total)}
           </strong>
         </div>
 

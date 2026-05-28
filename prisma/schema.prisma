@@ -164,10 +164,29 @@ model ProductImage {
   @@index([productId, isPrimary, sortOrder])
 }
 
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  firstName    String
+  lastName     String
+  phone        String?
+
+  orders       Order[]
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([email])
+}
+
 model Order {
   id                  String        @id @default(cuid())
   orderNumber         String        @unique
   merchantOid         String?       @unique
+
+  userId              String?
+  user                User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   status              OrderStatus   @default(DRAFT)
   paymentStatus       PaymentStatus @default(NOT_STARTED)
@@ -204,6 +223,7 @@ model Order {
   @@index([status, paymentStatus])
   @@index([customerEmail])
   @@index([createdAt])
+  @@index([userId])
 }
 
 model OrderItem {

@@ -3,17 +3,20 @@ import { AnnouncementBar } from "@/components/layout/announcement-bar";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { CartDrawer } from "@/modules/cart/components/cart-drawer";
+import { getShippingConfig } from "@/server/application/layout/get-shipping-config.cached";
 
 type StorefrontLayoutProps = {
   children: ReactNode;
 };
 
-export default function StorefrontLayout({
+export default async function StorefrontLayout({
   children,
 }: StorefrontLayoutProps) {
+  const shippingConfig = await getShippingConfig();
+
   return (
     <div className="flex min-h-screen flex-col">
-      <AnnouncementBar />
+      <AnnouncementBar freeShippingThreshold={shippingConfig.freeThreshold} />
       <Header />
 
       <div className="flex-1">{children}</div>
