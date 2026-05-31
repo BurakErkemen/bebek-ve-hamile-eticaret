@@ -4,31 +4,26 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 
-const inputClass =
-  "w-full rounded-2xl border border-brand-border bg-brand-surface px-4 py-3 text-sm text-brand-text outline-none transition focus:border-brand-primary";
+const inputCls =
+  "w-full rounded-[var(--radius-md)] border border-border bg-surface px-4 py-3 text-sm text-ink outline-none transition focus:border-amber focus:ring-2 focus:ring-amber/20 placeholder:text-ink-4";
 
 export function RegisterForm() {
   const router = useRouter();
   const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    password: "",
+    firstName: "", lastName: "", email: "", phone: "", password: "",
   });
-  const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError]     = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  function update(field: keyof typeof form, value: string) {
-    setForm((current) => ({ ...current, [field]: value }));
-  }
+  const update = (field: keyof typeof form, value: string) =>
+    setForm(p => ({ ...p, [field]: value }));
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setIsSubmitting(true);
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setLoading(true);
     setError(null);
 
-    const response = await fetch("/api/auth/register", {
+    const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -40,104 +35,66 @@ export function RegisterForm() {
       }),
     });
 
-    if (response.ok) {
+    if (res.ok) {
       router.replace("/hesap");
       router.refresh();
       return;
     }
 
-    const data = (await response.json().catch(() => ({}))) as {
-      message?: string;
-    };
+    const data = await res.json().catch(() => ({})) as { message?: string };
     setError(data.message ?? "Kayıt başarısız oldu.");
-    setIsSubmitting(false);
+    setLoading(false);
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="block space-y-2">
-          <span className="text-sm font-medium text-brand-muted">Ad</span>
-          <input
-            type="text"
-            required
-            value={form.firstName}
-            onChange={(event) => update("firstName", event.target.value)}
-            className={inputClass}
-          />
+        <label className="block space-y-1.5">
+          <span className="text-xs font-semibold uppercase tracking-wider text-ink-3">Ad</span>
+          <input type="text" required value={form.firstName}
+            onChange={e => update("firstName", e.target.value)} className={inputCls} />
         </label>
-        <label className="block space-y-2">
-          <span className="text-sm font-medium text-brand-muted">Soyad</span>
-          <input
-            type="text"
-            required
-            value={form.lastName}
-            onChange={(event) => update("lastName", event.target.value)}
-            className={inputClass}
-          />
+        <label className="block space-y-1.5">
+          <span className="text-xs font-semibold uppercase tracking-wider text-ink-3">Soyad</span>
+          <input type="text" required value={form.lastName}
+            onChange={e => update("lastName", e.target.value)} className={inputCls} />
         </label>
       </div>
 
-      <label className="block space-y-2">
-        <span className="text-sm font-medium text-brand-muted">E-posta</span>
-        <input
-          type="email"
-          autoComplete="email"
-          required
-          value={form.email}
-          onChange={(event) => update("email", event.target.value)}
-          className={inputClass}
-        />
+      <label className="block space-y-1.5">
+        <span className="text-xs font-semibold uppercase tracking-wider text-ink-3">E-posta</span>
+        <input type="email" autoComplete="email" required value={form.email}
+          onChange={e => update("email", e.target.value)} className={inputCls} placeholder="ornek@mail.com" />
       </label>
 
-      <label className="block space-y-2">
-        <span className="text-sm font-medium text-brand-muted">
-          Telefon (opsiyonel)
+      <label className="block space-y-1.5">
+        <span className="text-xs font-semibold uppercase tracking-wider text-ink-3">
+          Telefon <span className="font-normal normal-case text-ink-4">(opsiyonel)</span>
         </span>
-        <input
-          type="tel"
-          autoComplete="tel"
-          value={form.phone}
-          onChange={(event) => update("phone", event.target.value)}
-          className={inputClass}
-        />
+        <input type="tel" autoComplete="tel" value={form.phone}
+          onChange={e => update("phone", e.target.value)} className={inputCls} placeholder="05xx xxx xx xx" />
       </label>
 
-      <label className="block space-y-2">
-        <span className="text-sm font-medium text-brand-muted">
-          Parola (en az 6 karakter)
+      <label className="block space-y-1.5">
+        <span className="text-xs font-semibold uppercase tracking-wider text-ink-3">
+          Parola <span className="font-normal normal-case text-ink-4">(en az 6 karakter)</span>
         </span>
-        <input
-          type="password"
-          autoComplete="new-password"
-          required
-          minLength={6}
-          value={form.password}
-          onChange={(event) => update("password", event.target.value)}
-          className={inputClass}
-        />
+        <input type="password" autoComplete="new-password" required minLength={6}
+          value={form.password} onChange={e => update("password", e.target.value)}
+          className={inputCls} placeholder="••••••" />
       </label>
 
       {error && (
-        <p className="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-600">
-          {error}
-        </p>
+        <p className="rounded-[var(--radius-sm)] bg-red-50 px-4 py-3 text-sm text-red-600">{error}</p>
       )}
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full rounded-full bg-brand-primary px-6 py-3 text-sm font-semibold text-brand-white transition hover:bg-brand-primary-dark disabled:cursor-not-allowed disabled:opacity-60"
-      >
-        {isSubmitting ? "Hesap oluşturuluyor…" : "Kayıt Ol"}
+      <button type="submit" disabled={loading} className="btn-amber w-full disabled:opacity-60">
+        {loading ? "Hesap oluşturuluyor…" : "Kayıt Ol"}
       </button>
 
-      <p className="text-center text-sm text-brand-muted">
+      <p className="text-center text-sm text-ink-3">
         Zaten hesabın var mı?{" "}
-        <Link
-          href="/giris"
-          className="font-semibold text-brand-primary-dark hover:underline"
-        >
+        <Link href="/giris" className="font-semibold text-amber underline-offset-2 hover:underline">
           Giriş yap
         </Link>
       </p>

@@ -118,20 +118,22 @@ export class PaytrIframeService {
       iframe_v2: "1",
     });
 
-    console.info("PayTR get-token request debug:", {
-      merchant_id: this.config.merchantId,
-      user_ip: input.userIp,
-      merchant_oid: input.merchantOid,
-      email: input.email,
-      payment_amount: paymentAmount,
-      currency: this.config.currency,
-      test_mode: this.config.testMode,
-      no_installment: this.config.noInstallment,
-      max_installment: this.config.maxInstallment,
-      timeout_limit: this.config.timeoutLimit,
-      app_url: this.config.appUrl,
-      basket_item_count: input.basketItems.length,
-    });
+    if (process.env.PAYTR_DEBUG === "1") {
+      console.info("PayTR get-token request debug:", {
+        merchant_id: this.config.merchantId,
+        user_ip: input.userIp,
+        merchant_oid: input.merchantOid,
+        email: input.email,
+        payment_amount: paymentAmount,
+        currency: this.config.currency,
+        test_mode: this.config.testMode,
+        no_installment: this.config.noInstallment,
+        max_installment: this.config.maxInstallment,
+        timeout_limit: this.config.timeoutLimit,
+        app_url: this.config.appUrl,
+        basket_item_count: input.basketItems.length,
+      });
+    }
 
     const response = await fetch("https://www.paytr.com/odeme/api/get-token", {
       method: "POST",

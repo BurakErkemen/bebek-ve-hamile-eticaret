@@ -5,8 +5,7 @@ import { ProductBreadcrumb } from "@/modules/product/components/product-breadcru
 import { ProductDescription } from "@/modules/product/components/product-description";
 import { ProductGallery } from "@/modules/product/components/product-gallery";
 import { ProductPurchasePanel } from "@/modules/product/components/product-purchase-panel";
-import { GetProductDetailUseCase } from "@/server/application/catalog/get-product-detail.use-case";
-import { PrismaProductDetailRepository } from "@/server/infrastructure/database/repositories/prisma-product-detail.repository";
+import { getCachedProductDetail } from "@/server/application/catalog/get-product-detail.cached";
 
 type ProductPageProps = {
   params: Promise<{
@@ -14,14 +13,8 @@ type ProductPageProps = {
   }>;
 };
 
-async function getProductDetail(slug: string) {
-  const productDetailRepository =
-    new PrismaProductDetailRepository();
-
-  const getProductDetailUseCase =
-    new GetProductDetailUseCase(productDetailRepository);
-
-  return getProductDetailUseCase.execute(slug);
+function getProductDetail(slug: string) {
+  return getCachedProductDetail(slug);
 }
 
 export async function generateMetadata({

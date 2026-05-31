@@ -1,5 +1,6 @@
 ﻿import { HandlePaytrCallbackUseCase } from "@/server/application/payment/handle-paytr-callback.use-case";
 import { PrismaPaytrCallbackRepository } from "@/server/infrastructure/database/repositories/prisma-paytr-callback.repository";
+import { ResendOrderConfirmationMailer } from "@/server/infrastructure/mail/resend-order-confirmation.mailer";
 import { paytrCallbackRequestSchema } from "@/server/presentation/validators/payment.validator";
 import { PaymentError } from "@/shared/errors/payment.error";
 
@@ -48,8 +49,10 @@ export async function POST(request: Request) {
     }
 
     const paytrCallbackRepository = new PrismaPaytrCallbackRepository();
-    const handlePaytrCallbackUseCase =
-      new HandlePaytrCallbackUseCase(paytrCallbackRepository);
+    const handlePaytrCallbackUseCase = new HandlePaytrCallbackUseCase(
+      paytrCallbackRepository,
+      new ResendOrderConfirmationMailer(),
+    );
 
     await handlePaytrCallbackUseCase.execute({
       merchantOid: parsedPayload.data.merchant_oid,

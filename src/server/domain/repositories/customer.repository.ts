@@ -13,4 +13,9 @@ export interface CustomerRepository {
     lastName: string;
     phone?: string;
   }): Promise<Customer>;
+  updateProfile(
+    id: string,
+    input: { firstName: string; lastName: string; phone?: string },
+  ): Promise<Customer>;
+  updatePassword(id: string, passwordHash: string): Promise<void>;
 }

@@ -1,5 +1,6 @@
 ﻿import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { rateLimit } from "@/server/infrastructure/rate-limit/rate-limiter";
 import { CreateDraftOrderUseCase } from "@/server/application/checkout/create-draft-order.use-case";
 import { PrismaCheckoutOrderRepository } from "@/server/infrastructure/database/repositories/prisma-checkout-order.repository";
 import {
@@ -9,7 +10,10 @@ import {
 import { checkoutRequestSchema } from "@/server/presentation/validators/checkout.validator";
 import { CheckoutOrderError } from "@/shared/errors/checkout-order.error";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const limited = await rateLimit(request, { prefix: "checkout", windowSeconds: 60, maxRequests: 5 });
+  if (limited) return limited;
+
   try {
     const rawPayload = await request.json();
     const parsedPayload = checkoutRequestSchema.safeParse(rawPayload);

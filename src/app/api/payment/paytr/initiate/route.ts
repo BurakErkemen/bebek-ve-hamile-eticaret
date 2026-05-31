@@ -1,11 +1,15 @@
-﻿import { NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
+import { rateLimit } from "@/server/infrastructure/rate-limit/rate-limiter";
 import { InitiatePaytrPaymentUseCase } from "@/server/application/payment/initiate-paytr-payment.use-case";
 import { PrismaPaytrPaymentRepository } from "@/server/infrastructure/database/repositories/prisma-paytr-payment.repository";
 import { initiatePaytrPaymentRequestSchema } from "@/server/presentation/validators/payment.validator";
 import { PaymentError } from "@/shared/errors/payment.error";
 import { getClientIpFromRequest } from "@/shared/utils/request-ip";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const limited = await rateLimit(request, { prefix: "paytr:initiate", windowSeconds: 60, maxRequests: 5 });
+  if (limited) return limited;
+
   try {
     const rawPayload = await request.json();
     const parsedPayload =

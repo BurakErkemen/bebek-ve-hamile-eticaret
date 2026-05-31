@@ -15,6 +15,7 @@ export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({ adapter: createPgAdapter() });
 
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = prisma;
-}
+// Her ortamda singleton'ı global'e kaydet.
+// Serverless / standalone soğuk başlatmalarda her modül yüklemesinde
+// yeni PrismaPg/pg.Pool açılmasını önler (bkz. INCELEME 3.4).
+globalForPrisma.prisma = globalForPrisma.prisma ?? prisma;

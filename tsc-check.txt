@@ -1,0 +1,15 @@
+src/app/(storefront)/urun/[slug]/page.tsx(18,9): error TS2552: Cannot find name 'PrismaProductDetailRepository'. Did you mean 'productDetailRepository'?
+src/app/(storefront)/urun/[slug]/page.tsx(21,9): error TS2552: Cannot find name 'GetProductDetailUseCase'. Did you mean 'getProductDetailUseCase'?
+src/app/api/admin/products/[id]/route.ts(75,5): error TS2554: Expected 2 arguments, but got 1.
+src/app/api/admin/products/[id]/route.ts(89,5): error TS2554: Expected 2 arguments, but got 1.
+src/app/api/admin/products/route.ts(68,5): error TS2554: Expected 2 arguments, but got 1.
+src/app/api/payment/paytr/callback/route.ts(52,38): error TS2345: Argument of type 'PrismaPaytrCallbackRepository' is not assignable to parameter of type 'PaytrCallbackRepository'.
+  Property 'handleCallback' is missing in type 'PrismaPaytrCallbackRepository' but required in type 'PaytrCallbackRepository'.
+src/server/infrastructure/database/repositories/prisma-paytr-callback.repository.ts(1,30): error TS2307: Cannot find module '@/generated/prisma' or its corresponding type declarations.
+src/server/infrastructure/database/repositories/prisma-paytr-callback.repository.ts(9,3): error TS2344: Type 'unknown' does not satisfy the constraint '(...args: any) => any'.
+src/server/infrastructure/database/repositories/prisma-paytr-callback.repository.ts(16,30): error TS2339: Property 'order' does not exist on type 'never'.
+src/server/infrastructure/database/repositories/prisma-paytr-callback.repository.ts(31,50): error TS2345: Argument of type 'Omit<PrismaClient<never, undefined, DefaultArgs>, "$connect" | "$disconnect" | "$on" | "$use" | "$extends">' is not assignable to parameter of type 'never'.
+src/server/infrastructure/database/repositories/prisma-paytr-callback.repository.ts(58,23): error TS2353: Object literal may only specify known properties, and 'stock' does not exist in type '(Without<ProductVariantUpdateInput, ProductVariantUncheckedUpdateInput> & ProductVariantUncheckedUpdateInput) | (Without<...> & ProductVariantUpdateInput)'.
+src/server/infrastructure/database/repositories/prisma-paytr-callback.repository.ts(63,23): error TS2353: Object literal may only specify known properties, and 'stock' does not exist in type '(Without<ProductUpdateInput, ProductUncheckedUpdateInput> & ProductUncheckedUpdateInput) | (Without<...> & ProductUpdateInput)'.
+src/server/infrastructure/database/repositories/prisma-paytr-callback.repository.ts(72,17): error TS2322: Type '"PAID"' is not assignable to type 'EnumOrderStatusFieldUpdateOperationsInput | OrderStatus | undefined'.
+src/server/infrastructure/database/repositories/prisma-paytr-callback.repository.ts(82,35): error TS7006: Parameter 'item' implicitly has an 'any' type.

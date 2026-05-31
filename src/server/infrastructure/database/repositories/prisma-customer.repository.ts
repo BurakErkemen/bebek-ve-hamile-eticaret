@@ -15,9 +15,7 @@ export class PrismaCustomerRepository implements CustomerRepository {
       where: { email: normalizeEmail(email) },
     });
 
-    if (!user) {
-      return null;
-    }
+    if (!user) return null;
 
     return {
       id: user.id,
@@ -31,11 +29,7 @@ export class PrismaCustomerRepository implements CustomerRepository {
 
   async findById(id: string): Promise<Customer | null> {
     const user = await prisma.user.findUnique({ where: { id } });
-
-    if (!user) {
-      return null;
-    }
-
+    if (!user) return null;
     return {
       id: user.id,
       email: user.email,
@@ -61,7 +55,6 @@ export class PrismaCustomerRepository implements CustomerRepository {
         phone: input.phone ?? null,
       },
     });
-
     return {
       id: user.id,
       email: user.email,
@@ -69,5 +62,30 @@ export class PrismaCustomerRepository implements CustomerRepository {
       lastName: user.lastName,
       phone: user.phone,
     };
+  }
+
+  async updateProfile(
+    id: string,
+    input: { firstName: string; lastName: string; phone?: string },
+  ): Promise<Customer> {
+    const user = await prisma.user.update({
+      where: { id },
+      data: {
+        firstName: input.firstName.trim(),
+        lastName: input.lastName.trim(),
+        phone: input.phone?.trim() || null,
+      },
+    });
+    return {
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      phone: user.phone,
+    };
+  }
+
+  async updatePassword(id: string, passwordHash: string): Promise<void> {
+    await prisma.user.update({ where: { id }, data: { passwordHash } });
   }
 }

@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { rateLimit } from "@/server/infrastructure/rate-limit/rate-limiter";
 import { LoginCustomerUseCase } from "@/server/application/auth/login-customer.use-case";
 import { PrismaCustomerRepository } from "@/server/infrastructure/database/repositories/prisma-customer.repository";
 import {
@@ -9,7 +10,10 @@ import {
 import { loginSchema } from "@/server/presentation/validators/auth.validator";
 import { AuthError } from "@/shared/errors/auth.error";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const limited = await rateLimit(request, { prefix: "auth:login", windowSeconds: 60, maxRequests: 10 });
+  if (limited) return limited;
+
   const body = await request.json().catch(() => null);
   const parsed = loginSchema.safeParse(body);
 

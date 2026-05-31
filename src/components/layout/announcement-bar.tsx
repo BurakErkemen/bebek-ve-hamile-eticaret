@@ -1,14 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { formatTRY } from "@/shared/utils/format-currency";
 
 const STORAGE_KEY = "announcement-bar-dismissed";
 
-const currencyFormatter = new Intl.NumberFormat("tr-TR", {
-  style: "currency",
-  currency: "TRY",
-  maximumFractionDigits: 0,
-});
 
 export function AnnouncementBar({
   freeShippingThreshold,
@@ -19,7 +15,7 @@ export function AnnouncementBar({
 
   const message =
     freeShippingThreshold && freeShippingThreshold > 0
-      ? `${currencyFormatter.format(freeShippingThreshold)} ve üzeri alışverişlerde kargo ücretsiz!`
+      ? `${formatTRY(freeShippingThreshold, { decimals: false })} ve üzeri alışverişlerde kargo ücretsiz!`
       : "Yeni sezon bebek ve hamile ürünleri mağazamızda!";
 
   useEffect(() => {

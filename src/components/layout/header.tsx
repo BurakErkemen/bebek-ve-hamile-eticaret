@@ -2,159 +2,97 @@ import Image from "next/image";
 import Link from "next/link";
 import { HeaderAccountButton } from "@/components/layout/header-account-button";
 import { HeaderCartButton } from "@/components/layout/header-cart-button";
+import { HeaderShell } from "@/components/layout/header-shell";
+import { MobileMenu } from "@/components/layout/mobile-menu";
 import { SearchBar } from "@/modules/search/components/search-bar";
 import { getCachedNavCategories } from "@/server/application/layout/get-nav-categories.cached";
 
-const NAV_CATEGORY_LIMIT = 4;
+const NAV_LIMIT = 5;
 
 export async function Header() {
   const categories = await getCachedNavCategories();
-
-  const visibleCategories = categories.slice(0, NAV_CATEGORY_LIMIT);
-  const overflowCategories = categories.slice(NAV_CATEGORY_LIMIT);
+  const visible = categories.slice(0, NAV_LIMIT);
+  const overflow = categories.slice(NAV_LIMIT);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-brand-border bg-brand-surface/95 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 py-4 md:px-6 lg:px-8">
-        {/* Logo */}
-        <Link
-          href="/"
-          className="flex shrink-0 items-center"
-          aria-label="Dastini Bebe Market Ana Sayfa"
-        >
-          <Image
-            src="/logo.png"
-            alt="Dastini Bebe Market"
-            width={313}
-            height={125}
-            priority
-            className="h-12 w-auto md:h-14"
-          />
+    <HeaderShell>
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-3 md:px-6 lg:px-8">
+        <MobileMenu categories={categories} />
+
+        <Link href="/" aria-label="Dastini Ana Sayfa" className="shrink-0">
+          <Image src="/logo.png" alt="Dastini" width={313} height={125} priority
+            className="h-9 w-auto transition-opacity duration-200 hover:opacity-80 md:h-10" />
         </Link>
 
-        {/* Desktop nav */}
-        <div className="hidden flex-1 items-center justify-center md:flex">
-          <nav aria-label="Ana menü">
-            <ul className="flex items-center gap-1">
-              {visibleCategories.map((cat) => (
-                <li key={cat.id} className="relative group">
-                  <Link
-                    href={`/kategori/${cat.slug}`}
-                    className="inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold text-brand-text transition hover:bg-brand-secondary hover:text-brand-primary-dark"
-                  >
-                    {cat.name}
-                    {cat.children.length > 0 && (
-                      <svg
-                        width="12"
-                        height="12"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth={2.5}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="mt-0.5 transition-transform group-hover:rotate-180"
-                        aria-hidden
-                      >
-                        <path d="m6 9 6 6 6-6" />
-                      </svg>
-                    )}
-                  </Link>
-
+        <nav aria-label="Ana menü" className="hidden flex-1 justify-center md:flex">
+          <ul className="flex items-center">
+            {visible.map(cat => (
+              <li key={cat.id} className="group relative">
+                <Link href={`/kategori/${cat.slug}`}
+                  className="inline-flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-medium text-ink-2 transition-all duration-200 hover:bg-surface-warm hover:text-ink">
+                  {cat.name}
                   {cat.children.length > 0 && (
-                    <div className="absolute left-0 top-full pt-1 hidden group-hover:block z-50 min-w-[180px]">
-                      <ul className="rounded-xl border border-brand-border bg-brand-white py-1.5 shadow-lg">
-                        {cat.children.map((child) => (
-                          <li key={child.id}>
-                            <Link
-                              href={`/kategori/${child.slug}`}
-                              className="block px-4 py-2 text-sm text-brand-text transition hover:bg-brand-secondary hover:text-brand-primary-dark"
-                            >
-                              {child.name}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </li>
-              ))}
-
-              {overflowCategories.length > 0 && (
-                <li className="relative group">
-                  <button
-                    type="button"
-                    className="inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold text-brand-text transition hover:bg-brand-secondary hover:text-brand-primary-dark"
-                  >
-                    Diğer Kategoriler
-                    <svg
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2.5}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="mt-0.5 transition-transform group-hover:rotate-180"
-                      aria-hidden
-                    >
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"
+                      className="mt-px transition-transform duration-200 group-hover:rotate-180" aria-hidden="true">
                       <path d="m6 9 6 6 6-6" />
                     </svg>
-                  </button>
-
-                  <div className="absolute right-0 top-full pt-1 hidden group-hover:block z-50 min-w-[200px]">
-                    <ul className="max-h-[70vh] overflow-y-auto rounded-xl border border-brand-border bg-brand-white py-1.5 shadow-lg">
-                      {overflowCategories.map((cat) => (
-                        <li key={cat.id}>
-                          <Link
-                            href={`/kategori/${cat.slug}`}
-                            className="block px-4 py-2 text-sm font-medium text-brand-text transition hover:bg-brand-secondary hover:text-brand-primary-dark"
-                          >
-                            {cat.name}
+                  )}
+                </Link>
+                {cat.children.length > 0 && (
+                  <div className="invisible absolute left-0 top-full z-50 min-w-[200px] pt-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
+                    <ul className="overflow-hidden rounded-xl border border-border bg-surface-card py-1.5 shadow-lg">
+                      {cat.children.map(child => (
+                        <li key={child.id}>
+                          <Link href={`/kategori/${child.slug}`}
+                            className="block px-4 py-2.5 text-sm text-ink-2 transition hover:bg-surface-warm hover:text-ink">
+                            {child.name}
                           </Link>
                         </li>
                       ))}
                     </ul>
                   </div>
-                </li>
-              )}
-            </ul>
-          </nav>
-        </div>
+                )}
+              </li>
+            ))}
+            {overflow.length > 0 && (
+              <li className="group relative">
+                <button type="button"
+                  className="inline-flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-medium text-ink-2 transition-all duration-200 hover:bg-surface-warm hover:text-ink">
+                  Diğerleri
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"
+                    className="mt-px transition-transform duration-200 group-hover:rotate-180" aria-hidden="true">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <div className="invisible absolute right-0 top-full z-50 min-w-[210px] pt-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
+                  <ul className="max-h-[70vh] overflow-y-auto rounded-xl border border-border bg-surface-card py-1.5 shadow-lg">
+                    {overflow.map(cat => (
+                      <li key={cat.id}>
+                        <Link href={`/kategori/${cat.slug}`}
+                          className="block px-4 py-2.5 text-sm text-ink-2 transition hover:bg-surface-warm hover:text-ink">
+                          {cat.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
+            )}
+          </ul>
+        </nav>
 
-        {/* Sağ aksiyonlar */}
-        <div className="flex items-center gap-2">
-          <SearchBar className="hidden w-56 lg:flex" />
+        <div className="flex items-center gap-1.5">
+          <SearchBar className="hidden w-48 lg:flex xl:w-56" />
           <HeaderAccountButton />
           <HeaderCartButton />
         </div>
       </div>
 
-      {/* Mobil arama */}
-      <div className="border-t border-brand-border px-4 py-3 lg:hidden">
-        <div className="mx-auto w-full max-w-7xl">
+      <div className="border-t border-border/60 px-4 py-2.5 lg:hidden">
+        <div className="mx-auto max-w-7xl">
           <SearchBar />
         </div>
       </div>
-
-      {/* Mobil yatay scroll nav */}
-      <div className="border-t border-brand-border md:hidden">
-        <nav
-          aria-label="Mobil ana menü"
-          className="mx-auto flex w-full max-w-7xl gap-2 overflow-x-auto px-4 py-3 scrollbar-none"
-        >
-          {categories.map((cat) => (
-            <Link
-              key={cat.id}
-              href={`/kategori/${cat.slug}`}
-              className="shrink-0 rounded-full border border-brand-border bg-brand-white px-4 py-2 text-sm font-semibold text-brand-text transition hover:bg-brand-secondary"
-            >
-              {cat.name}
-            </Link>
-          ))}
-        </nav>
-      </div>
-    </header>
+    </HeaderShell>
   );
 }

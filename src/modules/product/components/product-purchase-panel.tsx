@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useCartStore } from "@/modules/cart/store/cart.store";
+import { formatTRY } from "@/shared/utils/format-currency";
 
 type ProductVariant = {
   id: string;
@@ -29,10 +30,6 @@ type ProductPurchasePanelProps = {
   isFeatured: boolean;
 };
 
-const currencyFormatter = new Intl.NumberFormat("tr-TR", {
-  style: "currency",
-  currency: "TRY",
-});
 
 function buildVariantLabel(variant: ProductVariant): string {
   const labelParts = [variant.size, variant.colorName].filter(Boolean);
@@ -134,12 +131,12 @@ export function ProductPurchasePanel({
 
       <div className="mt-6 flex flex-wrap items-end gap-3">
         <span className="text-3xl font-bold text-brand-text">
-          {currencyFormatter.format(currentPrice)}
+          {formatTRY(currentPrice, { decimals: false })}
         </span>
 
         {currentCompareAtPrice ? (
           <span className="text-lg font-medium text-brand-muted line-through">
-            {currencyFormatter.format(currentCompareAtPrice)}
+            {formatTRY(currentCompareAtPrice, { decimals: false })}
           </span>
         ) : null}
       </div>

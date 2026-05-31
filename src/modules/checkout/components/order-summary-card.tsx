@@ -1,10 +1,7 @@
 import Image from "next/image";
 import type { OrderSummary } from "@/server/domain/entities/order-summary.entity";
+import { formatTRY } from "@/shared/utils/format-currency";
 
-const currencyFormatter = new Intl.NumberFormat("tr-TR", {
-  style: "currency",
-  currency: "TRY",
-});
 
 export function OrderSummaryCard({ order }: { order: OrderSummary }) {
   return (
@@ -19,7 +16,7 @@ export function OrderSummaryCard({ order }: { order: OrderSummary }) {
         <div className="text-right">
           <p className="text-sm text-brand-text/60">Toplam</p>
           <p className="font-display text-lg font-bold text-brand-text">
-            {currencyFormatter.format(order.totalAmount)}
+            {formatTRY(order.totalAmount, { decimals: false })}
           </p>
         </div>
       </div>
@@ -47,7 +44,7 @@ export function OrderSummaryCard({ order }: { order: OrderSummary }) {
               </p>
             </div>
             <p className="text-sm font-medium text-brand-text">
-              {currencyFormatter.format(item.lineTotal)}
+              {formatTRY(item.lineTotal, { decimals: false })}
             </p>
           </li>
         ))}
@@ -56,25 +53,25 @@ export function OrderSummaryCard({ order }: { order: OrderSummary }) {
       <div className="space-y-1.5 border-t border-brand-border pt-4 text-sm">
         <div className="flex justify-between text-brand-text/70">
           <span>Ara toplam</span>
-          <span>{currencyFormatter.format(order.subtotal)}</span>
+          <span>{formatTRY(order.subtotal, { decimals: false })}</span>
         </div>
         <div className="flex justify-between text-brand-text/70">
           <span>Kargo</span>
           <span>
             {order.shippingFee > 0
-              ? currencyFormatter.format(order.shippingFee)
+              ? formatTRY(order.shippingFee, { decimals: false })
               : "Ücretsiz"}
           </span>
         </div>
         {order.discountAmount > 0 && (
           <div className="flex justify-between text-brand-text/70">
             <span>İndirim</span>
-            <span>-{currencyFormatter.format(order.discountAmount)}</span>
+            <span>-{formatTRY(order.discountAmount, { decimals: false })}</span>
           </div>
         )}
         <div className="flex justify-between pt-1 font-display text-base font-bold text-brand-text">
           <span>Genel toplam</span>
-          <span>{currencyFormatter.format(order.totalAmount)}</span>
+          <span>{formatTRY(order.totalAmount, { decimals: false })}</span>
         </div>
       </div>
 

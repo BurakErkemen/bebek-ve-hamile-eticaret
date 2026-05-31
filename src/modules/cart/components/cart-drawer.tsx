@@ -8,11 +8,8 @@ import {
   calculateCartSubtotal,
   calculateCartTotalItems,
 } from "@/modules/cart/utils/cart-calculations";
+import { formatTRY } from "@/shared/utils/format-currency";
 
-const currencyFormatter = new Intl.NumberFormat("tr-TR", {
-  style: "currency",
-  currency: "TRY",
-});
 
 export function CartDrawer() {
   const items = useCartStore((state) => state.items);
@@ -118,7 +115,7 @@ export function CartDrawer() {
                       </p>
 
                       <p className="mt-2 text-sm font-semibold text-brand-text">
-                        {currencyFormatter.format(item.unitPrice)}
+                        {formatTRY(item.unitPrice, { decimals: false })}
                       </p>
                     </div>
                   </div>
@@ -167,7 +164,7 @@ export function CartDrawer() {
             </span>
 
             <strong className="text-xl font-bold text-brand-text">
-              {currencyFormatter.format(subtotal)}
+              {formatTRY(subtotal, { decimals: false })}
             </strong>
           </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { formatTRY } from "@/shared/utils/format-currency";
 
 type CategoryFilterValue = {
   id: string;
@@ -35,11 +36,6 @@ function parseCurrentValueList(rawValue: string | null): string[] {
     .filter(Boolean);
 }
 
-const currencyFormatter = new Intl.NumberFormat("tr-TR", {
-  style: "currency",
-  currency: "TRY",
-  maximumFractionDigits: 0,
-});
 
 export function CategoryActiveFilters({
   filters,
@@ -124,10 +120,10 @@ export function CategoryActiveFilters({
 
   const priceLabel =
     typeof minPrice === "number" && typeof maxPrice === "number"
-      ? `${currencyFormatter.format(minPrice)} - ${currencyFormatter.format(maxPrice)}`
+      ? `${formatTRY(minPrice, { decimals: false })} - ${formatTRY(maxPrice, { decimals: false })}`
       : typeof minPrice === "number"
-        ? `${currencyFormatter.format(minPrice)} ve üzeri`
-        : `${currencyFormatter.format(maxPrice ?? 0)} ve altı`;
+        ? `${formatTRY(minPrice, { decimals: false })} ve üzeri`
+        : `${formatTRY(maxPrice ?? 0, { decimals: false })} ve altı`;
 
   return (
     <section className="rounded-[var(--radius-brand-lg)] border border-brand-border bg-brand-white p-5">

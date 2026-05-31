@@ -1,59 +1,220 @@
 @import "tailwindcss";
 
 :root {
-  --brand-surface: #fffaf7;
-  --brand-primary: #e9a8b8;
-  --brand-primary-dark: #d9899d;
-  --brand-secondary: #f7e8dc;
-  --brand-accent: #b7d7c4;
-  --brand-accent-dark: #93bba6;
-  --brand-text: #4a3f3a;
-  --brand-muted: #8d7e77;
-  --brand-border: #efdeda;
-  --brand-white: #ffffff;
-  --brand-success: #7bb58f;
-  --brand-warning: #e8b96d;
-  --brand-danger: #d87d7d;
+  --surface:        #FBF8F3;
+  --surface-warm:   #F5EFE6;
+  --surface-card:   #FFFFFF;
+  --ink:            #1C1917;
+  --ink-2:          #44403C;
+  --ink-3:          #78716C;
+  --ink-4:          #A8A29E;
+  --blush:          #D9A8B4;
+  --blush-light:    #EDD5DC;
+  --blush-subtle:   #FAF1F4;
+  --sage:           #8BAF9A;
+  --sage-light:     #B8D0C4;
+  --sage-subtle:    #EEF5F1;
+  --clay:           #C4866A;
+  --clay-light:     #DFB49E;
+  --clay-subtle:    #FAF0EA;
+  --sky:            #8BAFC4;
+  --sky-light:      #B8CDD8;
+  --sky-subtle:     #EEF4F8;
+  --amber:          #C8722A;
+  --amber-hover:    #B05F1E;
+  --amber-subtle:   #FDF3EA;
+  --border:         #E5DDD5;
+  --border-light:   #EDE8E2;
+  --success:        #5D9E7A;
+  --warning:        #D4944A;
+  --danger:         #C0605A;
+  --shadow-xs: 0 1px 2px 0 rgb(28 25 23 / 0.05);
+  --shadow-sm: 0 2px 6px -1px rgb(28 25 23 / 0.08), 0 1px 3px -1px rgb(28 25 23 / 0.04);
+  --shadow-md: 0 6px 20px -4px rgb(28 25 23 / 0.10), 0 2px 8px -2px rgb(28 25 23 / 0.05);
+  --shadow-lg: 0 14px 36px -6px rgb(28 25 23 / 0.12), 0 4px 12px -4px rgb(28 25 23 / 0.06);
+  --shadow-xl: 0 24px 56px -10px rgb(28 25 23 / 0.14), 0 8px 20px -6px rgb(28 25 23 / 0.07);
+  --shadow-amber: 0 6px 24px -4px rgb(200 114 42 / 0.40);
+  --radius-sm:  0.625rem;
+  --radius-md:  1rem;
+  --radius-lg:  1.5rem;
+  --radius-xl:  2rem;
+  --radius-2xl: 2.75rem;
+  --radius-full: 9999px;
 }
 
 @theme inline {
-  --color-brand-surface: var(--brand-surface);
-  --color-brand-primary: var(--brand-primary);
-  --color-brand-primary-dark: var(--brand-primary-dark);
-  --color-brand-secondary: var(--brand-secondary);
-  --color-brand-accent: var(--brand-accent);
-  --color-brand-accent-dark: var(--brand-accent-dark);
-  --color-brand-text: var(--brand-text);
-  --color-brand-muted: var(--brand-muted);
-  --color-brand-border: var(--brand-border);
-  --color-brand-white: var(--brand-white);
-  --color-brand-success: var(--brand-success);
-  --color-brand-warning: var(--brand-warning);
-  --color-brand-danger: var(--brand-danger);
-
-  --font-sans: var(--font-inter);
-  --font-display: var(--font-quicksand);
-
-  --radius-brand-sm: 0.875rem;
-  --radius-brand-md: 1.25rem;
-  --radius-brand-lg: 1.75rem;
-  --radius-brand-xl: 2.25rem;
+  --color-surface:       var(--surface);
+  --color-surface-warm:  var(--surface-warm);
+  --color-surface-card:  var(--surface-card);
+  --color-ink:           var(--ink);
+  --color-ink-2:         var(--ink-2);
+  --color-ink-3:         var(--ink-3);
+  --color-ink-4:         var(--ink-4);
+  --color-blush:         var(--blush);
+  --color-blush-light:   var(--blush-light);
+  --color-blush-subtle:  var(--blush-subtle);
+  --color-sage:          var(--sage);
+  --color-sage-light:    var(--sage-light);
+  --color-sage-subtle:   var(--sage-subtle);
+  --color-clay:          var(--clay);
+  --color-clay-light:    var(--clay-light);
+  --color-clay-subtle:   var(--clay-subtle);
+  --color-sky:           var(--sky);
+  --color-sky-light:     var(--sky-light);
+  --color-sky-subtle:    var(--sky-subtle);
+  --color-amber:         var(--amber);
+  --color-amber-hover:   var(--amber-hover);
+  --color-amber-subtle:  var(--amber-subtle);
+  --color-border:        var(--border);
+  --color-border-light:  var(--border-light);
+  --color-success:       var(--success);
+  --color-warning:       var(--warning);
+  --color-danger:        var(--danger);
+  --color-brand-surface:        var(--surface);
+  --color-brand-primary:        var(--blush);
+  --color-brand-primary-dark:   #c08898;
+  --color-brand-primary-subtle: var(--blush-subtle);
+  --color-brand-primary-light:  var(--blush-light);
+  --color-brand-secondary:      var(--surface-warm);
+  --color-brand-secondary-dark: var(--clay-light);
+  --color-brand-accent:         var(--sage);
+  --color-brand-accent-dark:    #6a9180;
+  --color-brand-accent-light:   var(--sage-light);
+  --color-brand-accent-subtle:  var(--sage-subtle);
+  --color-brand-sky:            var(--sky);
+  --color-brand-sky-subtle:     var(--sky-subtle);
+  --color-brand-text:           var(--ink);
+  --color-brand-text-secondary: var(--ink-2);
+  --color-brand-muted:          var(--ink-3);
+  --color-brand-border:         var(--border);
+  --color-brand-border-light:   var(--border-light);
+  --color-brand-white:          var(--surface-card);
+  --color-brand-card:           var(--surface-card);
+  --color-brand-success:        var(--success);
+  --color-brand-warning:        var(--warning);
+  --color-brand-danger:         var(--danger);
+  --font-sans:    var(--font-inter);
+  --font-display: var(--font-fraunces);
+  --radius-brand-sm:  var(--radius-sm);
+  --radius-brand-md:  var(--radius-md);
+  --radius-brand-lg:  var(--radius-lg);
+  --radius-brand-xl:  var(--radius-xl);
+  --radius-brand-2xl: var(--radius-2xl);
+  --shadow-brand-sm: var(--shadow-sm);
+  --shadow-brand-md: var(--shadow-md);
+  --shadow-brand-lg: var(--shadow-lg);
+  --shadow-brand-primary: var(--shadow-amber);
 }
 
-* {
-  border-color: var(--brand-border);
-}
-
+*, *::before, *::after { border-color: var(--border); }
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-
 body {
-  background: var(--brand-surface);
-  color: var(--brand-text);
+  background-color: var(--surface);
+  color: var(--ink);
+}
+::selection { background-color: var(--blush-light); color: var(--ink); }
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 4px; }
+img { transition: opacity 0.3s ease; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-4); }
+
+.blob     { border-radius: 62% 38% 70% 30% / 52% 60% 40% 48%; }
+.blob-alt { border-radius: 38% 62% 30% 70% / 60% 38% 62% 40%; }
+
+.glass {
+  background: rgb(251 248 243 / 0.82);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgb(255 255 255 / 0.65);
 }
 
-::selection {
-  background-color: var(--brand-primary);
-  color: var(--brand-white);
+.btn-amber {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  background-color: var(--amber); color: #fff; font-weight: 700;
+  padding: 0.875rem 1.875rem; border-radius: var(--radius-full);
+  box-shadow: var(--shadow-amber);
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+.btn-amber:hover  { background-color: var(--amber-hover); transform: translateY(-1px); }
+.btn-amber:active { transform: translateY(0); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  background-color: rgb(255 255 255 / 0.72); color: var(--ink); font-weight: 600;
+  padding: 0.875rem 1.875rem; border-radius: var(--radius-full);
+  border: 1px solid var(--border); backdrop-filter: blur(8px);
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+.btn-ghost:hover { background-color: rgb(255 255 255 / 0.96); transform: translateY(-1px); }
+
+@keyframes float-a {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  40%     { transform: translateY(-18px) rotate(2deg); }
+  70%     { transform: translateY(-8px) rotate(-1.5deg); }
+}
+@keyframes float-b {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  50%     { transform: translateY(-14px) rotate(-2deg); }
+}
+@keyframes float-c {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-10px); }
+}
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-float-a { animation: float-a 8s ease-in-out infinite; }
+.animate-float-b { animation: float-b 6s ease-in-out infinite; }
+.animate-float-c { animation: float-c 4.5s ease-in-out infinite; }
+.animate-marquee { animation: marquee 30s linear infinite; }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   SCROLL REVEAL — Saf CSS scroll-driven animation (SIFIR JavaScript)
+
+   `animation-timeline: view()` ile reveal animasyonları tamamen TARAYICI
+   tarafından, scroll pozisyonuna bağlı yapılır. React/SSR HTML'inde hiçbir
+   inline style veya dinamik class yoktur → className her iki tarafta da
+   statik ("reveal") → hydration mismatch YAPISAL OLARAK İMKÂNSIZ.
+
+   - Çift yönlü: scroll aşağı → belir, scroll yukarı → otomatik tersine.
+   - Stagger: her child viewport'a girdikçe kendi animasyonunu oynatır.
+   - Desteklemeyen tarayıcılar (Safari/Firefox): @supports guard sayesinde
+     içerik animasyonsuz, normal görünür kalır (graceful degradation).
+   - prefers-reduced-motion: animasyon tümüyle kapanır.
+   ─────────────────────────────────────────────────────────────────────────── */
+@keyframes reveal-up    { from { opacity: 0; transform: translateY(36px); } to { opacity: 1; transform: none; } }
+@keyframes reveal-left  { from { opacity: 0; transform: translateX(-36px); } to { opacity: 1; transform: none; } }
+@keyframes reveal-right { from { opacity: 0; transform: translateX(36px); } to { opacity: 1; transform: none; } }
+@keyframes reveal-scale { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: none; } }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal,
+    .reveal-left,
+    .reveal-right,
+    .reveal-scale,
+    .reveal-stagger > * {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 42%;
+    }
+    .reveal-left  { animation-name: reveal-left; }
+    .reveal-right { animation-name: reveal-right; }
+    .reveal-scale { animation-name: reveal-scale; }
+
+    /* Stagger: container yerine her child kendi view() zaman çizelgesini
+       kullanır; girdikçe doğal sıralı belirme oluşur. */
+    .reveal-stagger > * {
+      animation-name: reveal-up;
+      animation-range: entry 0% entry 55%;
+    }
+  }
 }

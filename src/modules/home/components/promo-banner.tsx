@@ -1,72 +1,88 @@
 import Link from "next/link";
 import type { HomePromoBanner } from "@/modules/home/types/home-content.types";
 
-type PromoBannerProps = {
-  banner: HomePromoBanner;
-};
+type PromoBannerProps = { banner: HomePromoBanner };
 
-const toneStyles = {
-  rose: {
-    wrapper: "from-[#fff1f5] via-[#fff8fa] to-[#fce7ee]",
-    badge: "bg-brand-primary/15 text-brand-primary-dark",
-    accent: "bg-brand-primary/20",
+/* Tailwind arbitrary classes — inline style kullanmıyoruz, hydration mismatch önlendi */
+const TONE_CLASS = {
+  rose:  {
+    section: "bg-[#FAF2F5]",
+    blob1:   "bg-[#E8BFCA]",
+    blob2:   "bg-[#E8BFCA]",
   },
-  sage: {
-    wrapper: "from-[#eff9f3] via-[#f8fdfb] to-[#e7f4ed]",
-    badge: "bg-brand-accent/40 text-[#4f7761]",
-    accent: "bg-brand-accent/35",
+  sage:  {
+    section: "bg-[#EEF5F1]",
+    blob1:   "bg-[#A8C8B8]",
+    blob2:   "bg-[#A8C8B8]",
   },
   peach: {
-    wrapper: "from-[#fff4ea] via-[#fffaf5] to-[#fce8d7]",
-    badge: "bg-brand-secondary text-brand-text",
-    accent: "bg-brand-secondary",
+    section: "bg-[#FAF0EA]",
+    blob1:   "bg-[#D4A88A]",
+    blob2:   "bg-[#D4A88A]",
   },
 } as const;
 
 export function PromoBanner({ banner }: PromoBannerProps) {
-  const tone = toneStyles[banner.tone];
-
+  const tc =
+    TONE_CLASS[banner.tone as keyof typeof TONE_CLASS] ?? TONE_CLASS.rose;
   const hasAction = banner.actionLabel && banner.actionHref;
 
   return (
     <section
-      className={`relative mt-10 overflow-hidden rounded-[var(--radius-brand-xl)] border border-brand-border bg-gradient-to-br ${tone.wrapper} p-6 md:mt-14 md:p-8 lg:p-10`}
+      className={`reveal relative mt-16 overflow-hidden rounded-[var(--radius-xl)] md:mt-20 ${tc.section}`}
     >
       <div
-        className={`pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full blur-2xl ${tone.accent}`}
-      />
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      >
+        <div
+          className={`blob absolute -right-20 -top-20 h-72 w-72 opacity-30 blur-3xl ${tc.blob1}`}
+        />
+        <div
+          className={`blob-alt absolute -bottom-24 left-1/4 h-56 w-56 opacity-20 blur-3xl ${tc.blob2}`}
+        />
+      </div>
 
-      <div
-        className={`pointer-events-none absolute -bottom-16 left-1/3 h-44 w-44 rounded-full blur-3xl ${tone.accent}`}
-      />
-
-      <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-        <div className="max-w-3xl">
-          {banner.eyebrow ? (
-            <span
-              className={`inline-flex rounded-full px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] ${tone.badge}`}
-            >
-              {banner.eyebrow}
-            </span>
-          ) : null}
-
-          <h2 className="mt-5 font-display text-2xl font-bold tracking-tight text-brand-text md:text-4xl">
+      <div className="relative z-10 flex flex-col gap-6 px-8 py-10 lg:flex-row lg:items-center lg:justify-between lg:px-12 lg:py-12">
+        <div className="max-w-2xl">
+          {banner.eyebrow && (
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-amber">
+              ◆&ensp;{banner.eyebrow}
+            </p>
+          )}
+          <h2
+            className="font-display font-bold tracking-tight text-ink"
+            style={{ fontSize: "clamp(1.4rem,1rem + 2.2vw,2.5rem)" }}
+          >
             {banner.title}
           </h2>
-
-          <p className="mt-4 max-w-2xl text-sm leading-7 text-brand-muted md:text-base">
-            {banner.description}
-          </p>
+          {banner.description && (
+            <p
+              className="mt-4 max-w-xl leading-relaxed text-ink-2"
+              style={{ fontSize: "clamp(0.875rem,0.82rem + 0.28vw,1.05rem)" }}
+            >
+              {banner.description}
+            </p>
+          )}
         </div>
-
-        {hasAction ? (
-          <Link
-            href={banner.actionHref as string}
-            className="inline-flex shrink-0 items-center justify-center rounded-full bg-brand-primary px-6 py-3 font-semibold text-white transition hover:bg-brand-primary-dark"
-          >
+        {hasAction && (
+          <Link href={banner.actionHref!} className="btn-amber shrink-0 text-sm">
             {banner.actionLabel}
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2.5}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m9 18 6-6-6-6" />
+            </svg>
           </Link>
-        ) : null}
+        )}
       </div>
     </section>
   );

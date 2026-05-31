@@ -8,31 +8,21 @@ export function HeaderAccountButton() {
 
   useEffect(() => {
     let active = true;
-
     fetch("/api/auth/me")
-      .then((response) => response.json())
+      .then(r => r.json())
       .then((data: { customer?: { firstName?: string } | null }) => {
-        if (active) {
-          setFirstName(data.customer?.firstName ?? null);
-        }
+        if (active) setFirstName(data.customer?.firstName ?? null);
       })
-      .catch(() => {
-        if (active) {
-          setFirstName(null);
-        }
-      });
-
-    return () => {
-      active = false;
-    };
+      .catch(() => { if (active) setFirstName(null); });
+    return () => { active = false; };
   }, []);
 
   return (
     <Link
       href={firstName ? "/hesap" : "/giris"}
-      className="hidden rounded-full border border-brand-border bg-brand-white px-4 py-2 text-sm font-semibold text-brand-text transition hover:bg-brand-secondary sm:inline-flex"
+      className="hidden rounded-full border border-border bg-surface-card px-4 py-2 text-sm font-medium text-ink transition hover:border-amber hover:text-amber sm:inline-flex"
     >
-      {firstName ? "Hesabım" : "Giriş Yap"}
+      {firstName ? `${firstName}` : "Giriş Yap"}
     </Link>
   );
 }

@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { PrismaProductAdminRepository } from "@/server/infrastructure/database/repositories/prisma-product-admin.repository";
 import { ListProductsUseCase } from "@/server/application/admin/products/list-products.use-case";
 import { CreateProductUseCase } from "@/server/application/admin/products/create-product.use-case";
+import { handleApiError } from "@/server/presentation/api/handle-api-error";
 
 const variantSchema = z.object({
   sku: z.string().min(1),
@@ -39,23 +41,34 @@ const productSchema = z.object({
 });
 
 export async function GET() {
-  const repo = new PrismaProductAdminRepository();
-  const products = await new ListProductsUseCase(repo).execute();
-  return NextResponse.json(products);
+  try {
+    const repo = new PrismaProductAdminRepository();
+    const products = await new ListProductsUseCase(repo).execute();
+    return NextResponse.json(products);
+  } catch (error) {
+    return handleApiError(error);
+  }
 }
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
-  const parsed = productSchema.safeParse(body);
+  try {
+    const body = await request.json();
+    const parsed = productSchema.safeParse(body);
 
-  if (!parsed.success) {
-    return NextResponse.json(
-      { error: parsed.error.flatten().fieldErrors },
-      { status: 400 },
-    );
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.flatten().fieldErrors },
+        { status: 400 },
+      );
+    }
+
+    const repo = new PrismaProductAdminRepository();
+    const result = await new CreateProductUseCase(repo).execute(parsed.data);
+
+    revalidateTag("products", "client");
+
+    return NextResponse.json(result, { status: 201 });
+  } catch (error) {
+    return handleApiError(error);
   }
-
-  const repo = new PrismaProductAdminRepository();
-  const result = await new CreateProductUseCase(repo).execute(parsed.data);
-  return NextResponse.json(result, { status: 201 });
 }

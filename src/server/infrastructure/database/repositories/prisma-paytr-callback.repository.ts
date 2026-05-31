@@ -1,5 +1,6 @@
 ﻿import { OrderStatus, PaymentStatus } from "@/generated/prisma/client";
 import type {
+  OrderConfirmationData,
   PaytrCallbackInput,
   PaytrCallbackResult,
 } from "@/server/domain/entities/paytr-callback.entity";
@@ -40,7 +41,9 @@ export class PrismaPaytrCallbackRepository
 
     const paytrTotalAmount = paytrAmountToMoneyString(input.totalAmount);
 
-    await prisma.$transaction(async (transaction) => {
+    const orderConfirmation = await prisma.$transaction<
+      OrderConfirmationData | null
+    >(async (transaction) => {
       const order = await transaction.order.findUnique({
         where: {
           merchantOid: input.merchantOid,
@@ -61,7 +64,7 @@ export class PrismaPaytrCallbackRepository
         order.status === OrderStatus.CANCELLED;
 
       if (isAlreadyFinalized) {
-        return;
+        return null;
       }
 
       if (input.status === "success") {
@@ -79,7 +82,25 @@ export class PrismaPaytrCallbackRepository
           },
         });
 
-        return;
+        // İlk kez başarılı ödeme: onay e-postası için gerekli veriyi döndür.
+        // (Idempotency guard'ın içinde olduğu için yalnızca bir kez üretilir.)
+        return {
+          to: order.customerEmail,
+          orderNumber: order.orderNumber,
+          customerFirstName: order.customerFirstName,
+          customerLastName: order.customerLastName,
+          items: order.items.map((item) => ({
+            name:
+              item.variantLabel && item.variantLabel.trim().length > 0
+                ? `${item.productName} — ${item.variantLabel}`
+                : item.productName,
+            quantity: item.quantity,
+            unitPrice: Number(item.unitPrice),
+          })),
+          subtotal: Number(order.subtotal),
+          shippingFee: Number(order.shippingFee),
+          totalAmount: Number(order.totalAmount),
+        };
       }
 
       // Ödeme başarısız: rezerve edilen stok geri bırakılır.
@@ -115,10 +136,13 @@ export class PrismaPaytrCallbackRepository
           cancelledAt: new Date(),
         },
       });
+
+      return null;
     });
 
     return {
       shouldAcknowledge: true,
+      orderConfirmation,
     };
   }
 }

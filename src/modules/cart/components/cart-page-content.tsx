@@ -7,11 +7,8 @@ import {
   calculateCartSubtotal,
   calculateCartTotalItems,
 } from "@/modules/cart/utils/cart-calculations";
+import { formatTRY } from "@/shared/utils/format-currency";
 
-const currencyFormatter = new Intl.NumberFormat("tr-TR", {
-  style: "currency",
-  currency: "TRY",
-});
 
 export function CartPageContent() {
   const items = useCartStore((state) => state.items);
@@ -95,7 +92,7 @@ export function CartPageContent() {
                     </p>
 
                     <p className="mt-3 text-base font-bold text-brand-text">
-                      {currencyFormatter.format(item.unitPrice)}
+                      {formatTRY(item.unitPrice, { decimals: false })}
                     </p>
                   </div>
 
@@ -132,7 +129,7 @@ export function CartPageContent() {
                   </div>
 
                   <p className="text-base font-bold text-brand-text">
-                    {currencyFormatter.format(item.unitPrice * item.quantity)}
+                    {formatTRY(item.unitPrice * item.quantity, { decimals: false })}
                   </p>
                 </div>
               </div>
@@ -157,7 +154,7 @@ export function CartPageContent() {
           <div className="flex items-center justify-between text-sm">
             <span className="text-brand-muted">Ara toplam</span>
             <span className="font-semibold text-brand-text">
-              {currencyFormatter.format(subtotal)}
+              {formatTRY(subtotal, { decimals: false })}
             </span>
           </div>
 
@@ -175,7 +172,7 @@ export function CartPageContent() {
           </span>
 
           <strong className="text-2xl font-bold text-brand-text">
-            {currencyFormatter.format(subtotal)}
+            {formatTRY(subtotal, { decimals: false })}
           </strong>
         </div>
 

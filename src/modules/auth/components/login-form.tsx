@@ -4,88 +4,77 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 
-const inputClass =
-  "w-full rounded-2xl border border-brand-border bg-brand-surface px-4 py-3 text-sm text-brand-text outline-none transition focus:border-brand-primary";
+const inputCls =
+  "w-full rounded-[var(--radius-md)] border border-border bg-surface px-4 py-3 text-sm text-ink outline-none transition focus:border-amber focus:ring-2 focus:ring-amber/20 placeholder:text-ink-4";
 
 export function LoginForm() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [email, setEmail]       = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError]       = useState<string | null>(null);
+  const [loading, setLoading]   = useState(false);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setIsSubmitting(true);
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setLoading(true);
     setError(null);
 
-    const response = await fetch("/api/auth/login", {
+    const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
 
-    if (response.ok) {
+    if (res.ok) {
       const params = new URLSearchParams(window.location.search);
       const next = params.get("next");
-      router.replace(next && next.startsWith("/") ? next : "/hesap");
+      router.replace(next?.startsWith("/") ? next : "/hesap");
       router.refresh();
       return;
     }
 
-    const data = (await response.json().catch(() => ({}))) as {
-      message?: string;
-    };
+    const data = await res.json().catch(() => ({})) as { message?: string };
     setError(data.message ?? "Giriş başarısız oldu.");
-    setIsSubmitting(false);
+    setLoading(false);
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <label className="block space-y-2">
-        <span className="text-sm font-medium text-brand-muted">E-posta</span>
+      <label className="block space-y-1.5">
+        <span className="text-xs font-semibold uppercase tracking-wider text-ink-3">E-posta</span>
         <input
-          type="email"
-          autoComplete="email"
-          required
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          className={inputClass}
+          type="email" autoComplete="email" required
+          value={email} onChange={e => setEmail(e.target.value)}
+          className={inputCls} placeholder="ornek@mail.com"
         />
       </label>
 
-      <label className="block space-y-2">
-        <span className="text-sm font-medium text-brand-muted">Parola</span>
+      <label className="block space-y-1.5">
+        <span className="text-xs font-semibold uppercase tracking-wider text-ink-3">Parola</span>
         <input
-          type="password"
-          autoComplete="current-password"
-          required
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          className={inputClass}
+          type="password" autoComplete="current-password" required
+          value={password} onChange={e => setPassword(e.target.value)}
+          className={inputCls} placeholder="••••••"
         />
       </label>
+
+      <div className="text-right">
+        <Link href="/sifremi-unuttum" className="text-xs text-ink-3 transition hover:text-amber">
+          Şifremi unuttum
+        </Link>
+      </div>
 
       {error && (
-        <p className="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-600">
-          {error}
-        </p>
+        <p className="rounded-[var(--radius-sm)] bg-red-50 px-4 py-3 text-sm text-red-600">{error}</p>
       )}
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full rounded-full bg-brand-primary px-6 py-3 text-sm font-semibold text-brand-white transition hover:bg-brand-primary-dark disabled:cursor-not-allowed disabled:opacity-60"
-      >
-        {isSubmitting ? "Giriş yapılıyor…" : "Giriş Yap"}
+      <button type="submit" disabled={loading} className="btn-amber w-full disabled:opacity-60">
+        {loading ? "Giriş yapılıyor…" : "Giriş Yap"}
       </button>
 
-      <p className="text-center text-sm text-brand-muted">
+      <p className="text-center text-sm text-ink-3">
         Hesabın yok mu?{" "}
-        <Link
-          href="/kayit"
-          className="font-semibold text-brand-primary-dark hover:underline"
-        >
+        <Link href="/kayit" className="font-semibold text-amber underline-offset-2 hover:underline">
           Kayıt ol
         </Link>
       </p>

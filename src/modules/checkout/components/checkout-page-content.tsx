@@ -8,6 +8,7 @@ import {
   calculateCartTotalItems,
 } from "@/modules/cart/utils/cart-calculations";
 import { PaytrIframe } from "@/modules/checkout/components/paytr-iframe";
+import { formatTRY } from "@/shared/utils/format-currency";
 import {
   calculateShippingFee,
   type ShippingConfig,
@@ -54,10 +55,6 @@ const initialFormState: CheckoutFormState = {
   note: "",
 };
 
-const currencyFormatter = new Intl.NumberFormat("tr-TR", {
-  style: "currency",
-  currency: "TRY",
-});
 
 type InitialCustomer = {
   firstName: string;
@@ -83,6 +80,7 @@ export function CheckoutPageContent({
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [contractAccepted, setContractAccepted] = useState(false);
   const [createdOrder, setCreatedOrder] =
     useState<DraftOrderResponse | null>(null);
   const [paytrIframeToken, setPaytrIframeToken] = useState("");
@@ -400,9 +398,7 @@ export function CheckoutPageContent({
                 </div>
 
                 <span className="text-sm font-semibold text-brand-text">
-                  {currencyFormatter.format(
-                    item.unitPrice * item.quantity,
-                  )}
+                  {formatTRY(item.unitPrice * item.quantity, { decimals: false })}
                 </span>
               </div>
             </div>
@@ -420,7 +416,7 @@ export function CheckoutPageContent({
           <div className="flex items-center justify-between">
             <span className="text-brand-muted">Ara toplam</span>
             <span className="font-semibold text-brand-text">
-              {currencyFormatter.format(subtotal)}
+              {formatTRY(subtotal, { decimals: false })}
             </span>
           </div>
 
@@ -428,14 +424,14 @@ export function CheckoutPageContent({
             <span className="text-brand-muted">Kargo</span>
             <span className="font-semibold text-brand-text">
               {shippingFee > 0
-                ? currencyFormatter.format(shippingFee)
+                ? formatTRY(shippingFee, { decimals: false })
                 : "Ücretsiz"}
             </span>
           </div>
 
           {freeShippingRemaining > 0 && (
             <p className="rounded-lg bg-brand-secondary px-3 py-2 text-xs text-brand-text">
-              {currencyFormatter.format(freeShippingRemaining)} daha ekleyin,
+              {formatTRY(freeShippingRemaining, { decimals: false })} daha ekleyin,
               kargo ücretsiz olsun.
             </p>
           )}
@@ -447,14 +443,36 @@ export function CheckoutPageContent({
           </span>
 
           <strong className="text-2xl font-bold text-brand-text">
-            {currencyFormatter.format(total)}
+            {formatTRY(total, { decimals: false })}
           </strong>
         </div>
 
+        {/* Sözleşme onayı — KVKK zorunlu */}
+        <label className="mt-5 flex cursor-pointer items-start gap-3">
+          <input
+            type="checkbox"
+            checked={contractAccepted}
+            onChange={e => setContractAccepted(e.target.checked)}
+            className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--amber)] cursor-pointer"
+            required
+          />
+          <span className="text-xs leading-relaxed text-brand-muted">
+            <a href="/sayfa/mesafeli-satis-sozlesmesi" target="_blank" rel="noopener noreferrer" className="font-semibold text-brand-text underline underline-offset-2 hover:text-amber">
+              Mesafeli Satış Sözleşmesi
+            </a>
+            {" "}ve{" "}
+            <a href="/sayfa/gizlilik-politikasi" target="_blank" rel="noopener noreferrer" className="font-semibold text-brand-text underline underline-offset-2 hover:text-amber">
+              KVKK Aydınlatma Metni
+            </a>
+            &apos;ni okudum, onaylıyorum.
+          </span>
+        </label>
+
         <button
           type="submit"
-          disabled={isSubmitting}
-          className="mt-6 w-full rounded-full bg-brand-primary px-6 py-4 font-semibold text-white transition hover:bg-brand-primary-dark disabled:cursor-not-allowed disabled:bg-brand-muted"
+          disabled={isSubmitting || !contractAccepted}
+          className="mt-4 w-full rounded-full bg-amber px-6 py-4 font-semibold text-white transition hover:bg-amber-hover disabled:cursor-not-allowed disabled:opacity-50"
+          style={{ backgroundColor: contractAccepted ? "var(--amber)" : undefined }}
         >
           {isSubmitting ? "Sipariş Hazırlanıyor..." : "Siparişi Hazırla"}
         </button>
