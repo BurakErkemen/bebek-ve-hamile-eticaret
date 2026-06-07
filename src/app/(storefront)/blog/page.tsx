@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   description: "Bebek, anne ve hamilelik üzerine güncel yazılar ve öneriler.",
 };
 
+// Build sırasında DB'ye bağlanmayı deneme — istek anında render et.
+export const dynamic = "force-dynamic";
+
 function formatDate(date: Date | null): string {
   if (!date) return "";
   return new Date(date).toLocaleDateString("tr-TR", { day: "2-digit", month: "long", year: "numeric" });

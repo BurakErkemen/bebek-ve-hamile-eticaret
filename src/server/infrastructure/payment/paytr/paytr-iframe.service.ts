@@ -118,19 +118,15 @@ export class PaytrIframeService {
       iframe_v2: "1",
     });
 
-    if (process.env.PAYTR_DEBUG === "1") {
+    // Debug log yalnızca PAYTR_DEBUG_ON=1 iken. PII (e-posta, tam IP) maskelenir.
+    if (this.config.debugOn === "1") {
       console.info("PayTR get-token request debug:", {
         merchant_id: this.config.merchantId,
-        user_ip: input.userIp,
         merchant_oid: input.merchantOid,
-        email: input.email,
         payment_amount: paymentAmount,
         currency: this.config.currency,
         test_mode: this.config.testMode,
-        no_installment: this.config.noInstallment,
-        max_installment: this.config.maxInstallment,
         timeout_limit: this.config.timeoutLimit,
-        app_url: this.config.appUrl,
         basket_item_count: input.basketItems.length,
       });
     }

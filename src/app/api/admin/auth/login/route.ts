@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { rateLimit } from "@/server/infrastructure/rate-limit/rate-limiter";
 import {
   ADMIN_SESSION_COOKIE,
   ADMIN_SESSION_MAX_AGE,
@@ -23,6 +24,14 @@ function constantTimeEquals(a: string, b: string): boolean {
 }
 
 export async function POST(request: NextRequest) {
+  // Admin paneli brute-force koruması: 5 dk'da en fazla 5 deneme.
+  const limited = await rateLimit(request, {
+    prefix: "admin:login",
+    windowSeconds: 300,
+    maxRequests: 5,
+  });
+  if (limited) return limited;
+
   const body = await request.json().catch(() => null);
   const parsed = loginSchema.safeParse(body);
 

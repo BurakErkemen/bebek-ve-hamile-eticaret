@@ -39,8 +39,9 @@ export function getPaytrConfig(): PaytrConfig {
     merchantId: getRequiredEnv("PAYTR_MERCHANT_ID"),
     merchantKey: getRequiredEnv("PAYTR_MERCHANT_KEY"),
     merchantSalt: getRequiredEnv("PAYTR_MERCHANT_SALT"),
-    testMode: process.env.PAYTR_TEST_MODE?.trim() ?? "1",
-    debugOn: process.env.PAYTR_DEBUG_ON?.trim() ?? "1",
+    // Güvenli default: production'da test/debug KAPALI. Açmak için env ile "1" gir.
+    testMode: process.env.PAYTR_TEST_MODE?.trim() ?? "0",
+    debugOn: process.env.PAYTR_DEBUG_ON?.trim() ?? "0",
     noInstallment: process.env.PAYTR_NO_INSTALLMENT?.trim() ?? "0",
     maxInstallment: process.env.PAYTR_MAX_INSTALLMENT?.trim() ?? "0",
     timeoutLimit: process.env.PAYTR_TIMEOUT_LIMIT?.trim() ?? "30",
